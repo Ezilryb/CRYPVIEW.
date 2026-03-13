@@ -24,6 +24,7 @@ import { loadAllSymbols }    from '../api/binance.rest.js';
 import { IND_META }          from '../config.js';
 import { fmtPrice, fmtVol }  from '../utils/format.js';
 import { $, setWsStatus, setOverlay, hideOverlay } from '../utils/dom.js';
+import { ThemeToggle }       from '../components/ThemeToggle.js';
 
 // ── Instances globales à cette page ──────────────────────────
 let chart      = null;   // TradingChart
@@ -34,6 +35,7 @@ let orderflow  = null;   // ChartOrderflow
 let drawing    = null;   // ChartDrawing
 let ctxMenu    = null;   // ContextMenu
 let indModal   = null;   // IndicatorModal
+let themeToggle = null;  // ThemeToggle
 
 // ══════════════════════════════════════════════════════════════
 //  BOOT
@@ -68,6 +70,9 @@ async function boot() {
   // 7. Composants UI
   initContextMenu(container);
   initIndicatorModal();
+
+  themeToggle = new ThemeToggle();
+  themeToggle.mount(document.querySelector('header'));
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -393,6 +398,7 @@ function destroyModules() {
   vp?.deactivate();
   footprint?.destroy();
   orderflow?.destroy();
+  themeToggle?.destroy();
   // ChartDrawing garde uniquement des souscriptions sur l'ancien chart
   // (déjà détruit) — pas de méthode destroy() requise, GC suffisant.
   indicators = null;
@@ -400,6 +406,9 @@ function destroyModules() {
   footprint  = null;
   orderflow  = null;
   drawing    = null;
+  ctxMenu    = null;
+  indModal   = null;
+  themeToggle = null;
 }
 
 let autoPaused = false;

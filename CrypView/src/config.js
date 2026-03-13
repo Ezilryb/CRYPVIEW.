@@ -57,6 +57,19 @@ export const COLORS = {
   GRID:         '#1c2333',
 };
 
+// ── Configuration des thèmes ──────────────────────────────────
+/**
+ * THEME.DEFAULT     : thème appliqué si aucun choix n'est en localStorage
+ *                     et si le système ne signale pas de préférence.
+ * THEME.STORAGE_KEY : clé localStorage pour persister le choix.
+ * THEME.CSS_CLASS   : classe ajoutée sur <html> pour activer le thème clair.
+ */
+export const THEME = {
+  DEFAULT:     'dark',
+  STORAGE_KEY: 'crypview-theme',
+  CSS_CLASS:   'light-theme',
+};
+
 // ── Options LightweightCharts de base ─────────────────────────
 // Retourne un objet d'options à passer à createChart()
 export function baseChartOptions(el, height) {

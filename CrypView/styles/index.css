@@ -19,7 +19,20 @@
   --dim:     #2d3748;
   --glow:    rgba(0, 255, 136, 0.12);
 }
-
+/* À ajouter à la fin de styles/index.css */
+.light-theme {
+  --bg:      #f0f2f5;
+  --bg2:     #e8eaf0;
+  --panel:   #ffffff;
+  --border:  #d0d7e3;
+  --accent:  #00a85a;
+  --accent2: #0078c8;
+  --red:     #d4294a;
+  --text:    #0d1117;
+  --muted:   #57606a;
+  --dim:     #c5ccd8;
+  --glow:    rgba(0, 168, 90, 0.10);
+}
 /* ── Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }

@@ -29,6 +29,8 @@ import { TimeframeBar }      from '../components/TimeframeBar.js';
 import { Header }            from '../components/Header.js';
 import { showToast }         from '../utils/toast.js';
 import { fmtPrice }          from '../utils/format.js';
+import { ThemeToggle }       from '../components/ThemeToggle.js';
+
 
 // ── Helpers ──────────────────────────────────────────────────────
 const symBase = sym => sym.replace(/usdt$/i, '').toUpperCase();

@@ -18,6 +18,41 @@
   --orange:  #ff9900;
   --yellow:  #f7c948;
 }
+/* ── Thème sombre (défaut) ──────────────────────────────────── */
+/* Les variables :root ci-dessus constituent le thème dark natif. */
+
+/* ── Thème clair ────────────────────────────────────────────── */
+/* Appliqué via la classe .light-theme sur <html> */
+.light-theme {
+  --bg:      #f0f2f5;
+  --panel:   #ffffff;
+  --border:  #d0d7e3;
+  --accent:  #00a85a;        /* vert plus sombre pour contraste sur fond clair */
+  --green:   #00a85a;
+  --red:     #d4294a;
+  --text:    #0d1117;
+  --muted:   #57606a;
+  --purple:  #8b2fc9;
+  --cyan:    #0078c8;
+  --orange:  #c26c00;
+  --yellow:  #c08000;
+}
+
+/* Ajuste le body::before (scanlines) — invisible en light mode */
+.light-theme body::before {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.015) 2px,
+    rgba(0, 0, 0, 0.015) 4px
+  );
+}
+
+/* Transition douce lors du changement de thème */
+*, *::before, *::after {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.1s ease;
+}
 
 /* ── Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }

@@ -145,6 +145,12 @@ export class ContextMenu {
       this.close();
       this.#callbacks.onClearDrawings?.();
     });
+
+    // ── Paramètres → ouvre la modale ─────────────────────────
+    document.getElementById('ctx-open-settings')?.addEventListener('click', () => {
+      this.close();
+      this.#callbacks.onOpenSettingsModal?.();
+    });
   }
 
   // ── Sous-panneaux ────────────────────────────────────────

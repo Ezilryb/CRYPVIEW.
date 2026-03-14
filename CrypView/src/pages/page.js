@@ -25,6 +25,7 @@ import { IND_META }          from '../config.js';
 import { fmtPrice, fmtVol }  from '../utils/format.js';
 import { $, setWsStatus, setOverlay, hideOverlay } from '../utils/dom.js';
 import { ThemeToggle }       from '../components/ThemeToggle.js';
+import { SettingsModal }     from '../components/SettingsModal.js';
 
 // ── Instances globales à cette page ──────────────────────────
 let chart      = null;   // TradingChart
@@ -36,6 +37,7 @@ let drawing    = null;   // ChartDrawing
 let ctxMenu    = null;   // ContextMenu
 let indModal   = null;   // IndicatorModal
 let themeToggle = null;  // ThemeToggle
+let settingsModal = null; // SettingsModal
 
 // ══════════════════════════════════════════════════════════════
 //  BOOT
@@ -71,8 +73,9 @@ async function boot() {
   initContextMenu(container);
   initIndicatorModal();
 
-  themeToggle = new ThemeToggle();
-  themeToggle.mount(document.querySelector('header'));
+  settingsModal = new SettingsModal({
+    onThemeChange: (theme) => themeToggle.setTheme(theme),
+  });
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -363,12 +366,15 @@ function mountTimeframeBar() {
 // ══════════════════════════════════════════════════════════════
 
 function initContextMenu(container) {
+  themeToggle = new ThemeToggle();
+
   ctxMenu = new ContextMenu(container, {
-    onOpenIndModal:  () => indModal?.open(),
-    onRemoveAllInd:  () => { indicators?.removeAll(makeHooks()); updateIndBar(); },
-    onSetTool:       (tool) => drawing?.setTool(tool),
-    onClearDrawings: () => drawing?.clear(),
-    onNavigate:      (href) => { window.location.href = href; },
+    onOpenIndModal:      () => indModal?.open(),
+    onRemoveAllInd:      () => { indicators?.removeAll(makeHooks()); updateIndBar(); },
+    onSetTool:           (tool) => drawing?.setTool(tool),
+    onClearDrawings:     () => drawing?.clear(),
+    onNavigate:          (href) => { window.location.href = href; },
+    onOpenSettingsModal: () => settingsModal?.open(),
   });
 }
 
@@ -399,6 +405,8 @@ function destroyModules() {
   footprint?.destroy();
   orderflow?.destroy();
   themeToggle?.destroy();
+  settingsModal?.destroy();
+  settingsModal = null;
   // ChartDrawing garde uniquement des souscriptions sur l'ancien chart
   // (déjà détruit) — pas de méthode destroy() requise, GC suffisant.
   indicators = null;

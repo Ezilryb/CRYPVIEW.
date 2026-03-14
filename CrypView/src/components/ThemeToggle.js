@@ -57,6 +57,17 @@ export class ThemeToggle {
     this.#applyTheme(true);
   }
 
+  /**
+   * Force un thème spécifique (appelé depuis ContextMenu).
+   * @param {'dark'|'light'} theme
+   */
+  setTheme(theme) {
+    if (theme !== 'dark' && theme !== 'light') return;
+    this.#current = theme;
+    localStorage.setItem(THEME.STORAGE_KEY, this.#current);
+    this.#applyTheme(true);
+  }
+
   /** Retourne le thème courant. */
   get current() { return this.#current; }
 

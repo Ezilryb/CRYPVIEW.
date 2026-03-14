@@ -19,3 +19,5 @@ Toutes les modifications notables de ce projet sont documentées ici.
 ### Initial Version monolithique initiale.
 4 fichiers HTML auto-suffisants.
 Graphiques, indicateurs techniques.
+
+- [Toutes les versions](https://github.com/Ezilryb/CRYPVIEW/releases)

@@ -617,7 +617,11 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
+// ── Nettoyage complet à la fermeture de la page ───────────────
 window.addEventListener('beforeunload', () => {
+  // Purge les alertes déjà déclenchées pour que le localStorage
+  // ne conserve que les alertes encore actives au prochain démarrage.
+  alertManager.clearTriggered();
   clearAllAlertPriceLines();
   indicators?.destroy();
   vp?.deactivate();

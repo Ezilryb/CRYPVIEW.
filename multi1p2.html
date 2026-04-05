@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+      (function () {
+        var saved = localStorage.getItem('crypview-theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'light' || (!saved && !prefersDark)) {
+          document.documentElement.classList.add('light-theme');
+        }
+      })();
+    </script>
+    <title>Multi-Charts Flex — CrypView</title>
+    <meta name="description" content="Layouts multi-graphiques flexibles : 1+2, 1+3, 3×3, vertical. Données live Binance.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="icon" type="image/svg+xml" href="public/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="public/icons/apple-touch-icon.png">
+    <link rel="manifest" href="public/manifest.json">
+    <meta name="theme-color" content="#070a0f" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f0f2f5" media="(prefers-color-scheme: light)">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CrypView">
+
+    <script type="importmap">
+    {
+      "imports": {
+        "lightweight-charts": "https://esm.sh/lightweight-charts@4.1.3"
+      }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/charts.css">
+    <link rel="stylesheet" href="styles/multi.css">
+  </head>
+<body>
+
+<header role="banner">
+  <a class="logo" href="index.html" aria-label="CrypView — Accueil"><span>CRYP</span>VIEW</a>
+
+  <!-- Badge layout courant (mis à jour par multi-flex.js) -->
+  <div class="badge-multi" aria-label="Layout multi-graphiques">
+    <span id="badge-label">⬛ 1+2</span> FLEX
+  </div>
+
+  <!-- Sélecteur de layout injecté ici par buildLayoutSelector() -->
+
+  <div class="status" role="status" aria-live="polite">
+    <div class="dot" id="dot" aria-hidden="true"></div>
+    <span id="status-text">Connexion…</span>
+  </div>
+
+  <button class="btn-disable" id="btn-back" aria-label="Retourner à la vue simple">
+    ✕ Désactiver Multi-graphiques
+  </button>
+</header>
+
+<div class="multi-grid-flex" id="multi-grid"
+     data-layout="1p2"
+     role="main" aria-label="Grille de graphiques flexible"></div>
+
+<div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+<script type="module" src="src/pages/multi-flex.js"></script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    (function(){var s=localStorage.getItem('crypview-theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;if(s==='light'||(!s&&!d))document.documentElement.classList.add('light-theme')})();
+  </script>
+  <title>FAQ — CrypView</title>
+  <meta name="description" content="Questions fréquentes sur CrypView : installation, indicateurs, alertes, données Binance, PWA et plus.">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/svg+xml" href="public/favicon.svg">
+  <link rel="manifest" href="public/manifest.json">
+  <meta name="theme-color" content="#070a0f" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f0f2f5" media="(prefers-color-scheme: light)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#070a0f; --bg2:#0b0f17; --panel:#0d1117;
+      --border:#1a2235; --accent:#00ff88; --cyan:#00c8ff;
+      --orange:#ff9900; --purple:#e040fb;
+      --text:#e2e8f0; --muted:#4a5568; --dim:#2d3748;
+    }
+    .light-theme {
+      --bg:#f0f2f5; --bg2:#e8eaf0; --panel:#ffffff;
+      --border:#d0d7e3; --accent:#00a85a; --text:#0d1117; --muted:#57606a;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;font-weight:300;line-height:1.7}
+    ::-webkit-scrollbar{width:4px}
+    ::-webkit-scrollbar-thumb{background:var(--border)}
+
+    /* NAV */
+    nav#topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:56px;background:rgba(7,10,15,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(16px)}
+    .light-theme nav#topnav{background:rgba(240,242,245,.92)}
+    .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:var(--text);text-decoration:none}
+    .nav-logo .accent{color:var(--accent)}
+    .nav-back{font-size:11px;letter-spacing:.08em;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s}
+    .nav-back:hover{color:var(--text)}
+
+    /* LAYOUT */
+    .page-wrap{max-width:820px;margin:0 auto;padding:64px 40px 100px}
+    @media(max-width:600px){.page-wrap{padding:40px 20px 80px};nav#topnav{padding:0 20px}}
+
+    /* HERO */
+    .page-tag{display:inline-flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+    .page-tag::before{content:'';width:20px;height:1px;background:var(--accent)}
+    h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(28px,5vw,44px);letter-spacing:-.01em;line-height:1.15;margin-bottom:12px}
+    .page-sub{font-size:12px;color:var(--muted);margin-bottom:52px;letter-spacing:.04em}
+
+    /* SEARCH */
+    .faq-search-wrap{position:relative;margin-bottom:48px}
+    .faq-search{width:100%;background:var(--panel);border:1px solid var(--border);color:var(--text);padding:12px 16px 12px 42px;font-family:'DM Mono',monospace;font-size:12px;border-radius:4px;outline:none;transition:border-color .15s}
+    .faq-search:focus{border-color:var(--accent)}
+    .faq-search::placeholder{color:var(--muted)}
+    .faq-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none}
+
+    /* CATEGORIES */
+    .faq-cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
+    .faq-cat-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:5px 14px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .15s}
+    .faq-cat-btn:hover,.faq-cat-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(0,255,136,.06)}
+
+    /* SECTION */
+    .faq-section{margin-bottom:48px}
+    .faq-section-title{display:flex;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--text);margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+    .faq-section-icon{font-size:16px}
+
+    /* ACCORDION */
+    .faq-item{border:1px solid var(--border);border-radius:4px;margin-bottom:6px;overflow:hidden;transition:border-color .2s}
+    .faq-item:hover{border-color:rgba(0,255,136,.25)}
+    .faq-item.open{border-color:rgba(0,255,136,.35)}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;user-select:none;gap:16px}
+    .faq-q-text{font-size:12px;color:var(--text);letter-spacing:.03em;flex:1}
+    .faq-item.open .faq-q-text{color:var(--accent)}
+    .faq-chevron{width:16px;height:16px;color:var(--muted);flex-shrink:0;transition:transform .25s}
+    .faq-item.open .faq-chevron{transform:rotate(180deg);color:var(--accent)}
+    .faq-a{display:none;padding:0 18px 16px;font-size:11px;color:var(--muted);line-height:1.85;letter-spacing:.03em;border-top:1px solid var(--border);margin:0 18px}
+    .faq-item.open .faq-a{display:block}
+    .faq-a p{margin-bottom:8px}
+    .faq-a p:last-child{margin-bottom:0}
+    .faq-a code{font-family:'DM Mono',monospace;background:rgba(0,255,136,.08);color:var(--accent);padding:1px 6px;border-radius:3px;font-size:10px}
+    .faq-a a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(0,200,255,.3);transition:border-color .15s}
+    .faq-a a:hover{border-color:var(--cyan)}
+    .faq-a strong{color:var(--text);font-weight:400}
+    .faq-a ul{list-style:none;display:flex;flex-direction:column;gap:5px;margin-top:6px}
+    .faq-a ul li::before{content:'→ ';color:var(--accent)}
+
+    /* NO RESULTS */
+    .faq-empty{text-align:center;padding:48px 0;color:var(--muted);font-size:12px;display:none}
+    .faq-empty.visible{display:block}
+
+    /* FOOTER */
+    footer{border-top:1px solid var(--border);padding:24px 40px;display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--muted);flex-wrap:wrap;gap:12px}
+    footer a{color:var(--muted);text-decoration:none;transition:color .2s}
+    footer a:hover{color:var(--accent)}
+    @media(max-width:600px){footer{padding:20px;flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+
+<nav id="topnav">
+  <a class="nav-logo" href="index.html">CRYP<span class="accent">VIEW</span></a>
+  <a class="nav-back" href="index.html">← Retour à l'accueil</a>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="page-tag">Support</div>
+  <h1>Questions fréquentes</h1>
+  <p class="page-sub">Tout ce que vous devez savoir sur CrypView. Si votre question n'est pas ici,<br>contactez-nous à <a href="mailto:betacapital.discord@gmail.com" style="color:var(--accent)">betacapital.discord@gmail.com</a>.</p>
+
+  <div class="faq-search-wrap">
+    <span class="faq-search-icon">⌕</span>
+    <input class="faq-search" id="faq-search" type="text" placeholder="Rechercher une question…" autocomplete="off">
+  </div>
+
+  <div class="faq-cats" id="faq-cats">
+    <button class="faq-cat-btn active" data-cat="all">Toutes</button>
+    <button class="faq-cat-btn" data-cat="start">Démarrage</button>
+    <button class="faq-cat-btn" data-cat="chart">Graphiques</button>
+    <button class="faq-cat-btn" data-cat="indicators">Indicateurs</button>
+    <button class="faq-cat-btn" data-cat="alerts">Alertes</button>
+    <button class="faq-cat-btn" data-cat="pwa">PWA</button>
+    <button class="faq-cat-btn" data-cat="data">Données</button>
+  </div>
+
+  <!-- DÉMARRAGE -->
+  <div class="faq-section" data-cat="start">
+    <div class="faq-section-title"><span class="faq-section-icon">🚀</span> Démarrage</div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">CrypView est-il gratuit ? Faut-il un compte ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Oui, CrypView est <strong>entièrement gratuit</strong> et ne nécessite aucun compte, aucune inscription et aucune carte bancaire. Ouvrez l'URL et commencez immédiatement.</p>
+        <p>L'application n'a aucun modèle freemium — toutes les fonctionnalités sont accessibles sans condition.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Quels navigateurs sont supportés ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>CrypView fonctionne sur tous les navigateurs modernes :</p>
+        <ul>
+          <li>Chrome 90+ (recommandé pour l'installation PWA)</li>
+          <li>Firefox 88+</li>
+          <li>Edge 90+</li>
+          <li>Safari 15+ (iOS 15+ pour la PWA)</li>
+        </ul>
+        <p>Internet Explorer n'est pas supporté.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Comment changer de paire de trading ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Cliquez sur le champ de recherche dans le header (ou appuyez sur <code>Ctrl+K</code>) et tapez le nom du token (ex: <code>ETH</code>, <code>SOL</code>). Sélectionnez la paire dans la liste déroulante ou validez avec Entrée.</p>
+        <p>En mode multi-graphiques, chaque panneau possède son propre champ de recherche.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Comment basculer entre thème sombre et clair ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Faites un clic droit sur le graphique → Outils → Paramètres → choisissez le thème. La préférence est sauvegardée localement et appliquée instantanément sans rechargement.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAPHIQUES -->
+  <div class="faq-section" data-cat="chart">
+    <div class="faq-section-title"><span class="faq-section-icon">📊</span> Graphiques & Multi-Charts</div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Quels timeframes sont disponibles ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>CrypView propose 15 timeframes : <code>1s</code>, <code>1m</code>, <code>3m</code>, <code>5m</code>, <code>15m</code>, <code>30m</code>, <code>1h</code>, <code>2h</code>, <code>4h</code>, <code>6h</code>, <code>12h</code>, <code>1j</code>, <code>3j</code>, <code>1sem</code>, <code>1mois</code>.</p>
+        <p>Appuyez sur <code>T</code> pour cycler rapidement entre les timeframes.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Comment utiliser le mode Multi-Charts ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Clic droit → Multi-Charts → choisissez la disposition : <strong>2 côte à côte</strong>, <strong>4 en grille</strong>, <strong>9 en 3×3</strong>, <strong>2 ou 3 verticaux</strong>, ou les layouts asymétriques <strong>1+2</strong> et <strong>1+3</strong>.</p>
+        <p>Chaque panneau est indépendant : symbole, timeframe et indicateurs propres. La synchronisation du crosshair et du zoom est activable via la barre de sync en haut.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Comment utiliser les Drawing Tools ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Clic droit → Drawing Tools → choisissez l'outil. Les tracés disponibles sont : Trendline, Fibonacci, Zone horizontale, Rectangle, Pitchfork, Flèche, Texte, Mesure, Canal parallèle.</p>
+        <p>Les ancres sont <strong>déplaçables par glisser-déposer</strong> (v2.9+). Faites un clic droit sur un tracé pour obtenir des options (alertes de croisement, suppression). Appuyez sur <code>Ctrl+Z</code> pour annuler le dernier tracé.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Les tracés sont-ils sauvegardés ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Oui, tous les tracés sont sauvegardés dans le <code>localStorage</code> de votre navigateur. Ils survivent aux rechargements de page et sont associés à chaque symbole (synchronisation MTF automatique).</p>
+        <p>Attention : vider le cache du navigateur supprimera les tracés.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- INDICATEURS -->
+  <div class="faq-section" data-cat="indicators">
+    <div class="faq-section-title"><span class="faq-section-icon">📈</span> Indicateurs</div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Quels indicateurs sont disponibles ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>CrypView propose 19+ indicateurs organisés en 4 catégories :</p>
+        <ul>
+          <li><strong>Tendance</strong> : MA 20/50/200, VWAP, HMA, Ichimoku, SuperTrend, Keltner, EMA Multi, DEMA, Parabolic SAR, Donchian, Régression Linéaire, Pivot Points</li>
+          <li><strong>Momentum</strong> : RSI, MACD, Stochastique, CCI, ADX, Williams %R, Momentum, TRIX, Squeeze Momentum, Elder Ray</li>
+          <li><strong>Volatilité</strong> : Bollinger, ATR</li>
+          <li><strong>Volume</strong> : Volume Profile, Footprint, Orderflow Delta/CVD, MFI, OBV, CMF</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Comment ajouter / supprimer un indicateur ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Clic droit → Indicateurs → Choisir les indicateurs, ou appuyez sur <code>I</code>. La palette de commandes (<code>Ctrl+K</code>) permet aussi de les activer/désactiver rapidement.</p>
+        <p>Raccourcis directs : <code>Shift+R</code> (RSI), <code>Shift+M</code> (MACD), <code>Shift+B</code> (Bollinger), <code>Shift+V</code> (VWAP), <code>Shift+F</code> (Footprint).</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Qu'est-ce que le Footprint Chart ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Le Footprint affiche la pression acheteur (<strong>Ask</strong>) et vendeur (<strong>Bid</strong>) par niveau de prix à l'intérieur de chaque bougie. Les déséquilibres (ratio ≥ 3×) sont signalés par une bordure dorée.</p>
+        <p>Les données sont <strong>amorcées via REST</strong> (aggTrades historiques) puis mises à jour en temps réel par WebSocket. Le niveau de zoom minimum pour afficher les valeurs est de ~28 pixels par bougie.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Comment utiliser les Profils & Presets ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Les profils permettent de sauvegarder une combinaison d'indicateurs + timeframe. Clic droit → Indicateurs → Profils & Presets. 6 presets intégrés (Scalping, Swing, Volume, Orderflow, Momentum, Volatilité) et jusqu'à 20 profils personnalisés.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERTES -->
+  <div class="faq-section" data-cat="alerts">
+    <div class="faq-section-title"><span class="faq-section-icon">🔔</span> Alertes de prix</div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Comment créer une alerte ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Faites un <strong>clic droit</strong> sur le graphique au niveau souhaité → Alertes → Nouvelle alerte. L'alerte est automatiquement pré-remplie avec le prix du curseur.</p>
+        <p>Il est aussi possible de cliquer droit sur une trendline tracée pour créer une alerte de croisement (↑ ou ↓).</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Les alertes fonctionnent-elles quand l'onglet est fermé ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Non. CrypView est une application web locale sans backend — les alertes nécessitent que l'onglet soit ouvert (même en arrière-plan). Installez CrypView en PWA pour que l'onglet reste actif facilement.</p>
+        <p>Quand l'onglet est en arrière-plan, les WebSockets restent actifs et les alertes continuent de fonctionner.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Quels types de conditions sont supportés ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>11 types de conditions combinables en logique AND/OR :</p>
+        <ul>
+          <li>Prix absolu (au-dessus/en-dessous d'un seuil)</li>
+          <li>Variation % depuis l'ouverture 24h</li>
+          <li>Volume spike (× multiple de la moyenne)</li>
+          <li>RSI (au-dessus ou en-dessous d'un seuil)</li>
+          <li>Croisement MACD (haussier ou baissier)</li>
+          <li>Breakout N-bougies (résistance ou support)</li>
+          <li>Croisement de trendline tracée (↑ ou ↓)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PWA -->
+  <div class="faq-section" data-cat="pwa">
+    <div class="faq-section-title"><span class="faq-section-icon">📲</span> Installation PWA</div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Comment installer CrypView sur mon appareil ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p><strong>Chrome / Edge (desktop) :</strong> cliquez sur l'icône ⊞ dans la barre d'adresse → Installer.</p>
+        <p><strong>Safari iOS :</strong> bouton Partager → Ajouter à l'écran d'accueil.</p>
+        <p><strong>Firefox :</strong> Menu → Installer l'application.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">La PWA fonctionne-t-elle sans connexion internet ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Les assets statiques (HTML, CSS, JS, polices) sont mis en cache et disponibles hors ligne. Cependant, les données de marché (Binance WebSocket) nécessitent une connexion internet active.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DONNÉES -->
+  <div class="faq-section" data-cat="data">
+    <div class="faq-section-title"><span class="faq-section-icon">📡</span> Données & Confidentialité</div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">D'où viennent les données de marché ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Toutes les données proviennent de l'<strong>API publique Binance</strong> (REST + WebSocket). CrypView n'agrège, ne stocke ni ne redistribue aucune donnée — chaque requête part directement de votre navigateur vers Binance.</p>
+        <p>Les données DEX proviennent de <a href="https://www.geckoterminal.com" target="_blank" rel="noopener">GeckoTerminal</a> (API publique gratuite).</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Mes données sont-elles envoyées à un serveur ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Non. CrypView est une application <strong>100% client-side</strong> (aucun backend). Vos alertes, tracés, paramètres et historique Paper Trading sont stockés localement dans votre navigateur (<code>localStorage</code>). Aucune donnée ne transite par nos serveurs.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-text">Combien de paires sont disponibles ?</span>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">
+        <p>Toutes les paires USDT actives sur Binance Spot (500+). La liste est chargée au démarrage depuis <code>GET /api/v3/exchangeInfo</code> et mise en cache pour la session.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-empty" id="faq-empty">Aucune question trouvée pour "<span id="faq-empty-term"></span>".</div>
+
+</div>
+
+<footer>
+  <span>© 2025 CrypView — Beta Capital Enterprise</span>
+  <nav style="display:flex;gap:16px">
+    <a href="cookies.html">Cookies</a>
+    <a href="privacy.html">Confidentialité</a>
+    <a href="sitemap.html">Plan du site</a>
+    <a href="index.html">Accueil</a>
+  </nav>
+</footer>
+
+<script>
+  // Accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // Filtre par catégorie
+  document.querySelectorAll('.faq-cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.faq-cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+      document.querySelectorAll('.faq-section').forEach(sec => {
+        sec.style.display = (cat === 'all' || sec.dataset.cat === cat) ? 'block' : 'none';
+      });
+      document.getElementById('faq-search').value = '';
+    });
+  });
+
+  // Recherche
+  document.getElementById('faq-search').addEventListener('input', e => {
+    const q = e.target.value.toLowerCase().trim();
+    let found = 0;
+    document.querySelectorAll('.faq-item').forEach(item => {
+      const text = item.textContent.toLowerCase();
+      const match = !q || text.includes(q);
+      item.style.display = match ? '' : 'none';
+      if (match) found++;
+    });
+    document.querySelectorAll('.faq-section').forEach(sec => {
+      const visible = [...sec.querySelectorAll('.faq-item')].some(i => i.style.display !== 'none');
+      sec.style.display = visible ? 'block' : 'none';
+    });
+    const emptyEl = document.getElementById('faq-empty');
+    document.getElementById('faq-empty-term').textContent = q;
+    emptyEl.classList.toggle('visible', found === 0 && q.length > 0);
+    if (q) {
+      document.querySelectorAll('.faq-cat-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-cat="all"]').classList.add('active');
+    }
+  });
+</script>
+
+</body>
+</html>

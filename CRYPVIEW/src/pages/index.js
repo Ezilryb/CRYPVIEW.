@@ -505,6 +505,7 @@ async function buildTicker() {
         const y      = i * bucketH + 0.5;
         const h      = bucketH - 1;
         const isPOC  = i === pocIdx;
+        const inVA   = i >= vaLow && i <= vaHigh;
 
         if (inVA) { ctx.fillStyle = 'rgba(0,200,255,0.07)'; ctx.fillRect(0, y, totalW + 4, h); }
         ctx.fillStyle = isPOC ? 'rgba(0,255,136,0.85)' : 'rgba(0,255,136,0.45)';

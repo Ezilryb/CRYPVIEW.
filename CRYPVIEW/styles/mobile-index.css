@@ -1,8 +1,6 @@
 /* ============================================================
    styles/mobile-index.css — CrypView V2
    Correctifs responsive MOBILE pour index.html uniquement.
-   À coller à la FIN de styles/index.css (remplace/complète
-   les @media existants).
    ============================================================ */
 
 /* ══════════════════════════════════════════════════════════════
@@ -29,7 +27,7 @@
   /* ── HERO ───────────────────────────────────────────────── */
   .hero {
     padding: 80px 20px 56px;
-    overflow-x: hidden;   /* empêche tout débordement */
+    overflow-x: hidden;
   }
 
   .hero-inner {
@@ -49,12 +47,11 @@
     text-overflow: ellipsis;
   }
 
-  /* Titre : réduction via clamp adapté au mobile */
   .hero-title {
     font-size: clamp(36px, 9vw, 56px) !important;
     margin-bottom: 18px;
     letter-spacing: -.02em;
-    word-break: break-word;    /* évite tout overflow */
+    word-break: break-word;
     overflow-wrap: break-word;
   }
 
@@ -65,7 +62,6 @@
     max-width: 100%;
   }
 
-  /* Boutons CTA empilés */
   .hero-actions {
     flex-direction: column;
     align-items: center;
@@ -80,7 +76,6 @@
     font-size: 11px;
   }
 
-  /* Stats : 3 colonnes sur 2 rangées */
   .hero-stats {
     gap: 16px 20px;
     margin-top: 40px;
@@ -92,10 +87,9 @@
   .hstat-val { font-size: 22px; }
   .hstat-label { font-size: 8px; }
 
-  /* Ticker : pleine largeur sans débordement */
   .ticker-strip {
     width: 100vw !important;
-    margin-left: -20px !important;   /* compense le padding hero */
+    margin-left: -20px !important;
     margin-top: 32px;
   }
   .ticker-item {
@@ -104,69 +98,156 @@
   }
 
   /* ── FEATURES ───────────────────────────────────────────── */
-  .section {
-    padding: 60px 20px;
-  }
+  .section { padding: 60px 20px; }
   .section-title {
     font-size: clamp(24px, 6vw, 36px);
     margin-bottom: 40px;
   }
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-  .feat-card {
-    padding: 28px 20px;
-  }
+  .features-grid { grid-template-columns: 1fr; }
+  .feat-card { padding: 28px 20px; }
 
   /* ── ADVANCED ───────────────────────────────────────────── */
-  .section-advanced {
-    padding: 60px 20px;
-  }
-  .adv-grid {
-    grid-template-columns: 1fr;
-  }
+  .section-advanced { padding: 60px 20px; overflow-x: hidden; }
+  .adv-grid { grid-template-columns: 1fr; }
+  .adv-card { padding: 20px 16px; gap: 12px; }
+  .adv-card-header { gap: 8px; }
+  .adv-card-icon { width: 36px; height: 36px; font-size: 18px; flex-shrink: 0; }
+  .adv-card-title { font-size: 13px; }
+  .adv-card-sub   { font-size: 9px; }
+  .adv-live-badge { font-size: 8px; gap: 4px; flex-shrink: 0; }
+
   .adv-canvas,
   .of-preview-wrap {
-    height: 160px;
+    height: 140px !important;
+    width: 100% !important;
+    max-width: 100%;
+    display: block;
+    box-sizing: border-box;
+  }
+  .of-bars-wrap { padding: 6px 8px 0; gap: 1px; }
+  .of-cvd-canvas { height: 32px !important; }
+  .adv-legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px 10px;
+    font-size: 8px;
+    letter-spacing: .04em;
   }
 
-  /* ── ALERTES ────────────────────────────────────────────── */
-  .section-alerts {
-    padding: 60px 20px;
-  }
+  /* ── ALERTES DE PRIX — FIX COMPLET ─────────────────────── */
+  .section-alerts { padding: 60px 20px; }
+
+  /* FIX : alerts-inner est un CSS Grid, pas un flex.
+     On consolide ici TOUTES les règles mobile pour éviter
+     le conflit avec le double @media block ci-dessous. */
   .alerts-inner {
+    display: grid;
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 36px;
+    align-items: start;
   }
+
+  .alerts-copy {
+    max-width: 100%;
+    text-align: center;
+  }
+  .alerts-copy .section-label { justify-content: center; }
+  .alerts-copy .section-title {
+    font-size: clamp(26px, 7vw, 38px);
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .alerts-desc {
+    font-size: 12px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 520px;
+  }
+
+  .alerts-features {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .alerts-features li { font-size: 11px; }
+  .af-icon { font-size: 14px; flex-shrink: 0; }
+
+  /* Demo card */
+  .alerts-demo-wrap {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
   .alert-demo-card {
+    width: 100%;
+    box-sizing: border-box;
     transform: none !important;
     opacity: 1 !important;
   }
 
+  .adc-header {
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 0;
+    padding: 10px 12px;
+  }
+  .adc-sym   { font-size: 13px; }
+  .adc-price { font-size: 15px; }
+
+  .adc-chart-wrap { height: 130px; }
+  #alert-chart-canvas {
+    width: 100% !important;
+    height: 130px !important;
+  }
+
+  .adc-form { padding: 12px; gap: 10px; }
+  .adc-form-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .adc-form-label { font-size: 10px; flex-shrink: 0; white-space: nowrap; }
+  .adc-price-input {
+    flex: 1;
+    min-width: 0;
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+  .adc-hint { font-size: 10px; line-height: 1.5; min-height: 0; }
+  .adc-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 12px;
+    letter-spacing: .04em;
+  }
+  .adc-notif { font-size: 10px; padding: 8px 14px; }
+
+  .alerts-tip {
+    font-size: 11px;
+    text-align: center;
+    padding: 0 4px;
+    margin-top: 14px;
+  }
+
   /* ── PREVIEW ────────────────────────────────────────────── */
-  .section-preview {
-    padding: 60px 20px;
-  }
-  .preview-inner {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
+  .section-preview { padding: 60px 20px; }
+  .preview-inner { grid-template-columns: 1fr; gap: 40px; }
 
   /* ── PWA ────────────────────────────────────────────────── */
-  .section-pwa {
-    padding: 60px 20px;
-  }
-  .pwa-cards {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .section-pwa { padding: 60px 20px; }
+  .pwa-cards { grid-template-columns: repeat(2, 1fr); }
 
   /* ── CTA ────────────────────────────────────────────────── */
-  .section-cta {
-    padding: 60px 20px;
-  }
-  .cta-title {
-    font-size: clamp(28px, 7vw, 44px);
-  }
+  .section-cta { padding: 60px 20px; }
+  .cta-title { font-size: clamp(28px, 7vw, 44px); }
   .cta-actions {
     flex-direction: column;
     align-items: center;
@@ -179,28 +260,85 @@
     padding: 14px 20px;
   }
 
-  /* ── DISCLAIMER & FOOTER ────────────────────────────────── */
-  .disclaimer {
-    padding: 24px 20px;
-  }
-  .footer-main {
-    padding: 40px 20px 0;
-  }
+  /* ── DISCLAIMER ──────────────────────────────────────────── */
+  .disclaimer { padding: 24px 20px; }
+
+  /* ══════════════════════════════════════════════════════════
+     FOOTER — FIX RESPONSIVE SMARTPHONE
+  ══════════════════════════════════════════════════════════ */
+  .footer-main { padding: 36px 20px 0; }
+
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 28px;
-    padding-bottom: 32px;
+    gap: 32px;
+    padding-bottom: 36px;
   }
+
+  /* Brand column */
+  .footer-col--brand { gap: 12px; }
+  .footer-logo-lg { font-size: 20px; }
+  .footer-tagline { font-size: 11px; }
+  .footer-status { padding: 5px 10px; }
+  .footer-status__label { font-size: 9px; }
+  .footer-version { gap: 6px; }
+
+  /* Navigation columns */
+  .footer-col__title {
+    font-size: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+  }
+
+  .footer-links-list { gap: 6px; }
+  .footer-link { font-size: 11px; min-height: 36px; }
+
+  /* Emails */
+  .footer-emails { gap: 8px; margin-bottom: 14px; }
+  .footer-email { padding: 8px 10px; }
+  .footer-email__label { font-size: 8px; }
+  .footer-email__addr  { font-size: 9px; }
+
+  /* Socials */
+  .footer-socials { gap: 4px; }
+  .footer-social  { font-size: 11px; padding: 7px 10px; min-height: 36px; }
+
+  /* Ethics list */
+  .footer-ethics-list { gap: 12px; }
+  .footer-ethics-item { gap: 8px; }
+  .footer-ethics-item__title { font-size: 10px; }
+  .footer-ethics-item__desc  { font-size: 9px; }
+  .footer-ethics-item__link  { font-size: 9px; }
+
+  /* FIX CRITIQUE : .footer-bottom utilise width + marges négatives
+     basées sur le padding 40px du parent. Sur mobile le padding est
+     20px, on doit donc annuler ces valeurs pour éviter l'overflow. */
+  .footer-bottom {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
   .footer-bottom__inner {
     padding: 16px 20px;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
+
+  .footer-bottom__left {
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+
+  .footer-logo-sm { font-size: 12px; }
+  .footer-bottom__copy { font-size: 9px; }
+
   .footer-bottom__nav {
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 8px 12px;
   }
+  .footer-bottom__link { font-size: 9px; }
 }
 
 
@@ -215,33 +353,12 @@
 
   /* HERO */
   .hero { padding: 70px 16px 48px; }
-
-  .hero-badge {
-    font-size: 8px;
-    letter-spacing: .06em;
-  }
-
-  .hero-title {
-    font-size: clamp(30px, 8.5vw, 44px) !important;
-    line-height: 1.05;
-  }
-
-  .hero-sub {
-    font-size: 11px;
-    margin-bottom: 24px;
-  }
-
-  .hero-stats {
-    gap: 12px 16px;
-    margin-top: 28px;
-    padding-top: 20px;
-  }
+  .hero-badge { font-size: 8px; letter-spacing: .06em; }
+  .hero-title { font-size: clamp(30px, 8.5vw, 44px) !important; line-height: 1.05; }
+  .hero-sub { font-size: 11px; margin-bottom: 24px; }
+  .hero-stats { gap: 12px 16px; margin-top: 28px; padding-top: 20px; }
   .hstat-val { font-size: 20px; }
-
-  /* Ticker */
-  .ticker-strip {
-    margin-left: -16px !important;
-  }
+  .ticker-strip { margin-left: -16px !important; }
 
   /* Sections */
   .section,
@@ -249,9 +366,8 @@
   .section-alerts,
   .section-preview,
   .section-pwa,
-  .section-cta {
-    padding: 48px 16px;
-  }
+  .section-cta { padding: 48px 16px; }
+
   .section-title {
     font-size: clamp(22px, 6.5vw, 32px);
     margin-bottom: 32px;
@@ -262,22 +378,62 @@
   .feat-title { font-size: 14px; }
   .feat-text  { font-size: 11px; }
 
+  /* Advanced */
+  .adv-card { padding: 16px 14px; }
+  .adv-canvas, .of-preview-wrap { height: 120px !important; }
+  .of-cvd-canvas { height: 28px !important; }
+  .adv-card-title { font-size: 12px; }
+  .adv-legend { grid-template-columns: 1fr; gap: 4px; font-size: 8px; }
+
+  /* Alertes de prix — 480px */
+  .alerts-inner { gap: 28px; }
+
+  .alerts-copy .section-title { font-size: clamp(22px, 8vw, 30px); }
+  .alerts-desc { font-size: 11px; }
+  .alerts-features li { font-size: 10px; }
+
+  .alert-demo-card { padding: 0; border-radius: 8px; }
+  .adc-header { padding: 10px 12px; }
+  .adc-chart-wrap { height: 110px; }
+  #alert-chart-canvas { height: 110px !important; }
+
+  .adc-form { padding: 12px; gap: 8px; }
+  .adc-form-row { gap: 6px; }
+  .adc-price-input { font-size: 14px; padding: 9px 8px; }
+  .adc-btn { padding: 13px; font-size: 11px; border-radius: 6px; }
+  .adc-hint { font-size: 9px; }
+
+  .adc-notif {
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+    font-size: 10px;
+    padding: 8px 12px;
+  }
+
   /* PWA */
   .pwa-cards { grid-template-columns: 1fr; }
 
   /* CTA secondary row */
-  .section-cta > .cta-inner > div[style] {
-    flex-direction: column !important;
-    width: 100%;
-  }
-  .section-cta .cta-btn--ghost {
+  .cta-btn--ghost {
     width: 100%;
     justify-content: center;
   }
 
-  /* Footer */
-  .footer-main { padding: 32px 16px 0; }
+  /* Footer 480px */
+  .footer-main { padding: 28px 16px 0; }
+  .footer-grid { gap: 24px; padding-bottom: 28px; }
   .footer-logo-lg { font-size: 18px; }
+  .footer-col__title { font-size: 9px; }
+  .footer-link { font-size: 10px; }
+  .footer-social { font-size: 10px; }
+  .footer-email__addr { font-size: 8px; word-break: break-all; }
+
+  .footer-bottom { width: 100%; margin-left: 0; margin-right: 0; }
+  .footer-bottom__inner { padding: 14px 16px; }
+  .footer-bottom__copy { font-size: 8px; }
+  .footer-bottom__link { font-size: 8px; }
+  .footer-bottom__nav { gap: 6px 10px; }
 }
 
 
@@ -290,311 +446,23 @@
     max-width: 100%;
   }
 
-  /* Empêche les orbes de créer un scroll horizontal */
   .hero-orb,
   .hero-orb2 {
     width: min(400px, 90vw);
     height: min(400px, 90vw);
   }
 
-  /* Fix ticker inline styles qui causent overflow */
   .ticker-strip[style] {
     width: 100vw !important;
   }
-}
 
-/* ── Tablette (≤ 768px) ───────────────────────────────────── */
-@media (max-width: 768px) {
- 
-  .section-alerts {
-    padding: 48px 20px;
-  }
- 
-  .alerts-inner {
-    flex-direction: column;
-    gap: 32px;
-    align-items: center;
-  }
- 
-  .alerts-copy {
-    max-width: 100%;
-    text-align: center;
-  }
- 
-  .alerts-copy .section-label {
-    text-align: center;
-  }
- 
-  .alerts-copy .section-title {
-    font-size: clamp(26px, 7vw, 38px);
-    text-align: center;
-  }
- 
-  .alerts-desc {
-    font-size: 13px;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 520px;
-  }
- 
-  .alerts-features {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-    max-width: 420px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
-  }
- 
-  .alerts-features li {
-    font-size: 12px;
-    gap: 10px;
-  }
- 
-  .alerts-demo-wrap {
-    width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-  }
- 
-  .alert-demo-card {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 16px;
-  }
- 
-  .adc-header {
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 12px;
-  }
- 
-  .adc-sym {
-    font-size: 13px;
-  }
- 
-  .adc-price {
-    font-size: 16px;
-  }
- 
-  .adc-chart-wrap {
-    height: 130px;
-    margin-bottom: 12px;
-  }
- 
-  #alert-chart-canvas {
-    width: 100% !important;
-    height: 130px !important;
-  }
- 
-  .adc-form {
-    gap: 10px;
-  }
- 
-  .adc-form-row {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
- 
-  .adc-form-label {
-    font-size: 11px;
-    flex-shrink: 0;
-    white-space: nowrap;
-  }
- 
-  .adc-price-input {
-    flex: 1;
-    min-width: 0;
-    font-size: 13px;
-    padding: 8px 10px;
-  }
- 
-  .adc-hint {
-    font-size: 10px;
-    line-height: 1.5;
-  }
- 
-  .adc-btn {
-    width: 100%;
-    padding: 12px;
-    font-size: 12px;
-    letter-spacing: 0.04em;
-  }
- 
-  .adc-notif {
-    font-size: 11px;
-    padding: 10px 14px;
-  }
- 
-  .alerts-tip {
-    font-size: 11px;
-    text-align: center;
-    padding: 0 4px;
-    margin-top: 14px;
-  }
-}
- 
-/* ── Smartphone (≤ 480px) ─────────────────────────────────── */
-@media (max-width: 480px) {
- 
-  .section-alerts {
-    padding: 36px 16px;
-  }
- 
-  .alerts-copy .section-title {
-    font-size: clamp(22px, 8vw, 30px);
-  }
- 
-  .alerts-desc {
-    font-size: 12px;
-  }
- 
-  .alerts-features li {
-    font-size: 11px;
-  }
- 
-  .af-icon {
-    font-size: 14px;
-    flex-shrink: 0;
-  }
- 
-  .alert-demo-card {
-    padding: 14px 12px;
-    border-radius: 10px;
-  }
- 
-  .adc-chart-wrap {
-    height: 110px;
-    margin-bottom: 10px;
-  }
- 
-  #alert-chart-canvas {
-    height: 110px !important;
-  }
- 
-  .adc-form-row {
-    gap: 8px;
-  }
- 
-  .adc-price-input {
-    font-size: 14px;
-    padding: 9px 10px;
-  }
- 
-  .adc-btn {
-    padding: 13px;
-    font-size: 11px;
-    border-radius: 6px;
-  }
- 
-  .adc-hint {
-    font-size: 10px;
-  }
- 
-  .alerts-tip {
-    font-size: 10px;
-    line-height: 1.7;
-  }
- 
-  .adc-notif {
-    flex-direction: column;
-    gap: 4px;
-    text-align: center;
-    font-size: 10px;
-  }
-
-  /* ══════════════════════════════════════════════════════════════
-   ADVANCED TOOLS — correctifs responsive mobile
-══════════════════════════════════════════════════════════════ */
-  @media (max-width: 768px) {
-    .section-advanced { overflow-x: hidden; }
-
-    .adv-grid {
-      grid-template-columns: 1fr;
-      gap: 1px;
-    }
-
-    .adv-card {
-      padding: 20px 16px;
-      gap: 12px;
-    }
-
-    .adv-card-header {
-      gap: 8px;
-    }
-
-    .adv-card-icon {
-      width: 36px;
-      height: 36px;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .adv-card-title { font-size: 13px; }
-    .adv-card-sub   { font-size: 9px; }
-
-    .adv-live-badge {
-      font-size: 8px;
-      gap: 4px;
-      flex-shrink: 0;
-    }
-
-    /* Canvases : hauteur réduite + max-width 100% strict */
-    .adv-canvas {
-      height: 140px !important;
-      width: 100% !important;
-      max-width: 100%;
-      display: block;
-      box-sizing: border-box;
-    }
-
-    .of-preview-wrap {
-      height: 140px !important;
-      width: 100% !important;
-      max-width: 100%;
-      box-sizing: border-box;
-    }
-
-    /* Barres Orderflow : hauteur max cohérente avec la hauteur réduite */
-    .of-bars-wrap {
-      padding: 6px 8px 0;
-      gap: 1px;
-    }
-
-    .of-cvd-canvas {
-      height: 32px !important;
-    }
-
-    /* Légende : passage en grille 2 colonnes */
-    .adv-legend {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5px 10px;
-      font-size: 8px;
-      letter-spacing: .04em;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .adv-card { padding: 16px 14px; }
-
-    .adv-canvas,
-    .of-preview-wrap { height: 120px !important; }
-
-    .of-cvd-canvas { height: 28px !important; }
-
-    .adv-card-title { font-size: 12px; }
-
-    .adv-legend {
-      grid-template-columns: 1fr;
-      gap: 4px;
-      font-size: 8px;
-    }
-  }
-  
+  /* Garantit qu'aucune section ne génère de scroll horizontal */
+  .section,
+  .section-advanced,
+  .section-alerts,
+  .section-preview,
+  .section-pwa,
+  .section-cta,
+  .disclaimer,
+  .footer-main { overflow-x: hidden; }
 }

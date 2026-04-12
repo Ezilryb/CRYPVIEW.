@@ -245,7 +245,8 @@
     font-size: 12px;
     letter-spacing: .04em;
   }
-  .adc-notif { font-size: 10px; padding: 8px 14px; }
+  .adc-notif { font-size: 10px; padding: 0 14px; }
+  .adc-notif.show { padding: 8px 14px; }
 
   .alerts-tip {
     font-size: 11px;
@@ -425,33 +426,9 @@
     gap: 4px;
     text-align: center;
     font-size: 10px;
-    padding: 8px 12px;
+    padding: 0 12px;
   }
-
-    /* Alertes de prix — 480px */
-  .alerts-inner { gap: 28px; }
-  .alerts-copy .section-title { font-size: clamp(22px, 8vw, 30px); }
-  .alerts-desc { font-size: 11px; }
-  .alerts-features li { font-size: 10px; }
-  
-  .adc-chart-wrap { height: 110px; }
-  
-  #alert-chart-canvas {
-    height: 110px !important;
-  }
-  
-  .adc-form { padding: 12px; gap: 8px; }
-  .adc-price-input { font-size: 14px; padding: 9px 8px; }
-  .adc-btn { padding: 13px; font-size: 11px; border-radius: 6px; }
-  .adc-hint { font-size: 9px; }
-  
-  .adc-notif {
-    flex-direction: column;
-    gap: 4px;
-    text-align: center;
-    font-size: 10px;
-    padding: 8px 12px;
-  }
+  .adc-notif.show { padding: 8px 12px; }
 
   /* PWA */
   .pwa-cards { grid-template-columns: 1fr; }

@@ -137,9 +137,6 @@
   /* ── ALERTES DE PRIX — FIX COMPLET ─────────────────────── */
   .section-alerts { padding: 60px 20px; }
 
-  /* FIX : alerts-inner est un CSS Grid, pas un flex.
-     On consolide ici TOUTES les règles mobile pour éviter
-     le conflit avec le double @media block ci-dessous. */
   .alerts-inner {
     display: grid;
     grid-template-columns: 1fr;
@@ -178,16 +175,18 @@
   .alerts-features li { font-size: 11px; }
   .af-icon { font-size: 14px; flex-shrink: 0; }
 
-  /* Demo card */
+  /* Demo wrap */
   .alerts-demo-wrap {
     width: 100%;
     max-width: 480px;
     margin: 0 auto;
+    overflow: hidden; /* ← FIX : empêche le débordement global */
   }
 
   .alert-demo-card {
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;   /* ← déjà présent en base, renforcé ici */
     transform: none !important;
     opacity: 1 !important;
   }
@@ -195,16 +194,34 @@
   .adc-header {
     flex-wrap: wrap;
     gap: 6px;
-    margin-bottom: 0;
     padding: 10px 12px;
   }
   .adc-sym   { font-size: 13px; }
   .adc-price { font-size: 15px; }
 
-  .adc-chart-wrap { height: 130px; }
+  /* ── FIX CRITIQUE : chart wrapper clippé ─────────────────── */
+  .adc-chart-wrap {
+    overflow: hidden;       /* ← manquait → canvas 380px débordait */
+    position: relative;
+    width: 100%;
+    height: 130px;
+    box-sizing: border-box;
+  }
+
+  /* ── FIX CRITIQUE : canvas contraint, style inline annulé ── */
   #alert-chart-canvas {
-    width: 100% !important;
+    display: block !important;        /* évite le rendu inline */
+    max-width: 100% !important;       /* bloque le débordement */
+    width: 100% !important;           /* écrase le style.width JS */
     height: 130px !important;
+  }
+
+  /* Alert price line clippée par son parent */
+  .alert-price-line {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .adc-form { padding: 12px; gap: 10px; }
@@ -411,6 +428,31 @@
     padding: 8px 12px;
   }
 
+    /* Alertes de prix — 480px */
+  .alerts-inner { gap: 28px; }
+  .alerts-copy .section-title { font-size: clamp(22px, 8vw, 30px); }
+  .alerts-desc { font-size: 11px; }
+  .alerts-features li { font-size: 10px; }
+  
+  .adc-chart-wrap { height: 110px; }
+  
+  #alert-chart-canvas {
+    height: 110px !important;
+  }
+  
+  .adc-form { padding: 12px; gap: 8px; }
+  .adc-price-input { font-size: 14px; padding: 9px 8px; }
+  .adc-btn { padding: 13px; font-size: 11px; border-radius: 6px; }
+  .adc-hint { font-size: 9px; }
+  
+  .adc-notif {
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+    font-size: 10px;
+    padding: 8px 12px;
+  }
+
   /* PWA */
   .pwa-cards { grid-template-columns: 1fr; }
 
@@ -465,4 +507,18 @@
   .section-cta,
   .disclaimer,
   .footer-main { overflow-x: hidden; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TRÈS PETITS ÉCRANS — 360px
+   form-row trop étroit sur Galaxy S8 / iPhone SE 1ère gen
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 360px) {
+  .adc-form-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .adc-form-label { text-align: left; }
+  .adc-price-input { width: 100%; }
 }

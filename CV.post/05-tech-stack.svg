@@ -1,0 +1,80 @@
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0 L0 0 0 60" fill="none" stroke="#00ff88" stroke-width="0.3" opacity="0.07"/>
+    </pattern>
+    <pattern id="scan" width="1080" height="4" patternUnits="userSpaceOnUse">
+      <rect width="1080" height="2" fill="#00ff88" opacity="0.008"/>
+    </pattern>
+    <filter id="gc" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00c8ff" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="orb-c" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  
+  <rect width="1080" height="1080" fill="#070a0f"/>
+  <rect width="1080" height="1080" fill="url(#grid)"/>
+  <rect width="1080" height="1080" fill="url(#scan)"/>
+  <ellipse cx="300" cy="400" rx="400" ry="400" fill="url(#orb-c)" opacity="0.4"/>
+  
+  <path d="M60 115 L60 60 L115 60" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.2"/>
+  <path d="M965 60 L1020 60 L1020 115" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.2"/>
+  <path d="M60 965 L60 1020 L115 1020" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.2"/>
+  <path d="M965 1020 L1020 1020 L1020 965" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.2"/>
+  
+  <text x="64" y="104" font-family="Arial Black, sans-serif" font-size="20" font-weight="800" letter-spacing="3" fill="#8b949e">CRYP<tspan fill="#00ff88">VIEW</tspan></text>
+  
+  <rect x="870" y="75" width="99" height="22" rx="2" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.4"/>
+  <text x="882" y="90" font-family="Courier New, monospace" font-size="10" fill="#00ff88" letter-spacing="1.5" opacity="0.8">TECH STACK</text>
+  
+  <line x1="64" y1="130" x2="1016" y2="130" stroke="#1c2333" stroke-width="1"/>
+  
+  <text x="64" y="260" font-family="Arial Black, sans-serif" font-size="72" font-weight="800" fill="#e6edf3">Construit</text>
+  <text x="64" y="350" font-family="Arial Black, sans-serif" font-size="72" font-weight="800" fill="#00c8ff" filter="url(#gc)">from scratch.</text>
+  
+  <rect x="64" y="380" width="60" height="3" fill="#00c8ff" rx="1"/>
+  
+  <text x="64" y="430" font-family="Courier New, monospace" font-size="16" fill="#8b949e">Aucune dependance externe.</text>
+  <text x="64" y="456" font-family="Courier New, monospace" font-size="16" fill="#8b949e">Que du natif, propre, modulaire.</text>
+  
+  <line x1="64" y1="480" x2="1016" y2="480" stroke="#1c2333" stroke-width="1"/>
+  
+  <rect x="64" y="510" width="952" height="62" rx="3" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="510" width="4" height="62" rx="2" fill="#00ff88"/>
+  <text x="90" y="540" font-family="Arial Black, sans-serif" font-size="18" font-weight="700" fill="#e6edf3">Vanilla JS</text>
+  <text x="90" y="560" font-family="Courier New, monospace" font-size="12" fill="#8b949e">Zero framework</text>
+  
+  <rect x="64" y="584" width="952" height="62" rx="3" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="584" width="4" height="62" rx="2" fill="#00c8ff"/>
+  <text x="90" y="614" font-family="Arial Black, sans-serif" font-size="18" font-weight="700" fill="#e6edf3">Vite</text>
+  <text x="90" y="634" font-family="Courier New, monospace" font-size="12" fill="#8b949e">Build &amp; dev server</text>
+  
+  <rect x="64" y="658" width="952" height="62" rx="3" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="658" width="4" height="62" rx="2" fill="#e040fb"/>
+  <text x="90" y="688" font-family="Arial Black, sans-serif" font-size="18" font-weight="700" fill="#e6edf3">LightweightCharts</text>
+  <text x="90" y="708" font-family="Courier New, monospace" font-size="12" fill="#8b949e">Rendu des graphiques</text>
+  
+  <rect x="64" y="732" width="952" height="62" rx="3" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="732" width="4" height="62" rx="2" fill="#ff9900"/>
+  <text x="90" y="762" font-family="Arial Black, sans-serif" font-size="18" font-weight="700" fill="#e6edf3">Binance API</text>
+  <text x="90" y="782" font-family="Courier New, monospace" font-size="12" fill="#8b949e">Donnees live WebSocket</text>
+  
+  <rect x="64" y="806" width="952" height="62" rx="3" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="806" width="4" height="62" rx="2" fill="#8b949e"/>
+  <text x="90" y="836" font-family="Arial Black, sans-serif" font-size="18" font-weight="700" fill="#e6edf3">GitHub Pages</text>
+  <text x="90" y="856" font-family="Courier New, monospace" font-size="12" fill="#8b949e">Hebergement statique</text>
+  
+  <rect x="64" y="880" width="952" height="62" rx="3" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="880" width="4" height="62" rx="2" fill="#f7c948"/>
+  <text x="90" y="910" font-family="Arial Black, sans-serif" font-size="18" font-weight="700" fill="#e6edf3">PWA + SW</text>
+  <text x="90" y="930" font-family="Courier New, monospace" font-size="12" fill="#8b949e">Installation native</text>
+  
+  <line x1="60" y1="1028" x2="1020" y2="1028" stroke="#1c2333" stroke-width="1"/>
+  <text x="540" y="1052" font-family="Courier New, monospace" font-size="11" fill="#2d3748" text-anchor="middle" letter-spacing="2" opacity="0.7">crypview.betacapital.enterprise</text>
+</svg>

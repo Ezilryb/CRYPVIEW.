@@ -1,0 +1,100 @@
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0 L0 0 0 60" fill="none" stroke="#00ff88" stroke-width="0.3" opacity="0.07"/>
+    </pattern>
+    <pattern id="scan" width="1080" height="4" patternUnits="userSpaceOnUse">
+      <rect width="1080" height="2" fill="#00ff88" opacity="0.008"/>
+    </pattern>
+    <filter id="gg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00ff88" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gc" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00c8ff" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="go" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#ff9900" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gp" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#e040fb" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gr" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#ff3d5a" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="orb-g" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.13"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-c" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-o" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff9900" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#ff9900" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-p" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e040fb" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#e040fb" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line-g" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00ff88" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="line-c" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00c8ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="#070a0f"/>
+  <rect width="1080" height="1080" fill="url(#grid)"/>
+  <rect width="1080" height="1080" fill="url(#scan)"/>
+  <ellipse cx="800" cy="350" rx="500" ry="420" fill="url(#orb-c)" opacity="0.5"/>
+  <path d="M60 115 L60 60 L115 60" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.2"/>
+  <path d="M965 60 L1020 60 L1020 115" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.2"/>
+  <path d="M60 965 L60 1020 L115 1020" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.2"/>
+  <path d="M965 1020 L1020 1020 L1020 965" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.2"/>
+  <text x="64" y="104" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="18" font-weight="800" letter-spacing="3" fill="#8b949e">CRYP<tspan fill="#00ff88">VIEW</tspan></text>
+  <rect x="780" y="75" width="166.5" height="22" rx="2" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.4"/>
+  <text x="792" y="90" font-family="'Space Mono', 'Courier New', monospace" font-size="10" fill="#00ff88" letter-spacing="1.5" opacity="0.8">DEX — GECKOTERMINAL</text>
+  <line x1="64" y1="130" x2="1016" y2="130" stroke="#1c2333" stroke-width="1"/>
+  <text x="64" y="270" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#00c8ff" letter-spacing="3">MARCHÉS DÉCENTRALISÉS</text>
+  <text x="64" y="368" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="80" font-weight="800" fill="#e6edf3">PEPE, SHIB,</text>
+  <text x="64" y="455" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="80" font-weight="800" fill="#00c8ff" filter="url(#gc)">n'importe quel</text>
+  <text x="64" y="538" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="80" font-weight="800" fill="#e6edf3">pool DEX.</text>
+  <rect x="64" y="566" width="60" height="3" fill="#00c8ff" rx="1"/>
+  <text x="64" y="626" font-family="'Space Mono', 'Courier New', monospace" font-size="16" fill="#8b949e">GeckoTerminal API gratuite.</text>
+  <text x="64" y="652" font-family="'Space Mono', 'Courier New', monospace" font-size="16" fill="#8b949e">Recherche par nom ou adresse contrat.</text>
+  <!-- Chain badges -->
+  <text x="64" y="706" font-family="'Space Mono', 'Courier New', monospace" font-size="11" fill="#2d3748" letter-spacing="2">RÉSEAUX SUPPORTÉS</text>
+    <rect x="64" y="726" width="88" height="40" rx="4" fill="none" stroke="#00c8ff" stroke-width="1" opacity="0.5"/>
+  <text x="76" y="752" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#00c8ff">Ethereum</text>  <rect x="304" y="726" width="72" height="40" rx="4" fill="none" stroke="#e040fb" stroke-width="1" opacity="0.5"/>
+  <text x="316" y="752" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#e040fb">Solana</text>  <rect x="544" y="726" width="48" height="40" rx="4" fill="none" stroke="#f7c948" stroke-width="1" opacity="0.5"/>
+  <text x="556" y="752" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#f7c948">BSC</text>  <rect x="784" y="726" width="88" height="40" rx="4" fill="none" stroke="#00c8ff" stroke-width="1" opacity="0.5"/>
+  <text x="796" y="752" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#00c8ff">Arbitrum</text>  <rect x="64" y="786" width="56" height="40" rx="4" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.5"/>
+  <text x="76" y="812" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#00ff88">Base</text>  <rect x="304" y="786" width="80" height="40" rx="4" fill="none" stroke="#e040fb" stroke-width="1" opacity="0.5"/>
+  <text x="316" y="812" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#e040fb">Polygon</text>  <rect x="544" y="786" width="88" height="40" rx="4" fill="none" stroke="#ff3d5a" stroke-width="1" opacity="0.5"/>
+  <text x="556" y="812" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#ff3d5a">Optimism</text>  <rect x="784" y="786" width="96" height="40" rx="4" fill="none" stroke="#ff3d5a" stroke-width="1" opacity="0.5"/>
+  <text x="796" y="812" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#ff3d5a">Avalanche</text>
+  <!-- Refresh badge -->
+  <text x="64" y="896" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">Polling toutes les 60s • Aucune clé API</text>
+  <line x1="60" y1="1028" x2="1020" y2="1028" stroke="#1c2333" stroke-width="1"/>
+  <text x="540" y="1052" font-family="'Space Mono', 'Courier New', monospace" font-size="11" fill="#2d3748" text-anchor="middle" letter-spacing="2" opacity="0.7">crypview.betacapital.enterprise</text>
+</svg>

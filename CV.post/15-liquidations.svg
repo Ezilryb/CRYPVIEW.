@@ -1,0 +1,102 @@
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0 L0 0 0 60" fill="none" stroke="#00ff88" stroke-width="0.3" opacity="0.07"/>
+    </pattern>
+    <pattern id="scan" width="1080" height="4" patternUnits="userSpaceOnUse">
+      <rect width="1080" height="2" fill="#00ff88" opacity="0.008"/>
+    </pattern>
+    <filter id="gg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00ff88" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gc" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00c8ff" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="go" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#ff9900" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gp" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#e040fb" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gr" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#ff3d5a" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="orb-g" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.13"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-c" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-o" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff9900" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#ff9900" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-p" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e040fb" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#e040fb" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line-g" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00ff88" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="line-c" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00c8ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="#070a0f"/>
+  <rect width="1080" height="1080" fill="url(#grid)"/>
+  <rect width="1080" height="1080" fill="url(#scan)"/>
+  <ellipse cx="540" cy="400" rx="560" ry="440" fill="url(#orb-g)" opacity="0.35"/>
+  <ellipse cx="300" cy="700" rx="300" ry="300" fill="url(#orb-o)" opacity="0.3"/>
+  <path d="M60 115 L60 60 L115 60" fill="none" stroke="#ff3d5a" stroke-width="1.5" opacity="0.2"/>
+  <path d="M965 60 L1020 60 L1020 115" fill="none" stroke="#ff3d5a" stroke-width="1.5" opacity="0.2"/>
+  <path d="M60 965 L60 1020 L115 1020" fill="none" stroke="#ff3d5a" stroke-width="1.5" opacity="0.2"/>
+  <path d="M965 1020 L1020 1020 L1020 965" fill="none" stroke="#ff3d5a" stroke-width="1.5" opacity="0.2"/>
+  <text x="64" y="104" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="18" font-weight="800" letter-spacing="3" fill="#8b949e">CRYP<tspan fill="#00ff88">VIEW</tspan></text>
+  <rect x="750" y="75" width="166.5" height="22" rx="2" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.4"/>
+  <text x="762" y="90" font-family="'Space Mono', 'Courier New', monospace" font-size="10" fill="#00ff88" letter-spacing="1.5" opacity="0.8">LIQUIDATION HEATMAP</text>
+  <circle cx="736" cy="85" r="12.5" fill="#ff3d5a" opacity="0.1"/>
+  <circle cx="736" cy="85" r="5" fill="#ff3d5a"/>
+  <line x1="64" y1="130" x2="1016" y2="130" stroke="#1c2333" stroke-width="1"/>
+  <text x="64" y="270" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#ff3d5a" letter-spacing="3">BINANCE FUTURES — @FORCEORDER</text>
+  <text x="64" y="368" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="76" font-weight="800" fill="#e6edf3">Chaque</text>
+  <text x="64" y="450" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="76" font-weight="800" fill="#ff3d5a" filter="url(#gr)">liquidation.</text>
+  <text x="64" y="532" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="76" font-weight="800" fill="#e6edf3">En temps réel.</text>
+  <rect x="64" y="562" width="60" height="3" fill="#ff3d5a" rx="1"/>
+  <text x="64" y="622" font-family="'Space Mono', 'Courier New', monospace" font-size="16" fill="#8b949e">Overlay canvas. Sans clé API.</text>
+  <text x="64" y="648" font-family="'Space Mono', 'Courier New', monospace" font-size="16" fill="#8b949e">Rouge = longs liquidés. Vert = shorts.</text>
+  <!-- Heatmap mock -->
+  <rect x="64" y="674" width="952" height="200" rx="4" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+    <rect x="72" y="724" width="100" height="40" fill="#ff3d5a" rx="2" opacity="0.71"/>
+  <text x="72" y="782" font-family="'Space Mono', 'Courier New', monospace" font-size="9" fill="#ff3d5a" opacity="0.7">$5,241,000</text>  <rect x="188" y="724" width="100" height="18" fill="#00ff88" rx="2" opacity="0.54"/>
+  <text x="188" y="760" font-family="'Space Mono', 'Courier New', monospace" font-size="9" fill="#00ff88" opacity="0.7">$2,102,000</text>  <rect x="304" y="724" width="100" height="62" fill="#ff3d5a" rx="2" opacity="0.88"/>
+  <text x="304" y="804" font-family="'Space Mono', 'Courier New', monospace" font-size="9" fill="#ff3d5a" opacity="0.7">$8,774,000</text>  <rect x="420" y="724" width="100" height="9" fill="#00ff88" rx="2" opacity="0.47"/>
+  <text x="420" y="751" font-family="'Space Mono', 'Courier New', monospace" font-size="9" fill="#00ff88" opacity="0.7">$1,200,000</text>  <rect x="536" y="724" width="100" height="52" fill="#ff3d5a" rx="2" opacity="0.80"/>
+  <text x="536" y="794" font-family="'Space Mono', 'Courier New', monospace" font-size="9" fill="#ff3d5a" opacity="0.7">$7,321,000</text>  <rect x="652" y="724" width="100" height="31" fill="#00ff88" rx="2" opacity="0.64"/>
+  <text x="652" y="773" font-family="'Space Mono', 'Courier New', monospace" font-size="9" fill="#00ff88" opacity="0.7">$4,444,000</text>  <rect x="768" y="724" width="100" height="15" fill="#ff3d5a" rx="2" opacity="0.52"/>
+  <text x="768" y="757" font-family="'Space Mono', 'Courier New', monospace" font-size="9" fill="#ff3d5a" opacity="0.7">$2,100,000</text>  <rect x="884" y="724" width="100" height="48" fill="#00ff88" rx="2" opacity="0.77"/>
+  <text x="884" y="790" font-family="'Space Mono', 'Courier New', monospace" font-size="9" fill="#00ff88" opacity="0.7">$6,810,000</text>
+  <text x="64" y="900" font-family="'Space Mono', 'Courier New', monospace" font-size="12" fill="#8b949e">Uniquement disponible sur les paires Futures perpétuelles.</text>
+  <line x1="60" y1="1028" x2="1020" y2="1028" stroke="#1c2333" stroke-width="1"/>
+  <text x="540" y="1052" font-family="'Space Mono', 'Courier New', monospace" font-size="11" fill="#2d3748" text-anchor="middle" letter-spacing="2" opacity="0.7">crypview.betacapital.enterprise</text>
+</svg>

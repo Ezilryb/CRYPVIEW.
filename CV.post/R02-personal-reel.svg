@@ -1,0 +1,112 @@
+<svg width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0 L0 0 0 60" fill="none" stroke="#00ff88" stroke-width="0.3" opacity="0.07"/>
+    </pattern>
+    <pattern id="scan" width="1080" height="4" patternUnits="userSpaceOnUse">
+      <rect width="1080" height="2" fill="#00ff88" opacity="0.008"/>
+    </pattern>
+    <filter id="gg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00ff88" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gc" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00c8ff" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="go" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#ff9900" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gp" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#e040fb" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gr" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#ff3d5a" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="orb-g" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.13"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-c" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-o" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff9900" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#ff9900" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-p" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e040fb" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#e040fb" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line-g" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00ff88" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="line-c" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00c8ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="#070a0f"/>
+  <rect width="1080" height="1920" fill="url(#grid)"/>
+  <rect width="1080" height="1920" fill="url(#scan)"/>
+  <ellipse cx="300" cy="700" rx="600" ry="600" fill="url(#orb-c)" opacity="0.4"/>
+  <ellipse cx="850" cy="1400" rx="500" ry="500" fill="url(#orb-g)" opacity="0.3"/>
+  <path d="M60 120 L60 60 L120 60" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.2"/>
+  <path d="M960 60 L1020 60 L1020 120" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.2"/>
+  <path d="M60 1800 L60 1860 L120 1860" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.2"/>
+  <path d="M960 1860 L1020 1860 L1020 1800" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.2"/>
+  <text x="64" y="100" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="22" font-weight="800" letter-spacing="3" fill="#8b949e">CRYP<tspan fill="#00ff88">VIEW</tspan></text>
+  <rect x="740" y="73" width="174.0" height="22" rx="2" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.4"/>
+  <text x="752" y="88" font-family="'Space Mono', 'Courier New', monospace" font-size="10" fill="#00ff88" letter-spacing="1.5" opacity="0.8">HISTOIRE PERSONNELLE</text>
+  <line x1="64" y1="128" x2="1016" y2="128" stroke="#1c2333" stroke-width="1"/>
+  <!-- Date marker -->
+  <text x="64" y="280" font-family="'Space Mono', 'Courier New', monospace" font-size="15" fill="#00c8ff" letter-spacing="4">06 MARS 2026</text>
+  <text x="64" y="430" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="100" font-weight="800" fill="#e6edf3">Mon</text>
+  <text x="64" y="540" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="100" font-weight="800" fill="#00c8ff" filter="url(#gc)">premier</text>
+  <text x="64" y="648" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="100" font-weight="800" fill="#e6edf3">site web.</text>
+  <rect x="64" y="680" width="100" height="4" fill="#00c8ff" rx="2"/>
+  <text x="64" y="770" font-family="'Space Mono', 'Courier New', monospace" font-size="20" fill="#8b949e">J'ai commencé CrypView avec</text>
+  <text x="64" y="802" font-family="'Space Mono', 'Courier New', monospace" font-size="20" fill="#8b949e">une simple idée : créer l'outil</text>
+  <text x="64" y="834" font-family="'Space Mono', 'Courier New', monospace" font-size="20" fill="#e6edf3">que j'aurais aimé avoir.</text>
+    <line x1="64" y1="900" x2="1016" y2="900" stroke="#1c2333" stroke-width="1"/>
+  <!-- Big numbers -->
+  <text x="64" y="1000" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="120" font-weight="800" fill="#00ff88" filter="url(#gg)">70+</text>
+  <text x="64" y="1050" font-family="'Space Mono', 'Courier New', monospace" font-size="16" fill="#8b949e" letter-spacing="2">COMMITS</text>
+  <text x="500" y="1000" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="120" font-weight="800" fill="#00c8ff" filter="url(#gc)">~2</text>
+  <text x="500" y="1050" font-family="'Space Mono', 'Courier New', monospace" font-size="16" fill="#8b949e" letter-spacing="2">MOIS</text>
+    <line x1="64" y1="1100" x2="1016" y2="1100" stroke="#1c2333" stroke-width="1"/>
+  <!-- Activity chart -->
+  <text x="64" y="1160" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#2d3748" letter-spacing="2">ACTIVITÉ DE DÉVELOPPEMENT</text>
+    <rect x="64" y="1287" width="40" height="13" fill="#00ff88" rx="2" opacity="0.31"/>  <rect x="112" y="1274" width="40" height="26" fill="#00ff88" rx="2" opacity="0.38"/>  <rect x="160" y="1287" width="40" height="13" fill="#00ff88" rx="2" opacity="0.31"/>  <rect x="208" y="1260" width="40" height="40" fill="#00ff88" rx="2" opacity="0.44"/>  <rect x="256" y="1274" width="40" height="26" fill="#00ff88" rx="2" opacity="0.38"/>  <rect x="304" y="1247" width="40" height="53" fill="#00ff88" rx="2" opacity="0.50"/>  <rect x="352" y="1260" width="40" height="40" fill="#00ff88" rx="2" opacity="0.44"/>  <rect x="400" y="1234" width="40" height="66" fill="#00ff88" rx="2" opacity="0.56"/>  <rect x="448" y="1247" width="40" height="53" fill="#00ff88" rx="2" opacity="0.50"/>  <rect x="496" y="1220" width="40" height="80" fill="#00ff88" rx="2" opacity="0.62"/>  <rect x="544" y="1234" width="40" height="66" fill="#00ff88" rx="2" opacity="0.56"/>  <rect x="592" y="1207" width="40" height="93" fill="#00ff88" rx="2" opacity="0.69"/>  <rect x="640" y="1220" width="40" height="80" fill="#00ff88" rx="2" opacity="0.62"/>  <rect x="688" y="1194" width="40" height="106" fill="#00ff88" rx="2" opacity="0.75"/>  <rect x="736" y="1207" width="40" height="93" fill="#00ff88" rx="2" opacity="0.69"/>  <rect x="784" y="1180" width="40" height="120" fill="#00ff88" rx="2" opacity="0.81"/>  <rect x="832" y="1194" width="40" height="106" fill="#00ff88" rx="2" opacity="0.75"/>  <rect x="880" y="1167" width="40" height="133" fill="#00ff88" rx="2" opacity="0.88"/>  <rect x="928" y="1180" width="40" height="120" fill="#00ff88" rx="2" opacity="0.81"/>  <rect x="976" y="1140" width="40" height="160" fill="#00ff88" rx="2" opacity="1.00"/>
+  <text x="64"  y="1330" font-family="'Space Mono', 'Courier New', monospace" font-size="11" fill="#2d3748" opacity="0.6">Mars</text>
+  <text x="448" y="1330" font-family="'Space Mono', 'Courier New', monospace" font-size="11" fill="#2d3748" opacity="0.6">Avril</text>
+  <text x="736" y="1330" font-family="'Space Mono', 'Courier New', monospace" font-size="11" fill="#2d3748" opacity="0.6">Mai</text>
+  <text x="928" y="1330" font-family="'Space Mono', 'Courier New', monospace" font-size="11" fill="#00ff88" opacity="0.8">Juin</text>
+    <line x1="64" y1="1380" x2="1016" y2="1380" stroke="#1c2333" stroke-width="1"/>
+  <!-- Story text -->
+  <text x="64" y="1460" font-family="'Space Mono', 'Courier New', monospace" font-size="18" fill="#8b949e">Vanilla JS. Vite. LightweightCharts.</text>
+  <text x="64" y="1492" font-family="'Space Mono', 'Courier New', monospace" font-size="18" fill="#8b949e">Aucun framework. 100% from scratch.</text>
+  <text x="64" y="1560" font-family="'Space Mono', 'Courier New', monospace" font-size="18" fill="#e6edf3">19+ indicateurs. 8+ layouts.</text>
+  <text x="64" y="1592" font-family="'Space Mono', 'Courier New', monospace" font-size="18" fill="#e6edf3">Footprint, Orderflow, DEX, PWA...</text>
+  <text x="64" y="1660" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="32" font-weight="700" fill="#00ff88">« Voir les marchés autrement. »</text>
+    <line x1="64" y1="1740" x2="1016" y2="1740" stroke="#1c2333" stroke-width="1"/>
+  <text x="540" y="1820" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="26" font-weight="700" fill="#00ff88" text-anchor="middle" filter="url(#gg)">crypview.betacapital.enterprise</text>
+  <text x="540" y="1860" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#2d3748" text-anchor="middle" letter-spacing="2">AVRIL 2026 — GRATUIT · OPEN SOURCE</text>
+</svg>

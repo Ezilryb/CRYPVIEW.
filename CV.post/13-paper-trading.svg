@@ -1,0 +1,101 @@
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0 L0 0 0 60" fill="none" stroke="#00ff88" stroke-width="0.3" opacity="0.07"/>
+    </pattern>
+    <pattern id="scan" width="1080" height="4" patternUnits="userSpaceOnUse">
+      <rect width="1080" height="2" fill="#00ff88" opacity="0.008"/>
+    </pattern>
+    <filter id="gg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00ff88" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gc" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00c8ff" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="go" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#ff9900" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gp" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#e040fb" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gr" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#ff3d5a" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="orb-g" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.13"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-c" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-o" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff9900" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#ff9900" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-p" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e040fb" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#e040fb" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line-g" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00ff88" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="line-c" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00c8ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="#070a0f"/>
+  <rect width="1080" height="1080" fill="url(#grid)"/>
+  <rect width="1080" height="1080" fill="url(#scan)"/>
+  <ellipse cx="200" cy="500" rx="400" ry="400" fill="url(#orb-g)" opacity="0.4"/>
+  <path d="M60 115 L60 60 L115 60" fill="none" stroke="#00ff88" stroke-width="1.5" opacity="0.2"/>
+  <path d="M965 60 L1020 60 L1020 115" fill="none" stroke="#00ff88" stroke-width="1.5" opacity="0.2"/>
+  <path d="M60 965 L60 1020 L115 1020" fill="none" stroke="#00ff88" stroke-width="1.5" opacity="0.2"/>
+  <path d="M965 1020 L1020 1020 L1020 965" fill="none" stroke="#00ff88" stroke-width="1.5" opacity="0.2"/>
+  <text x="64" y="104" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="18" font-weight="800" letter-spacing="3" fill="#8b949e">CRYP<tspan fill="#00ff88">VIEW</tspan></text>
+  <rect x="800" y="75" width="121.5" height="22" rx="2" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.4"/>
+  <text x="812" y="90" font-family="'Space Mono', 'Courier New', monospace" font-size="10" fill="#00ff88" letter-spacing="1.5" opacity="0.8">PAPER TRADING</text>
+  <line x1="64" y1="130" x2="1016" y2="130" stroke="#1c2333" stroke-width="1"/>
+  <text x="64" y="270" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#00ff88" letter-spacing="3">SIMULATION SANS RISQUE</text>
+  <text x="64" y="368" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="76" font-weight="800" fill="#e6edf3">Tradez sans</text>
+  <text x="64" y="450" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="76" font-weight="800" fill="#00ff88" filter="url(#gg)">risquer un €.</text>
+  <rect x="64" y="480" width="60" height="3" fill="#00ff88" rx="1"/>
+  <text x="64" y="540" font-family="'Space Mono', 'Courier New', monospace" font-size="16" fill="#8b949e">Long / Short • SL / TP automatiques.</text>
+  <text x="64" y="566" font-family="'Space Mono', 'Courier New', monospace" font-size="16" fill="#8b949e">Frais simulés 0.1% • Equity tracking.</text>
+  <!-- Portfolio card mock -->
+  <rect x="64" y="598" width="952" height="230" rx="6" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <text x="84" y="636" font-family="'Space Mono', 'Courier New', monospace" font-size="12" fill="#2d3748" letter-spacing="2">COMPTE SIMULATION</text>
+  <!-- Balance row -->
+  <text x="84" y="686" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">Solde disponible</text>
+  <text x="936" y="686" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="22" font-weight="700" fill="#e6edf3" text-anchor="end">9 847.32 USDT</text>
+  <text x="84" y="726" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">P&amp;L réalisé</text>
+  <text x="936" y="726" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="22" font-weight="700" fill="#00ff88" text-anchor="end">+284.18 USDT</text>
+  <text x="84" y="766" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">Win Rate</text>
+  <text x="936" y="766" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="22" font-weight="700" fill="#00ff88" text-anchor="end">67.4%</text>
+  <text x="84" y="806" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">Max Drawdown</text>
+  <text x="936" y="806" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="22" font-weight="700" fill="#ff3d5a" text-anchor="end">-3.8%</text>
+  <!-- Backtesting mention -->
+  <text x="64" y="880" font-family="'Space Mono', 'Courier New', monospace" font-size="16" fill="#8b949e">+ Backtesting sur historique OHLCV</text>
+  <text x="64" y="906" font-family="'Space Mono', 'Courier New', monospace" font-size="16" fill="#8b949e">avec 12 signaux combinables.</text>
+  <line x1="60" y1="1028" x2="1020" y2="1028" stroke="#1c2333" stroke-width="1"/>
+  <text x="540" y="1052" font-family="'Space Mono', 'Courier New', monospace" font-size="11" fill="#2d3748" text-anchor="middle" letter-spacing="2" opacity="0.7">crypview.betacapital.enterprise</text>
+</svg>

@@ -1,0 +1,127 @@
+<svg width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0 L0 0 0 60" fill="none" stroke="#00ff88" stroke-width="0.3" opacity="0.07"/>
+    </pattern>
+    <pattern id="scan" width="1080" height="4" patternUnits="userSpaceOnUse">
+      <rect width="1080" height="2" fill="#00ff88" opacity="0.008"/>
+    </pattern>
+    <filter id="gg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00ff88" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gc" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00c8ff" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="go" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#ff9900" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gp" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#e040fb" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gr" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#ff3d5a" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="orb-g" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.13"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-c" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-o" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff9900" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#ff9900" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-p" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e040fb" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#e040fb" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line-g" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00ff88" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="line-c" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00c8ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="#070a0f"/>
+  <rect width="1080" height="1920" fill="url(#grid)"/>
+  <rect width="1080" height="1920" fill="url(#scan)"/>
+  <ellipse cx="700" cy="500" rx="600" ry="600" fill="url(#orb-g)" opacity="0.35"/>
+  <path d="M60 120 L60 60 L120 60" fill="none" stroke="#00ff88" stroke-width="1.5" opacity="0.18"/>
+  <path d="M960 60 L1020 60 L1020 120" fill="none" stroke="#00ff88" stroke-width="1.5" opacity="0.18"/>
+  <path d="M60 1800 L60 1860 L120 1860" fill="none" stroke="#00ff88" stroke-width="1.5" opacity="0.18"/>
+  <path d="M960 1860 L1020 1860 L1020 1800" fill="none" stroke="#00ff88" stroke-width="1.5" opacity="0.18"/>
+  <text x="64" y="100" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="22" font-weight="800" letter-spacing="3" fill="#8b949e">CRYP<tspan fill="#00ff88">VIEW</tspan></text>
+  <rect x="780" y="73" width="136.5" height="22" rx="2" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.4"/>
+  <text x="792" y="88" font-family="'Space Mono', 'Courier New', monospace" font-size="10" fill="#00ff88" letter-spacing="1.5" opacity="0.8">FONCTIONNALITÉS</text>
+  <line x1="64" y1="128" x2="1016" y2="128" stroke="#1c2333" stroke-width="1"/>
+  <text x="64" y="290" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="96" font-weight="800" fill="#e6edf3">Tout ce</text>
+  <text x="64" y="390" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="96" font-weight="800" fill="#00ff88" filter="url(#gg)">qu'il faut.</text>
+  <rect x="64" y="420" width="80" height="4" fill="#00ff88" rx="2"/>
+  <text x="64" y="500" font-family="'Space Mono', 'Courier New', monospace" font-size="18" fill="#8b949e">Rien de superflu.</text>
+    <line x1="64" y1="556" x2="1016" y2="556" stroke="#1c2333" stroke-width="1"/>
+    <rect x="64" y="590" width="952" height="104" rx="5" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="590" width="5" height="104" fill="#00ff88" rx="2"/>
+  <text x="86" y="642" font-size="28">⚡</text>
+  <text x="140" y="634" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="20" font-weight="700" fill="#e6edf3">Temps réel WebSocket</text>
+  <text x="140" y="660" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#8b949e">1s • 500+ paires USDT</text>  <rect x="64" y="706" width="952" height="104" rx="5" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="706" width="5" height="104" fill="#e040fb" rx="2"/>
+  <text x="86" y="758" font-size="28">📊</text>
+  <text x="140" y="750" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="20" font-weight="700" fill="#e6edf3">19+ Indicateurs</text>
+  <text x="140" y="776" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#8b949e">Tendance • Momentum • Volume</text>  <rect x="64" y="822" width="952" height="104" rx="5" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="822" width="5" height="104" fill="#00ff88" rx="2"/>
+  <text x="86" y="874" font-size="28">🦶</text>
+  <text x="140" y="866" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="20" font-weight="700" fill="#e6edf3">Footprint Chart</text>
+  <text x="140" y="892" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#8b949e">Ask/Bid par niveau de prix</text>  <rect x="64" y="938" width="952" height="104" rx="5" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="938" width="5" height="104" fill="#ff9900" rx="2"/>
+  <text x="86" y="990" font-size="28">📈</text>
+  <text x="140" y="982" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="20" font-weight="700" fill="#e6edf3">Orderflow Delta/CVD</text>
+  <text x="140" y="1008" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#8b949e">Pression directionnelle</text>  <rect x="64" y="1054" width="952" height="104" rx="5" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="1054" width="5" height="104" fill="#00c8ff" rx="2"/>
+  <text x="86" y="1106" font-size="28">🔲</text>
+  <text x="140" y="1098" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="20" font-weight="700" fill="#e6edf3">8+ Layouts Multi-Charts</text>
+  <text x="140" y="1124" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#8b949e">Grilles indépendantes</text>  <rect x="64" y="1170" width="952" height="104" rx="5" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="1170" width="5" height="104" fill="#00ff88" rx="2"/>
+  <text x="86" y="1222" font-size="28">✏️</text>
+  <text x="140" y="1214" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="20" font-weight="700" fill="#e6edf3">9 Drawing Tools</text>
+  <text x="140" y="1240" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#8b949e">Trendline • Fibonacci • Zones</text>  <rect x="64" y="1286" width="952" height="104" rx="5" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="1286" width="5" height="104" fill="#ff9900" rx="2"/>
+  <text x="86" y="1338" font-size="28">🔔</text>
+  <text x="140" y="1330" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="20" font-weight="700" fill="#e6edf3">Alertes V2 multi-cond.</text>
+  <text x="140" y="1356" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#8b949e">11 types • AND/OR • OS notif.</text>  <rect x="64" y="1402" width="952" height="104" rx="5" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="1402" width="5" height="104" fill="#00ff88" rx="2"/>
+  <text x="86" y="1454" font-size="28">🧪</text>
+  <text x="140" y="1446" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="20" font-weight="700" fill="#e6edf3">Paper Trading + Backtest</text>
+  <text x="140" y="1472" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#8b949e">Simulation sans risque</text>  <rect x="64" y="1518" width="952" height="104" rx="5" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="1518" width="5" height="104" fill="#00c8ff" rx="2"/>
+  <text x="86" y="1570" font-size="28">🔗</text>
+  <text x="140" y="1562" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="20" font-weight="700" fill="#e6edf3">DEX GeckoTerminal</text>
+  <text x="140" y="1588" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#8b949e">PEPE, SHIB, n'importe quel pool</text>  <rect x="64" y="1634" width="952" height="104" rx="5" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="1634" width="5" height="104" fill="#ff3d5a" rx="2"/>
+  <text x="86" y="1686" font-size="28">🔥</text>
+  <text x="140" y="1678" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="20" font-weight="700" fill="#e6edf3">Liquidation Heatmap</text>
+  <text x="140" y="1704" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#8b949e">@forceOrder • Sans clé API</text>
+    <line x1="64" y1="1770" x2="1016" y2="1770" stroke="#1c2333" stroke-width="1"/>
+  <text x="540" y="1840" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="24" font-weight="700" fill="#00ff88" text-anchor="middle">crypview.betacapital.enterprise</text>
+  <text x="540" y="1876" font-family="'Space Mono', 'Courier New', monospace" font-size="12" fill="#2d3748" text-anchor="middle" letter-spacing="2">GRATUIT · SANS INSCRIPTION · MIT</text>
+</svg>

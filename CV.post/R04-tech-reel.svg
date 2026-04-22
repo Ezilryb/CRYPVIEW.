@@ -1,0 +1,124 @@
+<svg width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0 L0 0 0 60" fill="none" stroke="#00ff88" stroke-width="0.3" opacity="0.07"/>
+    </pattern>
+    <pattern id="scan" width="1080" height="4" patternUnits="userSpaceOnUse">
+      <rect width="1080" height="2" fill="#00ff88" opacity="0.008"/>
+    </pattern>
+    <filter id="gg" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00ff88" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gc" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="b"/>
+      <feFlood flood-color="#00c8ff" flood-opacity="0.55" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="go" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#ff9900" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gp" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#e040fb" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gr" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+      <feFlood flood-color="#ff3d5a" flood-opacity="0.5" result="c"/>
+      <feComposite in="c" in2="b" operator="in" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="orb-g" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.13"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-c" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-o" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff9900" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#ff9900" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-p" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e040fb" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#e040fb" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line-g" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00ff88" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="line-c" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00c8ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#00c8ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00c8ff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="#070a0f"/>
+  <rect width="1080" height="1920" fill="url(#grid)"/>
+  <rect width="1080" height="1920" fill="url(#scan)"/>
+  <ellipse cx="200" cy="600" rx="500" ry="500" fill="url(#orb-c)" opacity="0.4"/>
+  <ellipse cx="900" cy="1300" rx="400" ry="400" fill="url(#orb-p)" opacity="0.3"/>
+  <path d="M60 120 L60 60 L120 60" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.18"/>
+  <path d="M960 60 L1020 60 L1020 120" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.18"/>
+  <path d="M60 1800 L60 1860 L120 1860" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.18"/>
+  <path d="M960 1860 L1020 1860 L1020 1800" fill="none" stroke="#00c8ff" stroke-width="1.5" opacity="0.18"/>
+  <text x="64" y="100" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="22" font-weight="800" letter-spacing="3" fill="#8b949e">CRYP<tspan fill="#00ff88">VIEW</tspan></text>
+  <rect x="820" y="73" width="114.0" height="22" rx="2" fill="none" stroke="#00ff88" stroke-width="1" opacity="0.4"/>
+  <text x="832" y="88" font-family="'Space Mono', 'Courier New', monospace" font-size="10" fill="#00ff88" letter-spacing="1.5" opacity="0.8">ARCHITECTURE</text>
+  <line x1="64" y1="128" x2="1016" y2="128" stroke="#1c2333" stroke-width="1"/>
+  <text x="64" y="290" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="92" font-weight="800" fill="#e6edf3">Construit</text>
+  <text x="64" y="390" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="92" font-weight="800" fill="#00c8ff" filter="url(#gc)">from scratch.</text>
+  <rect x="64" y="424" width="80" height="4" fill="#00c8ff" rx="2"/>
+  <text x="64" y="510" font-family="'Space Mono', 'Courier New', monospace" font-size="20" fill="#8b949e">Zéro framework frontend.</text>
+  <text x="64" y="544" font-family="'Space Mono', 'Courier New', monospace" font-size="20" fill="#8b949e">100% natif, modulaire, propre.</text>
+    <line x1="64" y1="600" x2="1016" y2="600" stroke="#1c2333" stroke-width="1"/>
+  <!-- Terminal blocks -->
+  <rect x="64" y="634" width="952" height="280" rx="6" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="634" width="952" height="32" rx="6" fill="#1c2333" opacity="0.5"/>
+  <circle cx="90" cy="650" r="6" fill="#ff3d5a" opacity="0.8"/>
+  <circle cx="112" cy="650" r="6" fill="#f7c948" opacity="0.8"/>
+  <circle cx="134" cy="650" r="6" fill="#00ff88" opacity="0.8"/>
+  <text x="84" y="700" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">// Stack technique</text>
+  <text x="84" y="732" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#00ff88">const stack = {</text>
+  <text x="84" y="764" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#e6edf3">  lang: <tspan fill="#f7c948">'Vanilla ES2022+'</tspan>,</text>
+  <text x="84" y="796" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#e6edf3">  bundler: <tspan fill="#f7c948">'Vite 5'</tspan>,</text>
+  <text x="84" y="828" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#e6edf3">  charts: <tspan fill="#f7c948">'LightweightCharts 4.1'</tspan>,</text>
+  <text x="84" y="860" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#e6edf3">  data: <tspan fill="#f7c948">'Binance WebSocket API'</tspan>,</text>
+  <text x="84" y="892" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#00ff88">}</text>
+    <line x1="64" y1="940" x2="1016" y2="940" stroke="#1c2333" stroke-width="1"/>
+  <!-- Architecture principles -->
+  <text x="64" y="1010" font-family="'Space Mono', 'Courier New', monospace" font-size="13" fill="#2d3748" letter-spacing="2">PRINCIPES D'ARCHITECTURE</text>
+    <rect x="64" y="1040" width="952" height="66" rx="4" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="1040" width="4" height="66" fill="#00ff88" rx="2"/>
+  <text x="90" y="1078" font-family="'Space Mono', 'Courier New', monospace" font-size="15" fill="#e6edf3">WSPool — Déduplication WebSocket</text>
+  <text x="90" y="1098" font-family="'Space Mono', 'Courier New', monospace" font-size="12" fill="#8b949e">200 streams/conn. • 5 conn. max • Backoff exp.</text>  <rect x="64" y="1118" width="952" height="66" rx="4" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="1118" width="4" height="66" fill="#00c8ff" rx="2"/>
+  <text x="90" y="1156" font-family="'Space Mono', 'Courier New', monospace" font-size="15" fill="#e6edf3">Web Worker pour les calculs lourds</text>
+  <text x="90" y="1176" font-family="'Space Mono', 'Courier New', monospace" font-size="12" fill="#8b949e">Ichimoku, ADX, SuperTrend hors du main thread</text>  <rect x="64" y="1196" width="952" height="66" rx="4" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="1196" width="4" height="66" fill="#e040fb" rx="2"/>
+  <text x="90" y="1234" font-family="'Space Mono', 'Courier New', monospace" font-size="15" fill="#e6edf3">localStorage + BroadcastChannel</text>
+  <text x="90" y="1254" font-family="'Space Mono', 'Courier New', monospace" font-size="12" fill="#8b949e">Persistance et sync cross-tabs des alertes</text>  <rect x="64" y="1274" width="952" height="66" rx="4" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="1274" width="4" height="66" fill="#ff9900" rx="2"/>
+  <text x="90" y="1312" font-family="'Space Mono', 'Courier New', monospace" font-size="15" fill="#e6edf3">Modules ES natifs — Pas de bundle global</text>
+  <text x="90" y="1332" font-family="'Space Mono', 'Courier New', monospace" font-size="12" fill="#8b949e">Import dynamique des locales i18n</text>  <rect x="64" y="1352" width="952" height="66" rx="4" fill="#0d1117" stroke="#1c2333" stroke-width="1"/>
+  <rect x="64" y="1352" width="4" height="66" fill="#f7c948" rx="2"/>
+  <text x="90" y="1390" font-family="'Space Mono', 'Courier New', monospace" font-size="15" fill="#e6edf3">Service Worker — Cache PWA</text>
+  <text x="90" y="1410" font-family="'Space Mono', 'Courier New', monospace" font-size="12" fill="#8b949e">Assets statiques offline, alertes en background</text>
+    <line x1="64" y1="1450" x2="1016" y2="1450" stroke="#1c2333" stroke-width="1"/>
+  <text x="64" y="1530" font-family="'Space Mono', 'Courier New', monospace" font-size="16" fill="#8b949e">Tests : Vitest • Build : Vite multi-page</text>
+  <text x="64" y="1562" font-family="'Space Mono', 'Courier New', monospace" font-size="16" fill="#8b949e">Deploy : GitHub Pages • License : MIT</text>
+    <line x1="64" y1="1630" x2="1016" y2="1630" stroke="#1c2333" stroke-width="1"/>
+  <text x="540" y="1720" font-family="'Syne', 'Arial Black', 'Helvetica Neue', sans-serif" font-size="28" font-weight="700" fill="#00ff88" text-anchor="middle" filter="url(#gg)">crypview.betacapital.enterprise</text>
+  <text x="540" y="1766" font-family="'Space Mono', 'Courier New', monospace" font-size="14" fill="#2d3748" text-anchor="middle" letter-spacing="2">CODE SOURCE — GITHUB</text>
+  <!-- Fake commit lines -->
+</svg>

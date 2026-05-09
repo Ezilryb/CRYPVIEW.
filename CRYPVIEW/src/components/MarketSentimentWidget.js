@@ -35,11 +35,13 @@ class MarketSentimentWidget {
     ov.className = 'crypview-modal-overlay';
     ov.innerHTML = `
       <div class="crypview-modal-box">
-        <button class="crypview-modal-close" aria-label="Fermer">✕</button>
         <div class="sw-wrap">
           <div class="sw-header">
             <h2>📊 Sentiment de Marché</h2>
-            <button id="${this._uid('refresh')}">↻ Actualiser</button>
+            <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+              <button id="${this._uid('refresh')}">↻ Actualiser</button>
+              <button class="sw-close-btn" aria-label="Fermer">✕</button>
+            </div>
           </div>
           <div class="sw-grid">
             <div class="sw-card">
@@ -63,7 +65,8 @@ class MarketSentimentWidget {
           </div>
         </div>
       </div>`;
-    ov.querySelector('.crypview-modal-close').onclick = () => this.close();
+
+    ov.querySelector('.sw-close-btn').onclick = () => this.close();
     ov.addEventListener('click', e => { if (e.target === ov) this.close(); });
     document.body.appendChild(ov);
     this._overlay = ov;
@@ -82,7 +85,8 @@ class MarketSentimentWidget {
       this.fngData = json.data || [];
       this._renderFearGreed();
     } catch (e) {
-      document.getElementById(this._uid('fngLabel')).textContent = 'Erreur de chargement';
+      const el = document.getElementById(this._uid('fngLabel'));
+      if (el) el.textContent = 'Erreur de chargement';
     }
   }
 
@@ -106,9 +110,10 @@ class MarketSentimentWidget {
     if (!this.fngData.length) return;
     const v = parseInt(this.fngData[0].value);
     const c = this._color(v);
-    document.getElementById(this._uid('fngValue')).textContent = v;
-    document.getElementById(this._uid('fngValue')).style.color = c;
-    document.getElementById(this._uid('fngLabel')).textContent = this.fngData[0].value_classification;
+    const valEl = document.getElementById(this._uid('fngValue'));
+    const lblEl = document.getElementById(this._uid('fngLabel'));
+    if (valEl) { valEl.textContent = v; valEl.style.color = c; }
+    if (lblEl) lblEl.textContent = this.fngData[0].value_classification;
     this._drawGauge(v, c);
     this._drawHistory();
     this._renderMood(v, c);
@@ -116,7 +121,9 @@ class MarketSentimentWidget {
 
   _renderSocial() {
     const d = this.socialData;
-    document.getElementById(this._uid('social')).innerHTML = `
+    const el = document.getElementById(this._uid('social'));
+    if (!el || !d) return;
+    el.innerHTML = `
       <div class="sw-bars">
         <div class="sw-bar-row"><span class="sw-bull">▲ Haussier</span>
           <div class="sw-track"><div class="sw-fill sw-fill-g" style="width:${d.up?.toFixed(1)}%"></div></div>
@@ -144,7 +151,9 @@ class MarketSentimentWidget {
       { max:101, e:'🤑', z:'Cupidité Extrême', t:'🚨 Euphorie — risque de retournement élevé' },
     ];
     const z = zones.find(x => v < x.max) || zones[3];
-    document.getElementById(this._uid('mood')).innerHTML = `
+    const el = document.getElementById(this._uid('mood'));
+    if (!el) return;
+    el.innerHTML = `
       <div class="sw-mood">
         <div style="font-size:3rem">${z.e}</div>
         <div style="color:${c};font-size:1.1rem;font-weight:700">${z.z}</div>
@@ -157,6 +166,7 @@ class MarketSentimentWidget {
 
   _drawGauge(value, color) {
     const canvas = document.getElementById(this._uid('fngGauge'));
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const [cx, cy, r] = [100, 100, 76];
     ctx.clearRect(0, 0, 200, 120);
@@ -235,13 +245,13 @@ class MarketSentimentWidget {
     const s = document.createElement('style'); s.id = 'swCSS';
     s.textContent = `
       .crypview-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9999;align-items:center;justify-content:center;padding:16px}
-      .crypview-modal-box{position:relative;background:#0d0f1a;border:1px solid #2a2d3e;border-radius:14px;width:100%;max-width:860px;max-height:90vh;overflow-y:auto}
-      .crypview-modal-close{position:absolute;top:10px;right:14px;background:none;border:none;color:#888;font-size:1.2rem;cursor:pointer;z-index:1}
-      .crypview-modal-close:hover{color:#fff}
+      .crypview-modal-box{background:#0d0f1a;border:1px solid #2a2d3e;border-radius:14px;width:100%;max-width:860px;max-height:90vh;overflow-y:auto}
+      .sw-close-btn{background:none;border:1px solid #444;border-radius:6px;color:#888;font-size:1rem;cursor:pointer;padding:4px 10px;transition:all .2s;line-height:1;flex-shrink:0}
+      .sw-close-btn:hover{color:#fff;border-color:#aaa}
       .sw-wrap{font-family:'Inter',sans-serif;color:#e0e0e0;padding:16px}
       .sw-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
       .sw-header h2{margin:0;font-size:1.2rem}
-      .sw-header button{background:#1e2130;border:1px solid #333;color:#aaa;padding:6px 12px;border-radius:6px;cursor:pointer}
+      .sw-header > div > button:not(.sw-close-btn){background:#1e2130;border:1px solid #333;color:#aaa;padding:6px 12px;border-radius:6px;cursor:pointer}
       .sw-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
       .sw-span2{grid-column:span 2}
       .sw-card{background:#1a1d2e;border:1px solid #2a2d3e;border-radius:10px;padding:16px;display:flex;flex-direction:column;align-items:center}

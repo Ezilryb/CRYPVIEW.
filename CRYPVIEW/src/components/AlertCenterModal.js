@@ -22,7 +22,7 @@ const SNOOZE_OPTIONS = [
 export class AlertCenterModal {
   #overlay;
   #alertManager;
-  #activeTab = 'active'; // 'active' | 'history'
+  #activeTab = 'active';
 
   /** @param {import('../features/AlertManagerV2').AlertManagerV2} alertManager */
   constructor(alertManager) {

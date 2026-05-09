@@ -301,7 +301,24 @@ async function boot() {
   newsFeedModal     = new NewsFeedModal();
   fundamentalsModal = new FundamentalsModal();
   orderBookModal    = new OrderBookModal();
+  bindPanelTabs();
   // ─────────────────────────────────────────────────────────
+  function bindPanelTabs() {
+    const map = {
+      sentiment:    () => sentimentWidget?.open(chart?.symbol),
+      news:         () => newsFeedModal?.open(chart?.symbol),
+      fondamentaux: () => fundamentalsModal?.open(chart?.symbol),
+      orderbook:    () => orderBookModal?.open(chart?.symbol),
+    };
+  
+    document.querySelectorAll('.panel-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panel = btn.dataset.panel;
+        if (map[panel]) map[panel]();
+      });
+    });
+  }
+
 
   // ── CommandPalette ────────────────────────────────────────
   cmdPalette = new CommandPalette({

@@ -27,8 +27,6 @@ export class BacktestModal {
     this.#bindStaticEvents();
   }
 
-  // ── API publique ──────────────────────────────────────────
-
   open() {
     this.#overlay.style.display = 'flex';
     this.#switchTab('strategy');
@@ -37,8 +35,6 @@ export class BacktestModal {
   close() {
     this.#overlay.style.display = 'none';
   }
-
-  // ── Navigation ────────────────────────────────────────────
 
   #switchTab(tab) {
     this.#activeTab = tab;
@@ -56,10 +52,8 @@ export class BacktestModal {
       content.innerHTML = this.#tplStrategy();
       this.#bindStrategyEvents();
     } else {
-      // ── FIX : try-catch pour éviter l'écran blanc ────────
       try {
         content.innerHTML = this.#tplResults();
-        // Dessine la courbe equity (vide ou pleine)
         const eq = this.#lastResult?.equity ?? [];
         this.#drawEquityCurve(eq);
       } catch (err) {
@@ -73,8 +67,6 @@ export class BacktestModal {
     }
   }
 
-  // ── Helpers i18n ──────────────────────────────────────────
-
   #tr(key, fallback) {
     const v = t(key);
     return (v && v !== key) ? v : fallback;
@@ -86,8 +78,6 @@ export class BacktestModal {
       return `<option value="${s.id}">${label}</option>`;
     }).join('');
   }
-
-  // ── Template stratégie ────────────────────────────────────
 
   #tplStrategy() {
     const sym = (this.#callbacks.getSymbol?.() ?? 'btcusdt').toUpperCase().replace('USDT', '/USDT');
@@ -149,7 +139,6 @@ export class BacktestModal {
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
-        <!-- Conditions d'entrée -->
         <div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
             <span style="font-size:9px;color:var(--accent);text-transform:uppercase;letter-spacing:.8px;">
@@ -227,8 +216,6 @@ export class BacktestModal {
     </div>`;
   }
 
-  // ── Liaison événements stratégie ─────────────────────────
-
   #bindStrategyEvents() {
     let entryIdx = 1;
     let exitIdx  = 1;
@@ -236,11 +223,9 @@ export class BacktestModal {
     const entryCont = document.getElementById('entry-conditions');
     const exitCont  = document.getElementById('exit-conditions');
 
-    // ── FIX PRINCIPAL : bind les lignes INITIALES ────────────
     if (entryCont) this.#bindCondRowEvents(entryCont);
     if (exitCont)  this.#bindCondRowEvents(exitCont);
 
-    // Boutons "+ Ajouter une condition"
     document.querySelectorAll('.bt-add-cond').forEach(btn => {
       btn.addEventListener('click', () => {
         const prefix    = btn.dataset.prefix;
@@ -250,17 +235,14 @@ export class BacktestModal {
         const tmp = document.createElement('div');
         tmp.innerHTML = this.#condRowHTML(prefix, idx);
         container.appendChild(tmp.firstElementChild);
-        // Re-bind tous les handlers (onchange/onclick, idempotent)
         this.#bindCondRowEvents(container);
       });
     });
 
-    // Bouton Run
     document.getElementById('bt-run-btn')
       ?.addEventListener('click', () => this.#runBacktest());
   }
 
-  /** HTML d'une ligne de condition (pour les ajouts dynamiques). */
   #condRowHTML(prefix, idx) {
     const thrLbl = this.#tr('backtest.threshold', 'seuil');
     const first  = SIGNAL_TYPES[0];
@@ -288,16 +270,12 @@ export class BacktestModal {
   }
 
   /**
-   * Lie les handlers sur TOUTES les lignes d'un conteneur.
-   * Utilise onclick/onchange (idempotent — pas de doublons à chaque re-bind).
    * @param {HTMLElement} container
    */
   #bindCondRowEvents(container) {
-    // ── Boutons de suppression ────────────────────────────
     container.querySelectorAll('.bt-del-cond').forEach(btn => {
       btn.onclick = () => {
         const row = document.getElementById(`${btn.dataset.prefix}-row-${btn.dataset.idx}`);
-        // On garde toujours au moins 1 ligne
         if (row && container.querySelectorAll('.bt-cond-row').length > 1) {
           row.remove();
         }
@@ -306,18 +284,15 @@ export class BacktestModal {
       btn.onmouseleave = () => { btn.style.color = 'var(--muted)'; };
     });
 
-    // ── Sélecteurs de type ────────────────────────────────
     container.querySelectorAll('.bt-cond-type').forEach(sel => {
       sel.onchange = () => {
         const meta     = SIGNAL_TYPES.find(s => s.id === sel.value);
         const valInput = container.querySelector(`.bt-cond-val[data-idx="${sel.dataset.idx}"]`);
         if (!valInput) return;
 
-        // Affiche/masque le champ valeur selon le type
         const needsValue = meta?.hasValue !== false;
         valInput.style.display = needsValue ? 'block' : 'none';
 
-        // Pré-remplit la valeur par défaut du type sélectionné
         if (meta?.defaultValue != null) {
           valInput.value = meta.defaultValue;
         } else if (!needsValue) {
@@ -327,7 +302,6 @@ export class BacktestModal {
     });
   }
 
-  /** Collecte les conditions depuis le DOM. */
   #collectConditions(prefix) {
     const container = document.getElementById(`${prefix}-conditions`);
     if (!container) return [];
@@ -350,8 +324,6 @@ export class BacktestModal {
 
     return result;
   }
-
-  // ── Lancement du backtest ─────────────────────────────────
 
   #runBacktest() {
     const candles = this.#callbacks.getCandles?.() ?? [];
@@ -390,7 +362,6 @@ export class BacktestModal {
       btn.style.opacity = '0.7';
     }
 
-    // setTimeout pour laisser le navigateur rafraîchir l'UI avant le calcul
     setTimeout(() => {
       try {
         const result = Backtester.run(candles, config);
@@ -415,10 +386,7 @@ export class BacktestModal {
     }, 50);
   }
 
-  // ── Template résultats ────────────────────────────────────
-
   #tplResults() {
-    // Pas encore de résultat
     if (!this.#lastResult) {
       return `<div style="padding:48px;text-align:center;color:var(--muted);font-size:12px;">
         <div style="font-size:28px;margin-bottom:12px">⚙️</div>
@@ -428,7 +396,6 @@ export class BacktestModal {
 
     const { metrics, trades, equity, config } = this.#lastResult;
 
-    // ── Erreur de calcul ──────────────────────────────────
     const errorMsg = metrics?.error;
     if (errorMsg) {
       return `<div style="padding:32px;text-align:center;color:var(--muted);font-size:11px;">
@@ -438,7 +405,6 @@ export class BacktestModal {
       </div>`;
     }
 
-    // ── Cas 0 trades (message mais pas d'erreur dure) ─────
     const noTrades = !trades?.length;
     if (noTrades) {
       return `
@@ -459,7 +425,6 @@ export class BacktestModal {
 
         ${this.#tplConditionSummary(config)}
 
-        <!-- Courbe equity plate (solde inchangé) -->
         <div style="margin-bottom:12px;">
           <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;">
             Courbe equity — Aucune position ouverte
@@ -481,7 +446,6 @@ export class BacktestModal {
         </div>`;
     }
 
-    // ── Résultats normaux ─────────────────────────────────
     const color  = metrics.totalPnlPct >= 0 ? 'var(--green)' : 'var(--red)';
     const trades_ = Array.isArray(trades) ? trades : [];
 
@@ -570,7 +534,6 @@ export class BacktestModal {
   }
 
   /**
-   * Résumé des conditions configurées (affiché dans le cas 0 trades).
    * @param {object|null} config
    */
   #tplConditionSummary(config) {
@@ -611,8 +574,6 @@ export class BacktestModal {
       </div>`;
   }
 
-  // ── Courbe equity ─────────────────────────────────────────
-
   #drawEquityCurve(equity) {
     const canvas = document.getElementById('bt-equity-canvas');
     if (!canvas) return;
@@ -623,7 +584,6 @@ export class BacktestModal {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, W, H);
 
-    // Cas sans données : ligne plate à 10 000
     if (!equity?.length || equity.length < 2) {
       const y = H / 2;
       ctx.strokeStyle = 'rgba(139,148,158,.4)';
@@ -647,7 +607,6 @@ export class BacktestModal {
     const range  = maxV - minV || 1;
     const initial = values[0];
 
-    // Ligne de référence (solde initial)
     const y0 = H - 8 - ((initial - minV) / range) * (H - 16);
     ctx.strokeStyle = 'rgba(139,148,158,.25)';
     ctx.lineWidth   = 0.8;
@@ -663,7 +622,6 @@ export class BacktestModal {
     const up  = values.at(-1) >= initial;
     const col = up ? '#00ff88' : '#ff3d5a';
 
-    // Gradient fill
     const grad = ctx.createLinearGradient(0, 0, 0, H);
     grad.addColorStop(0, up ? 'rgba(0,255,136,.18)' : 'rgba(255,61,90,.18)');
     grad.addColorStop(1, 'rgba(0,0,0,0)');
@@ -675,15 +633,12 @@ export class BacktestModal {
     ctx.fillStyle = grad;
     ctx.fill();
 
-    // Ligne principale
     ctx.beginPath();
     xs.forEach((x, i) => i === 0 ? ctx.moveTo(x, ys[i]) : ctx.lineTo(x, ys[i]));
     ctx.strokeStyle = col;
     ctx.lineWidth   = 1.8;
     ctx.stroke();
   }
-
-  // ── Événements statiques ──────────────────────────────────
 
   #bindStaticEvents() {
     document.getElementById('backtest-close')

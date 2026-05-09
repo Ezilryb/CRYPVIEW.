@@ -28,55 +28,121 @@ class FundamentalsModal {
     this._overlay = null;
   }
 
-  _buildOverlay() {
-    this._injectCSS();
-    const ov = document.createElement('div');
-    ov.className = 'crypview-modal-overlay';
-    ov.innerHTML = `
-      <div class="crypview-modal-box">
-        <button class="crypview-modal-close" aria-label="Fermer">✕</button>
-        <div class="fm-wrap">
-          <div class="fm-header">
-            <h2>🔍 Fondamentaux Crypto</h2>
+// Convertit un symbole Binance en coin ID CoinGecko
+_getCoinId(symbol) {
+  const MAP = {
+    btc: 'bitcoin', eth: 'ethereum', sol: 'solana', bnb: 'binancecoin',
+    xrp: 'ripple', doge: 'dogecoin', ada: 'cardano', avax: 'avalanche-2',
+    link: 'chainlink', dot: 'polkadot', matic: 'matic-network', uni: 'uniswap',
+    atom: 'cosmos', ltc: 'litecoin', etc: 'ethereum-classic', xlm: 'stellar',
+    near: 'near', apt: 'aptos', arb: 'arbitrum', op: 'optimism',
+    shib: 'shiba-inu', pepe: 'pepe', trx: 'tron', fil: 'filecoin',
+    inj: 'injective-protocol', sui: 'sui', sei: 'sei-network',
+  };
+  const base = (symbol || 'bitcoin')
+    .toLowerCase()
+    .replace(/usdt$|usdc$|busd$|eur$/, '');
+  return MAP[base] || base || 'bitcoin';
+}
+
+_buildOverlay() {
+  this._injectCSS();
+  const ov = document.createElement('div');
+  ov.className = 'crypview-modal-overlay';
+  ov.innerHTML = `
+    <div class="crypview-modal-box">
+      <div class="fm-wrap">
+        <div class="fm-header">
+          <h2>🔍 Fondamentaux Crypto</h2>
+          <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
             <div class="fm-search-wrap">
-              <input id="${this._uid('search')}" class="fm-input" placeholder="Entrez un coin (ex: ethereum)">
+              <input id="${this._uid('search')}" class="fm-input" placeholder="ex: bitcoin, ethereum…">
               <button id="${this._uid('go')}">Chercher</button>
             </div>
+            <button id="${this._uid('close')}" class="fm-btn-close" aria-label="Fermer">✕</button>
           </div>
-          <div id="${this._uid('content')}"><div class="sw-spin"></div></div>
         </div>
-      </div>`;
-    ov.querySelector('.crypview-modal-close').onclick = () => this.close();
-    ov.addEventListener('click', e => { if (e.target === ov) this.close(); });
-    document.body.appendChild(ov);
-    this._overlay = ov;
+        <div id="${this._uid('content')}"><div class="sw-spin"></div></div>
+      </div>
+    </div>`;
 
-    document.getElementById(this._uid('go')).onclick = () => {
-      const v = document.getElementById(this._uid('search')).value.trim().toLowerCase();
-      if (v) { this.symbol = v; this._fetchData(); }
-    };
-    document.getElementById(this._uid('search')).onkeydown = e => {
-      if (e.key === 'Enter') document.getElementById(this._uid('go')).click();
-    };
-  }
+  ov.addEventListener('click', e => { if (e.target === ov) this.close(); });
+  document.body.appendChild(ov);
+  this._overlay = ov;
 
-  async _fetchData() {
-    const coinId = this.symbol || 'bitcoin';
-    document.getElementById(this._uid('search')).value = coinId;
-    this._setLoading(true);
-    try {
-      const res = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=true`
-      );
-      this.data = await res.json();
-      this._renderData();
-    } catch (e) {
-      document.getElementById(this._uid('content')).innerHTML =
-        '<p style="color:#ef5350;padding:16px">Erreur de chargement.</p>';
-    } finally {
-      this._setLoading(false);
-    }
+  document.getElementById(this._uid('close')).onclick = () => this.close();
+  document.getElementById(this._uid('go')).onclick = () => {
+    const v = document.getElementById(this._uid('search')).value.trim().toLowerCase();
+    if (v) { this.symbol = v; this._fetchData(); }
+  };
+  document.getElementById(this._uid('search')).onkeydown = e => {
+    if (e.key === 'Enter') document.getElementById(this._uid('go')).click();
+  };
+}
+
+async _fetchData() {
+  // Convertit le symbole Binance → coin ID CoinGecko
+  const coinId = this._getCoinId(this.symbol) || 'bitcoin';
+
+  const input = document.getElementById(this._uid('search'));
+  if (input) input.value = coinId;
+
+  this._setLoading(true);
+  try {
+    const res = await fetch(
+      `https://api.coingecko.com/api/v3/coins/${coinId}` +
+      `?localization=false&tickers=false&market_data=true` +
+      `&community_data=true&developer_data=true`,
+      { signal: AbortSignal.timeout(10_000) }
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status} — coin "${coinId}" introuvable`);
+    this.data = await res.json();
+    this._renderData();
+  } catch (e) {
+    const content = document.getElementById(this._uid('content'));
+    if (content) content.innerHTML =
+      `<p style="color:#ef5350;padding:24px;text-align:center">
+        ⚠ ${e.message}<br>
+        <small style="color:#888">Essayez un ID CoinGecko exact (ex: "bitcoin", "ethereum")</small>
+      </p>`;
+  } finally {
+    this._setLoading(false);
   }
+}
+
+_injectCSS() {
+  if (document.getElementById('fmCSS')) return;
+  const s = document.createElement('style'); s.id = 'fmCSS';
+  s.textContent = `
+    .crypview-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9999;align-items:center;justify-content:center;padding:16px}
+    .crypview-modal-box{background:#0d0f1a;border:1px solid #2a2d3e;border-radius:14px;width:100%;max-width:860px;max-height:90vh;overflow-y:auto}
+    .fm-wrap{font-family:'Inter',sans-serif;color:#e0e0e0;padding:16px}
+    .fm-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+    .fm-header h2{margin:0;font-size:1.2rem;flex-shrink:0}
+    .fm-search-wrap{display:flex;gap:8px}
+    .fm-input{background:#1e2130;border:1px solid #333;color:#e0e0e0;padding:5px 10px;border-radius:6px;width:180px}
+    .fm-search-wrap button{background:#26a69a;border:none;color:#fff;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600}
+    .fm-btn-close{background:none;border:1px solid #444;border-radius:6px;color:#888;font-size:1rem;cursor:pointer;padding:4px 10px;transition:all .2s;line-height:1;flex-shrink:0}
+    .fm-btn-close:hover{color:#fff;border-color:#aaa}
+    .fm-hero{display:flex;align-items:center;gap:14px;background:#1a1d2e;border-radius:10px;padding:14px;margin-bottom:16px;flex-wrap:wrap}
+    .fm-score-badges{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+    .fm-badge{background:#111422;border:1px solid #2a2d3e;border-radius:6px;padding:6px 10px;font-size:.78rem;color:#aaa}
+    .fm-badge b{color:#26a69a;margin-left:4px}
+    .fm-section-title{font-size:.78rem;color:#888;text-transform:uppercase;letter-spacing:.06em;margin:16px 0 8px}
+    .fm-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
+    .fm-kv{background:#1a1d2e;border:1px solid #2a2d3e;border-radius:8px;padding:10px}
+    .fm-kv-label{font-size:.72rem;color:#888;margin-bottom:4px}
+    .fm-kv-value{font-size:.9rem;font-weight:600;color:#e0e0e0}
+    .fm-desc{background:#1a1d2e;border-radius:8px;padding:14px;font-size:.85rem;color:#aaa;line-height:1.6;margin-bottom:12px}
+    .fm-links{display:flex;gap:10px;flex-wrap:wrap}
+    .fm-link{background:#1a1d2e;border:1px solid #2a2d3e;color:#26a69a;padding:6px 14px;border-radius:6px;text-decoration:none;font-size:.85rem}
+    .fm-link:hover{background:#26a69a;color:#fff}
+    .sw-spin{width:28px;height:28px;border:3px solid #333;border-top-color:#26a69a;border-radius:50%;animation:swspin .8s linear infinite;margin:20px auto}
+    @keyframes swspin{to{transform:rotate(360deg)}}
+    @media(max-width:700px){.fm-grid4{grid-template-columns:repeat(2,1fr)}}
+  `;
+  document.head.appendChild(s);
+}
 
   _renderData() {
     const d  = this.data;

@@ -50,64 +50,93 @@ class OrderBookModal {
     ov.className = 'crypview-modal-overlay';
     ov.innerHTML = `
       <div class="crypview-modal-box">
-        <button class="crypview-modal-close" aria-label="Fermer">✕</button>
-        <div class="crypview-modal-content">
-          <div class="ob-wrap">
-            <div class="ob-header">
-              <h2>📖 Profondeur Order Book</h2>
-              <div style="display:flex;gap:8px;align-items:center">
-                <input id="${this._uid('symbol')}" class="ob-input" value="${this.symbol}" placeholder="BTCUSDT">
-                <select id="${this._uid('depth')}" class="ob-input">
-                  <option value="10">10 niveaux</option>
-                  <option value="20" selected>20 niveaux</option>
-                  <option value="50">50 niveaux</option>
-                </select>
-                <button id="${this._uid('apply')}">Appliquer</button>
-              </div>
+        <div class="ob-wrap">
+          <div class="ob-header">
+            <h2>📖 Profondeur Order Book</h2>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <input id="${this._uid('symbol')}" class="ob-input" value="${this.symbol}" placeholder="BTCUSDT">
+              <select id="${this._uid('depth')}" class="ob-input">
+                <option value="10">10 niveaux</option>
+                <option value="20" selected>20 niveaux</option>
+                <option value="50">50 niveaux</option>
+              </select>
+              <button id="${this._uid('apply')}">Appliquer</button>
+              <button id="${this._uid('close')}" class="ob-btn-close" aria-label="Fermer">✕</button>
             </div>
-            <div class="ob-stats">
-              <div class="ob-stat"><span>Spread</span><b id="${this._uid('spread')}">--</b></div>
-              <div class="ob-stat"><span>Spread %</span><b id="${this._uid('spreadPct')}">--</b></div>
-              <div class="ob-stat"><span>Meilleur Ask</span><b id="${this._uid('bestAsk')}" style="color:#ef5350">--</b></div>
-              <div class="ob-stat"><span>Meilleur Bid</span><b id="${this._uid('bestBid')}" style="color:#26a69a">--</b></div>
-              <div class="ob-stat"><span>Vol. Ask total</span><b id="${this._uid('askVol')}" style="color:#ef5350">--</b></div>
-              <div class="ob-stat"><span>Vol. Bid total</span><b id="${this._uid('bidVol')}" style="color:#26a69a">--</b></div>
+          </div>
+          <div class="ob-stats">
+            <div class="ob-stat"><span>Spread</span><b id="${this._uid('spread')}">--</b></div>
+            <div class="ob-stat"><span>Spread %</span><b id="${this._uid('spreadPct')}">--</b></div>
+            <div class="ob-stat"><span>Meilleur Ask</span><b id="${this._uid('bestAsk')}" style="color:#ef5350">--</b></div>
+            <div class="ob-stat"><span>Meilleur Bid</span><b id="${this._uid('bestBid')}" style="color:#26a69a">--</b></div>
+            <div class="ob-stat"><span>Vol. Ask total</span><b id="${this._uid('askVol')}" style="color:#ef5350">--</b></div>
+            <div class="ob-stat"><span>Vol. Bid total</span><b id="${this._uid('bidVol')}" style="color:#26a69a">--</b></div>
+          </div>
+          <div class="ob-books">
+            <div class="ob-side">
+              <div class="ob-col-header"><span>Prix Ask</span><span>Quantité</span><span>Total</span></div>
+              <div id="${this._uid('asks')}"></div>
             </div>
-            <div class="ob-books">
-              <div class="ob-side">
-                <div class="ob-col-header"><span>Prix Ask</span><span>Quantité</span><span>Total</span></div>
-                <div id="${this._uid('asks')}"></div>
-              </div>
-              <div class="ob-side">
-                <div class="ob-col-header"><span>Prix Bid</span><span>Quantité</span><span>Total</span></div>
-                <div id="${this._uid('bids')}"></div>
-              </div>
+            <div class="ob-side">
+              <div class="ob-col-header"><span>Prix Bid</span><span>Quantité</span><span>Total</span></div>
+              <div id="${this._uid('bids')}"></div>
             </div>
-            <div class="ob-spread-section">
-              <div class="fm-section-title">Historique Spread (60 ticks)</div>
-              <canvas id="${this._uid('spreadChart')}" width="700" height="120"></canvas>
-            </div>
-            <div class="ob-depth-section">
-              <div class="fm-section-title">Visualisation Profondeur</div>
-              <canvas id="${this._uid('depthChart')}" width="700" height="180"></canvas>
-            </div>
+          </div>
+          <div class="ob-spread-section">
+            <div class="fm-section-title">Historique Spread (60 ticks)</div>
+            <canvas id="${this._uid('spreadChart')}" width="700" height="120"></canvas>
+          </div>
+          <div class="ob-depth-section">
+            <div class="fm-section-title">Visualisation Profondeur</div>
+            <canvas id="${this._uid('depthChart')}" width="700" height="180"></canvas>
           </div>
         </div>
       </div>`;
-
-    ov.querySelector('.crypview-modal-close').onclick = () => this.close();
+  
     ov.addEventListener('click', e => { if (e.target === ov) this.close(); });
-
     document.body.appendChild(ov);
     this._overlay = ov;
-
-    // Bind contrôles
+  
+    document.getElementById(this._uid('close')).onclick = () => this.close();
     document.getElementById(this._uid('apply')).onclick = () => {
       this.symbol = document.getElementById(this._uid('symbol')).value.toUpperCase().trim();
       this.depth  = parseInt(document.getElementById(this._uid('depth')).value);
-      this.spreadHistory = []; // reset historique sur changement de paire
+      this.spreadHistory = [];
       this._fetchData();
     };
+  }
+  
+  _injectCSS() {
+    if (document.getElementById('obCSS')) return;
+    const s = document.createElement('style'); s.id = 'obCSS';
+    s.textContent = `
+      .crypview-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9999;align-items:center;justify-content:center;padding:16px}
+      .crypview-modal-box{background:#0d0f1a;border:1px solid #2a2d3e;border-radius:14px;width:100%;max-width:860px;max-height:90vh;overflow-y:auto}
+      .ob-wrap{font-family:'Inter',sans-serif;color:#e0e0e0;padding:16px}
+      .ob-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+      .ob-header h2{margin:0;font-size:1.2rem;flex-shrink:0}
+      .ob-input{background:#1e2130;border:1px solid #333;color:#e0e0e0;padding:5px 10px;border-radius:6px}
+      .ob-header button:not(.ob-btn-close){background:#26a69a;border:none;color:#fff;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600}
+      .ob-btn-close{background:none;border:1px solid #444;border-radius:6px;color:#888;font-size:1rem;cursor:pointer;padding:4px 10px;transition:all .2s;line-height:1;flex-shrink:0}
+      .ob-btn-close:hover{color:#fff;border-color:#aaa}
+      .ob-stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+      .ob-stat{background:#1a1d2e;border:1px solid #2a2d3e;border-radius:8px;padding:8px 14px;font-size:.78rem;color:#888}
+      .ob-stat b{display:block;font-size:.95rem;color:#e0e0e0;margin-top:2px}
+      .ob-books{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+      .ob-side{background:#1a1d2e;border:1px solid #2a2d3e;border-radius:10px;overflow:hidden}
+      .ob-col-header{display:grid;grid-template-columns:1fr 1fr 1fr;padding:8px 12px;font-size:.75rem;color:#666;background:#111422}
+      .ob-col-header span{text-align:right}.ob-col-header span:first-child{text-align:left}
+      .ob-row{display:grid;grid-template-columns:1fr 1fr 1fr;padding:4px 12px;font-size:.82rem;position:relative;overflow:hidden}
+      .ob-row span{text-align:right;position:relative;z-index:1}.ob-row span:first-child{text-align:left}
+      .ob-ask-row::before{content:'';position:absolute;right:0;top:0;bottom:0;width:var(--pct);background:rgba(239,83,80,.12);z-index:0}
+      .ob-bid-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:var(--pct);background:rgba(38,166,154,.12);z-index:0}
+      .ob-ask-row span:first-child{color:#ef5350}
+      .ob-bid-row span:first-child{color:#26a69a}
+      .ob-spread-section,.ob-depth-section{margin-top:12px;background:#1a1d2e;border:1px solid #2a2d3e;border-radius:10px;padding:14px}
+      .fm-section-title{font-size:.78rem;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+      @media(max-width:700px){.ob-books{grid-template-columns:1fr}}
+    `;
+    document.head.appendChild(s);
   }
 
   // ── Fetch ───────────────────────────────────────────────────
@@ -251,38 +280,6 @@ class OrderBookModal {
   _uid(suffix) {
     if (!this._id) this._id = Math.random().toString(36).slice(2, 7);
     return `${this._id}-${suffix}`;
-  }
-
-  _injectCSS() {
-    if (document.getElementById('obCSS')) return;
-    const s = document.createElement('style'); s.id = 'obCSS';
-    s.textContent = `
-      .crypview-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9999;align-items:center;justify-content:center;padding:16px}
-      .crypview-modal-box{position:relative;background:#0d0f1a;border:1px solid #2a2d3e;border-radius:14px;width:100%;max-width:860px;max-height:90vh;overflow-y:auto}
-      .crypview-modal-close{position:absolute;top:10px;right:14px;background:none;border:none;color:#888;font-size:1.2rem;cursor:pointer;z-index:1}
-      .crypview-modal-close:hover{color:#fff}
-      .ob-wrap{font-family:'Inter',sans-serif;color:#e0e0e0;padding:16px}
-      .ob-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
-      .ob-header h2{margin:0;font-size:1.2rem}
-      .ob-input{background:#1e2130;border:1px solid #333;color:#e0e0e0;padding:5px 10px;border-radius:6px}
-      .ob-header button{background:#26a69a;border:none;color:#fff;padding:6px 14px;border-radius:6px;cursor:pointer;font-weight:600}
-      .ob-stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-      .ob-stat{background:#1a1d2e;border:1px solid #2a2d3e;border-radius:8px;padding:8px 14px;font-size:.78rem;color:#888}
-      .ob-stat b{display:block;font-size:.95rem;color:#e0e0e0;margin-top:2px}
-      .ob-books{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-      .ob-side{background:#1a1d2e;border:1px solid #2a2d3e;border-radius:10px;overflow:hidden}
-      .ob-col-header{display:grid;grid-template-columns:1fr 1fr 1fr;padding:8px 12px;font-size:.75rem;color:#666;background:#111422}
-      .ob-col-header span{text-align:right}.ob-col-header span:first-child{text-align:left}
-      .ob-row{display:grid;grid-template-columns:1fr 1fr 1fr;padding:4px 12px;font-size:.82rem;position:relative;overflow:hidden}
-      .ob-row span{text-align:right;position:relative;z-index:1}.ob-row span:first-child{text-align:left}
-      .ob-ask-row::before{content:'';position:absolute;right:0;top:0;bottom:0;width:var(--pct);background:rgba(239,83,80,.12);z-index:0}
-      .ob-bid-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:var(--pct);background:rgba(38,166,154,.12);z-index:0}
-      .ob-ask-row span:first-child{color:#ef5350}
-      .ob-bid-row span:first-child{color:#26a69a}
-      .ob-spread-section,.ob-depth-section{margin-top:12px;background:#1a1d2e;border:1px solid #2a2d3e;border-radius:10px;padding:14px}
-      @media(max-width:700px){.ob-books{grid-template-columns:1fr}}
-    `;
-    document.head.appendChild(s);
   }
 }
 

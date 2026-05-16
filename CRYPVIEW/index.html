@@ -9,7 +9,6 @@
       font-src 'self' https://fonts.gstatic.com;
       img-src 'self' data: https:;
       connect-src 'self' https://api.binance.com wss://stream.binance.com:9443 https://api.geckoterminal.com https://crypview-proxy.vercel.app;
-      frame-ancestors 'none';
       base-uri 'self';
     ">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1545,17 +1544,6 @@ If you don't know, say so honestly.`;
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    function addUserMessage(text) {
-      const now = new Date().toLocaleTimeString(document.documentElement.lang || 'fr-FR', { hour: '2-digit', minute: '2-digit' });
-      const div = document.createElement('div');
-      div.className = 'ai-msg ai-msg--user';
-      div.innerHTML = `
-        <div class="ai-msg-bubble">${renderMarkdown(text)}</div>
-        <span class="ai-msg-time">${now}</span>`;
-      messagesEl.appendChild(div);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-    }
-
     function addTypingIndicator() {
       const div = document.createElement('div');
       div.className = 'ai-msg ai-msg--bot ai-msg--typing';
@@ -1571,14 +1559,20 @@ If you don't know, say so honestly.`;
       if (el) el.remove();
     }
 
-    function addErrorMessage(msg) {
-      const div = document.createElement('div');
+    function addErrorMessage(msg, detail) {
+      const div    = document.createElement('div');
       div.className = 'ai-msg ai-msg--bot ai-msg--error';
 
-      const bubble = document.createElement('div');
+      const bubble  = document.createElement('div');
       bubble.className = 'ai-msg-bubble';
-      // msg vient uniquement de catch(err) interne — on échappe quand même
-      bubble.textContent = msg.replace(/<[^>]*>/g, ''); // strip balises résiduelles
+      bubble.textContent = msg;           // sûr — textContent échappe tout
+
+      if (detail) {
+        const small = document.createElement('small');
+        small.textContent = detail;       // sûr
+        bubble.appendChild(document.createElement('br'));
+        bubble.appendChild(small);
+      }
 
       div.appendChild(bubble);
       messagesEl.appendChild(div);
@@ -1722,7 +1716,7 @@ If you don't know, say so honestly.`;
         addBotMessage(reply);
       } catch (err) {
         removeTypingIndicator();
-        addErrorMessage(`${aiT('errorBoth')}<br><small>${err.message}</small>`);
+        addErrorMessage(aiT('errorBoth'), err.message);
       } finally {
         isLoading        = false;
         sendBtn.disabled = false;

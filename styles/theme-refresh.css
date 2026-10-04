@@ -1,0 +1,298 @@
+/* ============================================================
+   styles/theme-refresh.css — CrypView V4
+   Couche additive chargée APRÈS index.css / mobile-index.css /
+   ai-drawer.css. Ne redéfinit aucun token, ne supprime aucune
+   règle existante : affine seulement le rendu (icônes SVG,
+   micro-détails "terminal pro") et ajoute de nouvelles
+   interactions (spotlight au survol, scrollspy nav, bouton
+   retour-haut). 100% additif — rien à casser dans index.js /
+   page.js / site-motion.js existants.
+   ============================================================ */
+
+/* ══════════════════════════════════════════════════════════════
+   1. ICÔNES SVG — remplacent les emoji, héritent de currentColor
+══════════════════════════════════════════════════════════════ */
+.feat-icon svg,
+.adv-card-icon svg,
+.tool-card-icon svg,
+.pwa-card-icon svg,
+.disclaimer-icon svg,
+.adc-notif-icon svg,
+.af-icon svg,
+.tip-icon svg,
+.pwa-tip-icon svg {
+  display: block;
+}
+
+.feat-icon      { color: var(--muted); transition: border-color .3s, transform .3s var(--ease), color .3s; }
+.feat-card:hover .feat-icon { color: var(--accent); }
+
+.adv-card-icon  { color: var(--muted); }
+.adv-card:hover .adv-card-icon { color: var(--accent); }
+
+.tool-card-icon { color: var(--muted); }
+.tool-card:hover .tool-card-icon { color: var(--accent); border-color: var(--accent); }
+
+.pwa-card-icon  { color: var(--accent); opacity: .85; transition: opacity .25s, transform .3s var(--ease); }
+.pwa-card:hover .pwa-card-icon { opacity: 1; transform: translateY(-2px); }
+
+.disclaimer-icon { color: var(--down); display: flex; }
+.adc-notif-icon   { color: var(--accent); display: flex; }
+.af-icon          { color: var(--accent); display: inline-flex; align-items: center; justify-content: center; opacity: .8; }
+.alerts-features li:hover .af-icon { opacity: 1; }
+.tip-icon, .pwa-tip-icon { color: var(--accent); display: inline-flex; opacity: .9; }
+
+/* ══════════════════════════════════════════════════════════════
+   2. GRILLE DES OUTILS — s'adapte aux 6 cartes désormais présentes
+══════════════════════════════════════════════════════════════ */
+@media (min-width: 1300px) {
+  .tools-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   3. BRACKETS DE COIN — motif "terminal" au survol des cartes
+   (remplace l'imagerie générique par un repère de lecture propre
+   au produit, cohérent avec l'esthétique chandelier/grille)
+══════════════════════════════════════════════════════════════ */
+.feat-card, .adv-card, .tool-card, .pwa-card, .ind-group {
+  position: relative;
+  isolation: isolate;
+}
+.feat-card::after, .adv-card::after, .tool-card::after,
+.pwa-card::after, .ind-group::after {
+  content: '';
+  position: absolute; top: 8px; right: 8px; width: 9px; height: 9px;
+  border-top: 1px solid var(--accent-line); border-right: 1px solid var(--accent-line);
+  opacity: 0; transform: translate(-3px, 3px);
+  transition: opacity .3s var(--ease), transform .3s var(--ease);
+  pointer-events: none;
+}
+.feat-card:hover::after, .adv-card:hover::after, .tool-card:hover::after,
+.pwa-card:hover::after, .ind-group:hover::after {
+  opacity: 1; transform: translate(0, 0);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   4. SPOTLIGHT CURSEUR — glow radial qui suit la souris sur les
+   cartes (variables --mx/--my posées par site-motion.js)
+══════════════════════════════════════════════════════════════ */
+.feat-card, .adv-card, .tool-card, .pwa-card {
+  background-image: radial-gradient(
+    360px circle at var(--mx, 50%) var(--my, 50%),
+    var(--accent-soft) 0%, transparent 62%
+  );
+  background-repeat: no-repeat;
+  background-blend-mode: normal;
+}
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .feat-card, .adv-card, .tool-card, .pwa-card { background-image: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   5. NAV — indicateur de section active (posé par site-motion.js)
+══════════════════════════════════════════════════════════════ */
+.nav-links a.active { color: var(--text); }
+.nav-links a.active::after { right: 0; }
+
+/* ══════════════════════════════════════════════════════════════
+   6. BOUTON RETOUR EN HAUT
+══════════════════════════════════════════════════════════════ */
+#back-to-top {
+  position: fixed; right: 22px; bottom: 22px; z-index: 500;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--panel); border: 1px solid var(--border);
+  color: var(--muted); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(10px) scale(.9);
+  transition: opacity .3s var(--ease), transform .3s var(--ease), border-color .2s, color .2s, box-shadow .3s;
+  box-shadow: var(--shadow-1);
+}
+#back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+#back-to-top:hover { border-color: var(--accent); color: var(--accent); box-shadow: var(--shadow-2); transform: translateY(-2px) scale(1.04); }
+#back-to-top svg { width: 16px; height: 16px; }
+
+/* ══════════════════════════════════════════════════════════════
+   7. BOUTONS — sweep lumineux au survol (remplace le halo flou
+   générique par un trait qui balaie, plus "instrument")
+══════════════════════════════════════════════════════════════ */
+.btn-primary, .cta-btn, .adc-btn {
+  position: relative; overflow: hidden;
+}
+.btn-primary::before, .cta-btn::before, .adc-btn::before {
+  content: '';
+  position: absolute; top: 0; bottom: 0; left: -60%; width: 40%;
+  background: linear-gradient(115deg, transparent, rgba(255,255,255,.28), transparent);
+  transform: skewX(-18deg);
+  transition: left .55s var(--ease);
+  pointer-events: none;
+}
+.btn-primary:hover::before, .cta-btn:hover::before, .adc-btn:hover::before { left: 130%; }
+.light-theme .btn-primary::before,
+.light-theme .cta-btn::before,
+.light-theme .adc-btn::before {
+  background: linear-gradient(115deg, transparent, rgba(255,255,255,.55), transparent);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   8. STAGGER — délais fins pour les grilles sans data-reveal-group
+   (features 3×3, avantages PWA) : effet cascade plus marqué
+══════════════════════════════════════════════════════════════ */
+.tools-grid > .tool-card:nth-child(1) { transition-delay: .00s; }
+.tools-grid > .tool-card:nth-child(2) { transition-delay: .06s; }
+.tools-grid > .tool-card:nth-child(3) { transition-delay: .12s; }
+.tools-grid > .tool-card:nth-child(4) { transition-delay: .18s; }
+.tools-grid > .tool-card:nth-child(5) { transition-delay: .24s; }
+.tools-grid > .tool-card:nth-child(6) { transition-delay: .30s; }
+
+/* ══════════════════════════════════════════════════════════════
+   9. TICKER — légère respiration verticale au survol d'un item
+══════════════════════════════════════════════════════════════ */
+.ticker-item { transition: transform .2s var(--ease), color .2s; }
+
+/* ══════════════════════════════════════════════════════════════
+   10. LIENS DE PIED DE PAGE — soulignement animé cohérent avec nav
+══════════════════════════════════════════════════════════════ */
+.footer-ethics-item__link, .footer-bottom__link {
+  position: relative;
+}
+.footer-ethics-item__link::after, .footer-bottom__link::after {
+  content: ''; position: absolute; left: 0; right: 100%; bottom: -2px; height: 1px;
+  background: currentColor; transition: right .25s var(--ease); opacity: .6;
+}
+.footer-ethics-item__link:hover::after, .footer-bottom__link:hover::after { right: 0; }
+
+/* ══════════════════════════════════════════════════════════════
+   11. IMAGE / CANVAS REVEAL — halo d'accent qui se resserre à
+   l'apparition (utilisé par .adv-canvas et .terminal-mock)
+══════════════════════════════════════════════════════════════ */
+.adv-canvas, .of-preview-wrap, .terminal-mock, #alert-chart-canvas {
+  transition: box-shadow .5s var(--ease);
+}
+.adv-card:hover .adv-canvas,
+.adv-card:hover .of-preview-wrap,
+.terminal-mock:hover {
+  box-shadow: 0 0 0 1px var(--accent-line);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   13. INDICATEURS — description dépliable au clic (accordéon)
+   Remplace le survol "décoratif seul" par un vrai contenu utile :
+   clic/Entrée sur un indicateur = courte explication de ce qu'il
+   fait. Un seul ouvert à la fois par colonne (voir site-motion.js).
+══════════════════════════════════════════════════════════════ */
+.ind-list li { padding-left: 13px; }
+.ind-btn {
+  all: unset;
+  display: inline;
+  cursor: pointer;
+  position: relative;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  border-bottom: 1px dashed transparent;
+  transition: border-color .2s, color .2s;
+}
+.ind-btn[data-ind-desc]::after {
+  content: attr(data-ind-desc);
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  width: min(300px, 72vw);
+  padding: 9px 11px;
+  border: 1px solid var(--border-2);
+  background: var(--panel-2);
+  color: var(--muted);
+  font: 10px/1.6 'DM Mono', monospace;
+  letter-spacing: 0;
+  text-align: left;
+  white-space: normal;
+  box-shadow: var(--shadow-2);
+  border-radius: 4px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity .18s ease, transform .18s var(--ease), visibility .18s ease;
+  z-index: 20;
+}
+.ind-btn[data-ind-desc]:hover::after,
+.ind-btn[data-ind-desc]:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.ind-list li:hover .ind-btn { border-bottom-color: var(--border-2); }
+.ind-btn:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+.ind-desc {
+  font-size: 10.5px; color: var(--muted); line-height: 1.65; letter-spacing: .01em;
+  max-height: 0; opacity: 0; overflow: hidden; margin: 0; padding-right: 6px;
+  transition: max-height .45s var(--ease), opacity .3s ease, margin-top .45s var(--ease);
+}
+.ind-list li.expanded { color: var(--text); }
+.ind-list li.expanded::before { color: var(--accent); }
+.ind-list li.expanded .ind-btn { border-bottom-color: var(--accent); color: var(--accent); }
+.ind-list li.expanded .ind-desc { max-height: 120px; opacity: 1; margin-top: 6px; }
+
+/* ══════════════════════════════════════════════════════════════
+   14. CTA — garantit que le halo circulaire n'est jamais recouvert
+   par la fin de la section PWA qui le précède (ordre d'empilement
+   explicite, quelle que soit la taille d'écran)
+══════════════════════════════════════════════════════════════ */
+.section-cta { z-index: 2; isolation: isolate; }
+.section-cta::before { z-index: 0; }
+.section-cta .cta-inner { z-index: 1; }
+.section-pwa { position: relative; z-index: 0; }
+
+/* ══════════════════════════════════════════════════════════════
+   15. BOUTON RÉDUIRE — carte de démo des alertes (style "fenêtre")
+══════════════════════════════════════════════════════════════ */
+.adc-minimize {
+  all: unset; cursor: pointer; margin-left: auto; flex-shrink: 0;
+  width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); border-radius: 4px; color: var(--muted);
+  transition: color .2s, border-color .2s, transform .2s var(--ease);
+}
+.adc-minimize:hover { color: var(--accent); border-color: var(--accent); }
+.adc-minimize svg { width: 11px; height: 11px; }
+.adc-minimize .icon-plus { display: none; }
+.alert-demo-card.collapsed .adc-minimize .icon-minus { display: none; }
+.alert-demo-card.collapsed .adc-minimize .icon-plus  { display: block; }
+
+.adc-body {
+  max-height: 900px; opacity: 1; overflow: hidden;
+  transition: max-height .5s var(--ease), opacity .35s ease;
+}
+.alert-demo-card.collapsed .adc-body { max-height: 0; opacity: 0; }
+.alert-demo-card.collapsed { padding-bottom: 0; }
+.alert-demo-card.collapsed .adc-header { border-bottom: none; }
+
+/* ══════════════════════════════════════════════════════════════
+   12. RÉDUCTION DE MOUVEMENT — les ajouts respectent la préférence
+   déjà gérée globalement dans index.css
+══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary::before, .cta-btn::before, .adc-btn::before { display: none; }
+  .feat-card, .adv-card, .tool-card, .pwa-card { background-image: none; }
+  #back-to-top { transition: none; }
+}
+
+
+/* ── Audit : ticker (pause survol/focus) ── */
+.ticker-strip:focus-within .ticker-track { animation-play-state: paused; }
+#cursor-glow { display: none; }
+
+/* ── Audit : section « Tout le terminal » ── */
+.section-terminal { padding: 88px 40px; border-top: 1px solid var(--border); }
+.terminal-wrap { max-width: 1100px; margin: 0 auto; }
+.terminal-map { margin: 0; border-top: 1px solid var(--border); }
+.terminal-row { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: baseline;
+  padding: 20px 0; border-bottom: 1px solid var(--border); }
+.terminal-row dt { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 18px; color: var(--text); }
+.terminal-row dd { margin: 0; }
+.terminal-row ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 0; }
+.terminal-row li { font-size: 13px; color: var(--text-2); padding: 0 16px; border-left: 1px solid var(--border); }
+.terminal-row li:first-child { padding-left: 0; border-left: 0; }
+@media (max-width: 768px) {
+  .section-terminal { padding: 56px 20px; }
+  .terminal-row { grid-template-columns: 1fr; gap: 8px; }
+}

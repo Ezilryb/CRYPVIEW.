@@ -1,0 +1,200 @@
+/* ============================================================
+   styles/returning-theme.css — CrypView V3 · returning.html
+   Couche additive : applique l'identité de index.css (ambre,
+   DM Mono + Fraunces, surfaces chaudes) au tableau de bord,
+   en sombre ET en clair.
+   À charger APRÈS le <style> inline de returning.html.
+   Aucun script, aucun id, aucune classe, aucun data-i18n touché.
+   ============================================================ */
+
+/* ── 1. Tokens (mêmes valeurs que index.css) ───────────────── */
+:root {
+  --bg:#0b0c0e; --bg2:#101114; --panel:#16171b; --panel-2:#1b1c21;
+  --border:#26282e; --border-2:#34363d;
+  --text:#eceae5; --text-2:#c7c5c0; --muted:#8b8a89; --faint:#777573;
+  --accent:#d69a44; --accent-2:#f0b565;
+  --accent-soft:rgba(214,154,68,.10); --accent-line:rgba(214,154,68,.30);
+  --on-accent:#17130a;
+  --up:#3fb87f; --down:#e0555a; --info:#5c93c9;
+  --shadow-hover:0 10px 30px rgba(0,0,0,.35);
+  /* anciens noms du <style> inline → nouvelle palette */
+  --accent2:var(--accent-2); --red:var(--down);
+  --dim:var(--faint); --glow:var(--accent-soft);
+  --ease:cubic-bezier(.16,.84,.44,1);
+}
+:root.light-theme {
+  --bg:#f1f0ec; --bg2:#e9e7e1; --panel:#ffffff; --panel-2:#faf9f6;
+  --border:#dcdad3; --border-2:#c7c4bb;
+  --text:#201f1c; --text-2:#3d3b37; --muted:#6b6862; --faint:#625f58;
+  --accent:#855711; --accent-2:#8a5a15;
+  --accent-soft:rgba(169,113,31,.08); --accent-line:rgba(169,113,31,.32);
+  --on-accent:#fff9f0;
+  --up:#176b46; --down:#c23b3f; --info:#34608f;
+  --shadow-hover:0 10px 30px rgba(32,31,28,.10);
+}
+
+/* ── 2. Base ───────────────────────────────────────────────── */
+body { transition:background .35s var(--ease), color .35s var(--ease); }
+:root body::before { content:none; }                       /* plus de scanlines */
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-thumb { background:var(--border-2); }
+::-webkit-scrollbar-thumb:hover { background:var(--accent); }
+::selection { background:var(--accent-soft); color:var(--text); }
+:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+/* Les emojis (icônes posées par le HTML/JS) passent en monochrome */
+.launch-card-icon, .launch-sm-icon, .info-icon, #theme-icon,
+.panel-block-title > span:first-child {
+  filter:grayscale(1); opacity:.85;
+  transition:opacity .2s, filter .2s;
+}
+.launch-card:hover .launch-card-icon, .launch-sm:hover .launch-sm-icon,
+.nav-theme-btn:hover #theme-icon { opacity:1; }
+
+/* ── 3. Nav ────────────────────────────────────────────────── */
+:root nav#nav {
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  border-bottom-color:var(--border);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+}
+.nav-logo {
+  font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto;
+  font-weight:560; letter-spacing:-.01em;
+}
+.nav-badge-greet { letter-spacing:.12em; }
+.nav-badge-visits {
+  background:var(--accent-soft); border-color:var(--accent-line);
+  color:var(--accent);
+}
+.nav-btn, .continue-bar-btn {
+  color:var(--on-accent); background:var(--accent);
+  font-weight:500; border-radius:0;
+}
+.nav-btn:hover, .continue-bar-btn:hover {
+  background:var(--accent-2); box-shadow:none;
+}
+.nav-ghost:hover { border-color:var(--border-2); color:var(--text); }
+.nav-theme-btn:hover { border-color:var(--accent); background:var(--accent-soft); }
+:root .lang-select { background-color:var(--panel); color:var(--muted); border-color:var(--border); }
+:root .lang-select:hover, :root .lang-select:focus { border-color:var(--accent); color:var(--accent); }
+.lang-select option { background:var(--panel); color:var(--text); }
+
+/* ── 4. Bandeau de cours (le vert/rouge reste réservé au marché) ─ */
+:root .ticker-strip { background:color-mix(in srgb, var(--panel) 60%, transparent); }
+.t-sym { font-weight:500; }
+.t-price, .t-chg { font-variant-numeric:tabular-nums; }
+.t-chg.up   { color:var(--up); }
+.t-chg.down { color:var(--down); }
+
+/* ── 5. Hero ───────────────────────────────────────────────── */
+.hero-title-dash {
+  font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto;
+  font-weight:460; line-height:.98; letter-spacing:-.02em;
+  background:none; color:var(--text);
+  -webkit-text-fill-color:currentColor;
+}
+:root .hero-title-dash .hl {
+  background:none; color:var(--accent); font-style:italic;
+  -webkit-text-fill-color:currentColor;
+}
+.hero-sub-dash { letter-spacing:.01em; line-height:1.75; }
+.hero-greeting { letter-spacing:.16em; }
+
+.hstat-cell-val {
+  font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto;
+  font-weight:500; font-variant-numeric:tabular-nums;
+}
+.hstat-cell-val em { color:var(--accent); }
+/* Le HTML ferme .hero-top trop tôt : la bande de stats se retrouvait pleine
+   largeur (fond de bordure visible à droite). On la fait épouser son contenu. */
+@media (min-width:769px) { .hero-stats-row { width:fit-content; max-width:100%; } }
+.hstat-cta {
+  color:var(--accent); background:var(--accent-soft);
+  border-color:var(--accent-line);
+}
+.hstat-cta:hover {
+  background:color-mix(in srgb, var(--accent) 16%, transparent);
+  border-color:var(--accent);
+}
+
+/* ── 6. Blocs de section ───────────────────────────────────── */
+.block-label { letter-spacing:.18em; }
+.block-title {
+  font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto;
+  font-weight:480; letter-spacing:-.015em;
+}
+.block-title span { color:var(--accent); font-style:italic; }
+
+/* Lancement rapide */
+.launch-card::before { background:linear-gradient(to right, var(--accent), var(--accent-2)); }
+:root .launch-card:hover { background:var(--panel-2); box-shadow:var(--shadow-hover); }
+.launch-card { color:var(--text); }
+.launch-card-icon { background:var(--panel-2); color:var(--text-2); }
+.launch-sm-icon { color:var(--text-2); }
+.launch-card:hover .launch-card-icon { border-color:var(--accent); }
+.launch-card-badge { background:var(--panel-2); }
+.launch-card-title {
+  font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto;
+  font-weight:520; font-size:16px; letter-spacing:0;
+}
+.launch-card-cta { color:var(--accent); }
+:root .launch-sm:hover { background:var(--accent-soft); color:var(--accent); }
+
+/* Récents + infos */
+:root .panel-block { box-shadow:none; }
+.panel-block-title {
+  font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto;
+  font-weight:520; font-size:14px; letter-spacing:0;
+}
+.panel-block-title .ptag { font-family:'DM Mono',ui-monospace,monospace; }
+.recent-item, .info-row { background:var(--panel-2); }
+.recent-item:hover { background:var(--accent-soft); border-color:var(--accent-line); }
+.recent-sym {
+  font-family:'DM Mono',ui-monospace,monospace; font-weight:500;
+  letter-spacing:.02em; color:var(--accent);
+}
+.recent-item:hover .recent-arrow { color:var(--accent); }
+
+/* Barre d'alertes */
+.alert-status-bar { background:var(--accent-soft); border-color:var(--accent-line); }
+.ast-text strong { color:var(--accent); }
+.ast-link { color:var(--accent); border-bottom-color:var(--accent-line); }
+.ast-link:hover { border-color:var(--accent); }
+
+/* Conseils */
+:root .tip-card { background:var(--bg2); }
+.tip-card-num { color:var(--faint); }
+.tip-card-title {
+  font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto;
+  font-weight:520; font-size:14px;
+}
+.tip-card code { background:var(--accent-soft); color:var(--accent); }
+
+/* Barre « reprendre » */
+@keyframes continuePulse {
+  0%, 100% { border-color:var(--accent-line); box-shadow:none; }
+  50%      { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
+}
+.continue-bar { background:var(--accent-soft); border-color:var(--accent-line); }
+.continue-bar:hover { background:color-mix(in srgb, var(--accent) 14%, transparent); border-color:var(--accent); }
+.continue-bar-session {
+  font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto;
+  font-weight:520; font-size:14px;
+}
+.continue-bar-session em { font-family:'DM Mono',ui-monospace,monospace; }
+
+/* ── 7. Pied de page ───────────────────────────────────────── */
+.footer-ret { background:var(--bg2); border-top-color:var(--border); }
+.footer-ret-logo {
+  font-family:'Fraunces',Georgia,serif; font-optical-sizing:auto;
+  font-weight:560; letter-spacing:-.01em;
+}
+.footer-ret-links a:hover { color:var(--accent); }
+
+/* ── 8. Mouvement réduit ───────────────────────────────────── */
+@media (prefers-reduced-motion:reduce) {
+  .anim-1, .anim-2, .anim-3, .anim-4, .anim-5, .anim-6 { animation:none; }
+  .continue-bar, .nav-badge-dot, .ast-dot { animation:none; }
+  .ticker-track { animation-duration:240s; }
+  .launch-card, .launch-card::before, .hero-dash, .hero-top { transition:none; }
+}

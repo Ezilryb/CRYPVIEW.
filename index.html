@@ -87,7 +87,7 @@
     <title>CrypView — Tracker Crypto Temps Réel | 34 Indicateurs</title>
    
     <meta name="description" content="CrypView : tracker crypto en temps réel avec 32 indicateurs techniques, Footprint, Orderflow et alertes de prix. Données live Binance WebSocket. 100% gratuit.">
-    
+
     <link rel="alternate" hreflang="fr" href="https://ezilryb.github.io/crypview/" />
     <link rel="alternate" hreflang="en" href="https://ezilryb.github.io/crypview/en/" />
     <link rel="alternate" hreflang="zh" href="https://ezilryb.github.io/crypview/zh/" />
@@ -230,7 +230,7 @@
          ════════════════════════════════════════════════════════ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Fraunces:opsz,wght@9..144,400..600&display=swap"
           rel="stylesheet">
    
     <script type="application/ld+json">
@@ -251,43 +251,23 @@
          🎨 FEUILLES DE STYLE (adapte les chemins si nécessaire)
          ════════════════════════════════════════════════════════ -->
     <link rel="stylesheet" href="styles/index.css">
+    <script>document.documentElement.classList.add('js-anim');</script>
     <link rel="stylesheet" href="styles/mobile-index.css">
     <link rel="stylesheet" href="styles/ai-drawer.css">
-    <style>
-      .hstat { display: flex; flex-direction: row; align-items: center; gap: 10px; }
-      .hstat-icon { display: flex; align-items: center; justify-content: center; opacity: .75; color: var(--accent, #00ff88); flex-shrink: 0; transition: opacity .2s; }
-      .hstat:hover .hstat-icon { opacity: 1; }
-      .hstat-text { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
-      .hstat-badge--ai {
-        background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #00ff88 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-size: 1.25rem !important;
-        font-weight: 800 !important;
-        letter-spacing: .05em;
-      }
-      .hstat-ai-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 3px;
-        margin-top: 2px;
-        padding: 1px 6px;
-        border-radius: 20px;
-        font-size: 0.58rem;
-        font-weight: 600;
-        letter-spacing: .04em;
-        color: #a855f7;
-        border: 1px solid rgba(168,85,247,.35);
-        background: rgba(168,85,247,.08);
-        white-space: nowrap;
-      }
-      .hstat-ai-badge svg { color: #a855f7; }
-    </style>
+    <link rel="stylesheet" href="styles/theme-refresh.css">
+    <link rel="stylesheet" href="styles/page-preview.css">
 
 <body>
 
 <a href="#main-content" class="sr-only" data-i18n="a11y.skipToContent">Passer au contenu principal</a>
+
+<!-- Barre de progression de lecture + halo curseur (décoratifs, gérés par src/pages/site-motion.js) -->
+<div id="scroll-progress" aria-hidden="true"></div>
+<div id="cursor-glow" aria-hidden="true"></div>
+
+<button id="back-to-top" type="button" aria-label="Retour en haut de page">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
 
 <!-- ══════════════════════════════════════════════════════════
      NAV
@@ -295,10 +275,11 @@
 <nav id="nav" role="navigation" aria-label="Navigation principale">
   <a class="nav-logo" href="#" aria-label="CrypView — Accueil">CRYP<span class="accent">VIEW</span></a>
   <ul class="nav-links" role="list">
-    <li><a href="#features" data-i18n="nav.features">Fonctionnalités</a></li>
-    <li><a href="#advanced" data-i18n="nav.advanced">Analyse avancée</a></li>
-    <li><a href="#preview"  data-i18n="nav.preview">Aperçu</a></li>
-    <li><a href="#acces"    data-i18n="nav.access">Accès</a></li>
+    <li><a href="#features"    data-i18n="nav.features">Fonctionnalités</a></li>
+    <li><a href="#advanced"    data-i18n="nav.advanced">Analyse avancée</a></li>
+    <li><a href="#indicators-full" data-i18n="nav.indicators">Indicateurs</a></li>
+    <li><a href="#trading-tools"   data-i18n="nav.tools">Outils</a></li>
+    <li><a href="#acces"       data-i18n="nav.access">Accès</a></li>
   </ul>
   <div class="nav-actions">
 
@@ -320,6 +301,17 @@
       <span class="ai-btn-label">Assistant IA</span>
     </button>
 
+    <!-- Bouton thème clair / sombre -->
+    <button
+      class="nav-theme-btn"
+      id="theme-toggle-btn"
+      type="button"
+      aria-label="Basculer entre le mode sombre et le mode clair"
+    >
+      <svg class="theme-icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg class="theme-icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+
     <!-- Bouton Lancer l'app (inchangé) -->
     <a
       class="nav-btn"
@@ -334,11 +326,12 @@
 <!-- ══════════════════════════════════════════════════════════
      HERO
 ══════════════════════════════════════════════════════════ -->
-<section class="hero" id="main-content" aria-label="Présentation">
+<main id="main-content" tabindex="-1">
+<section class="hero" aria-label="Présentation">
   <div class="hero-inner">
-    <div class="hero-badge" aria-label="LIVE BINANCE DATA — INSTALLABLE PWA — FREE">
-      <span aria-hidden="true" class="hero-badge-square">■</span>
-      <span class="hero-badge-text">LIVE BINANCE DATA · INSTALLABLE PWA · FREE</span>
+    <div class="hero-badge" aria-label="Données Binance en direct, gratuit, installable">
+      <span aria-hidden="true" class="hero-badge-square"></span>
+      <span class="hero-badge-text" data-i18n="hero.badge">Connecté au marché en direct — gratuit, sans compte</span>
     </div>
 
     <h1 class="hero-title" aria-label="Read the markets differently.">
@@ -365,7 +358,7 @@
           </svg>
         </div>
         <div class="hstat-text">
-          <div class="hstat-val">500<em>+</em></div>
+          <div class="hstat-val"><span class="count-up" data-count-to="500">500</span><em>+</em></div>
           <div class="hstat-label" data-i18n="hero.stats.pairs">Paires USDT</div>
         </div>
       </div>
@@ -393,7 +386,7 @@
           </svg>
         </div>
         <div class="hstat-text">
-          <div class="hstat-val">32<em>+</em></div>
+          <div class="hstat-val"><span class="count-up" data-count-to="34">34</span><em>+</em></div>
           <div class="hstat-label" data-i18n="hero.stats.indicators">Indicateurs</div>
         </div>
       </div>
@@ -421,7 +414,7 @@
           </svg>
         </div>
         <div class="hstat-text">
-          <div class="hstat-val">8<em>+</em></div>
+          <div class="hstat-val"><span class="count-up" data-count-to="8">8</span><em>+</em></div>
           <div class="hstat-label" data-i18n="hero.stats.layouts">Layouts</div>
         </div>
       </div>
@@ -447,7 +440,95 @@
   <div class="ticker-strip"
        style="position:relative;margin-top:40px;width:100vw;margin-left:-40px;"
        role="marquee" aria-label="Cours des cryptomonnaies en temps réel" aria-live="off">
-    <div class="ticker-track" id="ticker-track"></div>
+    <div class="ticker-track" id="ticker-track">
+      <div class="ticker-item ticker-fallback" aria-hidden="true"><span class="t-sym">BTC/USDT</span><span class="t-price">—</span><span class="t-chg">chargement…</span></div>
+      <div class="ticker-item ticker-fallback" aria-hidden="true"><span class="t-sym">ETH/USDT</span><span class="t-price">—</span><span class="t-chg">chargement…</span></div>
+      <div class="ticker-item ticker-fallback" aria-hidden="true"><span class="t-sym">SOL/USDT</span><span class="t-price">—</span><span class="t-chg">chargement…</span></div>
+      <div class="ticker-item ticker-fallback" aria-hidden="true"><span class="t-sym">BNB/USDT</span><span class="t-price">—</span><span class="t-chg">chargement…</span></div>
+      <div class="ticker-item ticker-fallback" aria-hidden="true"><span class="t-sym">XRP/USDT</span><span class="t-price">—</span><span class="t-chg">chargement…</span></div>
+      <div class="ticker-item ticker-fallback" aria-hidden="true"><span class="t-sym">DOGE/USDT</span><span class="t-price">—</span><span class="t-chg">chargement…</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-terminal pv" id="terminal" aria-labelledby="terminal-title">
+  <div class="pv-wrap">
+    <div class="pv-head" data-reveal="rise">
+      <div class="section-label" aria-hidden="true">Le terminal</div>
+      <h2 class="section-title" id="terminal-title">Tout le terminal. Dans un seul espace.</h2>
+      <p class="pv-lead">Une seule page, cinq zones. Choisissez une zone dans la liste, ou cliquez directement sur l'aperçu, pour voir où elle se trouve.</p>
+    </div>
+
+    <div class="pv-layout">
+      <div class="pv-nav">
+        <ul class="pv-tabs" role="list" data-reveal-group>
+          <li data-reveal="left" style="--i:0"><button type="button" class="pv-tab is-active" data-go="marche" aria-pressed="true"><span class="pv-tab-name">Market</span><span class="pv-tab-list">Charts · Multi-chart · DEX · Multi-Exchange</span><span class="pv-bar"></span></button></li>
+          <li data-reveal="left" style="--i:1"><button type="button" class="pv-tab" data-go="flux" aria-pressed="false"><span class="pv-tab-name">Flow</span><span class="pv-tab-list">Footprint · Orderflow · Volume Profile · Order Book</span><span class="pv-bar"></span></button></li>
+          <li data-reveal="left" style="--i:2"><button type="button" class="pv-tab" data-go="derives" aria-pressed="false"><span class="pv-tab-name">Derivatives</span><span class="pv-tab-list">Open Interest · Funding · Long/Short · Liquidations</span><span class="pv-bar"></span></button></li>
+          <li data-reveal="left" style="--i:3"><button type="button" class="pv-tab" data-go="analyse" aria-pressed="false"><span class="pv-tab-name">Analysis</span><span class="pv-tab-list">34 indicateurs · Sentiment · News · Fundamentals</span><span class="pv-bar"></span></button></li>
+          <li data-reveal="left" style="--i:4"><button type="button" class="pv-tab" data-go="outils" aria-pressed="false"><span class="pv-tab-name">Tools</span><span class="pv-tab-list">Paper Trading · Backtest · Screener · Alertes</span><span class="pv-bar"></span></button></li>
+        </ul>
+        <a class="preview-link" href="page.html" aria-label="Ouvrir l'interface complète CrypView">
+          <span>Ouvrir l'interface complète</span><span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="pv-stage-col" data-reveal="scale">
+        <div class="pv-stage" id="pv-stage" data-active="marche" data-view="1" role="group" aria-label="Aperçu animé de la page graphique, données simulées">
+          <div class="pv-frame">
+            <i class="term-dot" style="background:var(--down)"></i><i class="term-dot" style="background:var(--accent)"></i><i class="term-dot" style="background:var(--up)"></i>
+            <span class="pv-frame-title">page.html</span>
+            <div class="pv-views" role="group" aria-label="Nombre de graphiques">
+              <button type="button" data-view="1" aria-pressed="true" aria-label="1 graphique">1</button>
+              <button type="button" data-view="2" aria-pressed="false" aria-label="2 graphiques">2</button>
+              <button type="button" data-view="4" aria-pressed="false" aria-label="4 graphiques">4</button>
+            </div>
+          </div>
+
+          <div class="pv-mock" aria-hidden="true"><div class="pv-ui">
+            <div class="pv-top">
+              <span class="pv-logo">CRYP<b>VIEW</b></span>
+              <div class="pv-search pv-z" data-zone="marche"><span class="pv-input">BTC/USDT ⌕</span><span class="pv-tfs"><span>1m</span><span>5m</span><span>15m</span><span class="on">1h</span><span>4h</span><span>1j</span></span></div>
+              <div class="pv-ptabs pv-z" data-zone="analyse"><span class="on">Sentiment</span><span>News</span><span>Fondamentaux</span><span>Order Book</span></div>
+              <div class="pv-chips pv-z" data-zone="outils"><span>Ctrl K</span><span>Paper <b class="up" style="font-weight:400">+2,4 %</b></span></div>
+              <div class="pv-price"><span data-r="price">—</span><small data-r="pct">—</small></div>
+            </div>
+            <div class="pv-ind pv-z" data-zone="analyse"><span>RSI 14</span><span>SMA 10</span><span>BB 20</span><span>VWAP</span><span>SuperTrend</span><span class="more">+ 34</span></div>
+
+            <div class="pv-body">
+              <div class="pv-tool pv-z" data-zone="outils"><span>╱</span><span>▭</span><span>T</span><span>⌖</span></div>
+
+              <div class="pv-chart">
+                <div class="pv-plot">
+                  <div class="pv-cells pv-z" data-zone="marche" data-n="1"></div>
+                  <div class="pv-vp pv-z" data-zone="flux" data-r="vp"></div>
+                  <div class="pv-alert pv-z" data-zone="outils" data-r="alert"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Alerte <b data-r="alertp" style="font-weight:400">—</b></span></div>
+                </div>
+                <div class="pv-rsi pv-z" data-zone="analyse"><span data-r="rsival">RSI 14</span>
+                  <svg viewBox="0 0 360 40" preserveAspectRatio="none"><line x1="0" x2="360" y1="12" y2="12"/><line x1="0" x2="360" y1="28" y2="28"/><polyline data-r="rsiline" points=""/></svg></div>
+              </div>
+
+              <div class="pv-side">
+                <div class="pv-sec pv-z" data-zone="marche"><h4>Stats 24h</h4>
+                  <div class="pv-row"><span>Haut</span><b class="up" data-r="hi">—</b></div>
+                  <div class="pv-row"><span>Bas</span><b class="dn" data-r="lo">—</b></div>
+                  <div class="pv-row"><span>Volume</span><b data-r="vol">—</b></div></div>
+                <div class="pv-z" data-zone="flux" style="padding:.4em 0"><div class="pv-sec" style="padding-bottom:0"><h4>Order Book</h4></div><div data-r="ob"></div></div>
+                <div class="pv-z" data-zone="flux" style="padding:.4em 0"><div class="pv-sec" style="padding-bottom:0"><h4>Trades récents</h4></div><div data-r="trades"></div></div>
+              </div>
+            </div>
+
+            <div class="pv-deriv pv-z" data-zone="derives">
+              <div class="pv-d"><span>Open Interest</span><b data-r="oi">—</b><i class="pv-dbar" data-r="oib"></i></div>
+              <div class="pv-d"><span>Funding</span><b data-r="fund">—</b><i class="pv-dbar" data-r="fundb" style="--c1:var(--up)"></i></div>
+              <div class="pv-d"><span>Long / Short</span><b data-r="ls">—</b><i class="pv-dbar" data-r="lsb" style="--c1:var(--up);--c2:var(--down)"></i></div>
+              <div class="pv-d"><span>Liquidations</span><b data-r="liq">—</b><i class="pv-dbar" data-r="liqb" style="--c1:var(--down);--c2:var(--up)"></i></div>
+            </div>
+          </div></div>
+        </div>
+        <p class="pv-note">Aperçu animé — données simulées, aucune requête réseau.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -466,7 +547,7 @@
     <!-- 01 — Temps réel -->
     <article class="feat-card feat-card--highlight" role="listitem">
       <div class="feat-num" aria-hidden="true">01</div>
-      <div class="feat-icon" aria-hidden="true">⚡</div>
+      <div class="feat-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
       <h3 class="feat-title" data-i18n="features.cards.realtime.title">Temps réel à la seconde</h3>
       <p class="feat-text" data-i18n="features.cards.realtime.text">Flux WebSocket direct depuis Binance. Chandeliers, trades et ticker mis à jour en continu. Reconnexion automatique avec backoff exponentiel.</p>
       <div class="feat-tags" aria-label="Technologies">
@@ -479,21 +560,21 @@
     <!-- 02 — Indicateurs -->
     <article class="feat-card feat-card--highlight" role="listitem">
       <div class="feat-num" aria-hidden="true">02</div>
-      <div class="feat-icon" aria-hidden="true">📊</div>
-      <h3 class="feat-title" data-i18n="features.cards.indicators.title"32 Indicateurs techniques</h3>
+      <div class="feat-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20V13"/></svg></div>
+      <h3 class="feat-title" data-i18n="features.cards.indicators.title">34 Indicateurs techniques</h3>
       <p class="feat-text" data-i18n="features.cards.indicators.text">RSI, MACD, Bollinger, Stochastique, ATR, Momentum, Ichimoku, SuperTrend, Keltner, HMA, VWAP, MA… Panneaux synchronisés, calculs via Web Worker.</p>
       <div class="feat-tags" aria-label="Indicateurs">
         <span class="feat-tag">RSI</span>
         <span class="feat-tag">MACD</span>
         <span class="feat-tag">Ichimoku</span>
-        <span class="feat-tag" data-i18n="features.cards.indicators.tag">32 indicateurs</span>
+        <span class="feat-tag" data-i18n="features.cards.indicators.tag">34 indicateurs</span>
       </div>
     </article>
 
     <!-- 03 — Recherche -->
     <article class="feat-card feat-card--highlight" role="listitem">
       <div class="feat-num" aria-hidden="true">03</div>
-      <div class="feat-icon" aria-hidden="true">🔍</div>
+      <div class="feat-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg></div>
       <h3 class="feat-title" data-i18n="features.cards.search.title">Recherche universelle</h3>
       <p class="feat-text" data-i18n="features.cards.search.text">Toutes les paires USDT actives sur Binance Spot. Recherche instantanée par nom ou ticker avec autocomplétion et navigation clavier.</p>
       <div class="feat-tags">
@@ -505,7 +586,7 @@
     <!-- 04 — Multi-charts -->
     <article class="feat-card feat-card--highlight" role="listitem">
       <div class="feat-num" aria-hidden="true">04</div>
-      <div class="feat-icon" aria-hidden="true">🔲</div>
+      <div class="feat-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg></div>
       <h3 class="feat-title" data-i18n="features.cards.multi.title">Multi-graphiques</h3>
       <p class="feat-text" data-i18n="features.cards.multi.text">Comparez 2 ou 4 actifs dans une grille synchronisée. Chaque panneau est indépendant : symbole, timeframe, indicateurs, état persistant.</p>
       <div class="feat-tags">
@@ -518,7 +599,7 @@
     <!-- 05 — Drawing Tools -->
     <article class="feat-card feat-card--highlight" role="listitem">
       <div class="feat-num" aria-hidden="true">05</div>
-      <div class="feat-icon" aria-hidden="true">✏️</div>
+      <div class="feat-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></div>
       <h3 class="feat-title" data-i18n="features.cards.drawing.title">Drawing Tools</h3>
       <p class="feat-text" data-i18n="features.cards.drawing.text">Trendline, Fibonacci, zones, rectangles, pitchfork. Ancres déplaçables par glisser-déposer. Tracés persistants, suppression en clic-droit.</p>
       <div class="feat-tags">
@@ -531,7 +612,7 @@
     <!-- 06 — Flux de trades -->
     <article class="feat-card feat-card--highlight" role="listitem">
       <div class="feat-num" aria-hidden="true">06</div>
-      <div class="feat-icon" aria-hidden="true">📋</div>
+      <div class="feat-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/></svg></div>
       <h3 class="feat-title" data-i18n="features.cards.trades.title">Flux de trades en direct</h3>
       <p class="feat-text" data-i18n="features.cards.trades.text">Chaque transaction affichée en temps réel dans la sidebar — prix, quantité, horodatage et sens acheteur / vendeur. Fenêtre glissante de 100 trades.</p>
       <div class="feat-tags">
@@ -543,7 +624,7 @@
     <!-- 07 — Alertes -->
     <article class="feat-card feat-card--highlight" role="listitem">
       <div class="feat-num" aria-hidden="true">07</div>
-      <div class="feat-icon" aria-hidden="true">🔔</div>
+      <div class="feat-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
       <h3 class="feat-title" data-i18n="features.cards.alerts.title">Alertes de prix</h3>
       <p class="feat-text" data-i18n="features.cards.alerts.text">Définissez un niveau depuis le graphique (clic droit → Set Alert). Notification native OS + signal audio double-ton à chaque croisement. Persistance locale.</p>
       <div class="feat-tags">
@@ -556,7 +637,7 @@
     <!-- 08 — Footprint -->
     <article class="feat-card feat-card--highlight" role="listitem">
       <div class="feat-num" aria-hidden="true">08</div>
-      <div class="feat-icon" aria-hidden="true">🦶</div>
+      <div class="feat-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></div>
       <h3 class="feat-title" data-i18n="features.cards.footprint.title">Footprint Chart</h3>
       <p class="feat-text" data-i18n="features.cards.footprint.text">Flux acheteur/vendeur décomposé par niveau de prix à l'intérieur de chaque bougie. Détection automatique des déséquilibres (imbalance ≥ 3×). Seed REST puis upgrade WS.</p>
       <div class="feat-tags">
@@ -569,7 +650,7 @@
     <!-- 09 — Orderflow -->
     <article class="feat-card feat-card--highlight" role="listitem">
       <div class="feat-num" aria-hidden="true">09</div>
-      <div class="feat-icon" aria-hidden="true">📉</div>
+      <div class="feat-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l2-8 4 16 2-8h6"/></svg></div>
       <h3 class="feat-title" data-i18n="features.cards.orderflow.title">Orderflow Delta / CVD</h3>
       <p class="feat-text" data-i18n="features.cards.orderflow.text">Delta cumulatif (Ask − Bid) par bougie et CVD (Cumulative Volume Delta) sur toute la session. Divergences entre prix et pression directionnelle visibles d'un coup d'œil.</p>
       <div class="feat-tags">
@@ -605,13 +686,13 @@
       <!-- Footprint -->
       <div class="adv-card" id="adv-fp">
         <div class="adv-card-header">
-          <div class="adv-card-icon" aria-hidden="true">🦶</div>
+          <div class="adv-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></div>
           <div>
             <h3 class="adv-card-title" data-i18n="advanced.fp.title">Footprint Chart</h3>
             <p class="adv-card-sub"   data-i18n="advanced.fp.sub">Ask / Bid par niveau de prix</p>
           </div>
           <div class="adv-live-badge" aria-hidden="true">
-            <span class="adv-dot"></span>LIVE
+            <span class="adv-dot"></span>WebSocket
           </div>
         </div>
         <canvas id="fp-preview" class="adv-canvas"
@@ -628,13 +709,13 @@
       <!-- Orderflow -->
       <div class="adv-card" id="adv-of">
         <div class="adv-card-header">
-          <div class="adv-card-icon" aria-hidden="true">📊</div>
+          <div class="adv-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l2-8 4 16 2-8h6"/></svg></div>
           <div>
             <h3 class="adv-card-title" data-i18n="advanced.of.title">Orderflow Delta / CVD</h3>
             <p class="adv-card-sub"   data-i18n="advanced.of.sub">Pression directionnelle en temps réel</p>
           </div>
           <div class="adv-live-badge" aria-hidden="true">
-            <span class="adv-dot"></span>LIVE
+            <span class="adv-dot"></span>WebSocket
           </div>
         </div>
         <div id="of-preview" class="adv-canvas of-preview-wrap"
@@ -649,13 +730,13 @@
       <!-- Volume Profile -->
       <div class="adv-card" id="adv-vp">
         <div class="adv-card-header">
-          <div class="adv-card-icon" aria-hidden="true">📈</div>
+          <div class="adv-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></div>
           <div>
             <h3 class="adv-card-title" data-i18n="advanced.vp.title">Volume Profile</h3>
             <p class="adv-card-sub"   data-i18n="advanced.vp.sub">Distribution POC · VAH · VAL</p>
           </div>
           <div class="adv-live-badge" aria-hidden="true">
-            <span class="adv-dot"></span>LIVE
+            <span class="adv-dot"></span>WebSocket
           </div>
         </div>
         <canvas id="vp-preview" class="adv-canvas"
@@ -667,6 +748,78 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     INDICATEURS — 34 indicateurs, classés par famille
+══════════════════════════════════════════════════════════ -->
+<section class="section-indicators" id="indicators-full" aria-labelledby="indicators-title" data-reveal-group>
+  <div class="ind-header" data-reveal="rise" style="--i:0">
+    <div class="section-label" aria-hidden="true" data-i18n="indicators.label">Bibliothèque d'indicateurs</div>
+    <h2 class="section-title" id="indicators-title">
+      <span data-i18n="indicators.title.line1">34 indicateurs.</span><br>
+      <span data-i18n="indicators.title.line2">Zéro abonnement.</span>
+    </h2>
+    <p class="ind-intro" data-i18n="indicators.intro">
+      Tous les calculs tournent en O(n) côté client — les plus lourds (Ichimoku, ADX, SuperTrend, MACD) sont
+      déportés dans un Web Worker pour ne jamais bloquer le rendu du graphique.
+    </p>
+  </div>
+
+  <div class="ind-groups">
+    <div class="ind-group" data-reveal="rise" style="--i:1">
+      <h3 class="ind-group-title" data-i18n="indicators.trend.title">Tendance</h3>
+      <span class="ind-group-count" data-i18n="indicators.trend.count">13 overlays</span>
+      <ul class="ind-list">
+        <li><button type="button" class="ind-btn" aria-expanded="false">MA 20 / 50 / 200</button><p class="ind-desc">Moyennes mobiles simples sur 20, 50 et 200 périodes — les niveaux de tendance les plus suivis par l'ensemble du marché.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false">EMA 8 / 13 / 21</button><p class="ind-desc">Moyennes mobiles exponentielles : plus réactives que les SMA car elles pondèrent davantage les prix récents.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.trend.ichimoku">Ichimoku (9 / 26 / 52)</button><p class="ind-desc">Système japonais à 5 courbes (Tenkan, Kijun, nuage Senkou, Chikou) qui résume tendance, support/résistance et momentum en un coup d'œil.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false">SuperTrend (10, 3)</button><p class="ind-desc">Ligne de tendance basée sur l'ATR : sous le prix en tendance haussière, au-dessus en tendance baissière — sert souvent de stop suiveur.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.trend.psar">Parabolic SAR</button><p class="ind-desc">Points qui suivent le prix et s'inversent aux retournements de tendance ; utilisé comme niveau de stop dynamique.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.trend.keltner">Keltner Channels</button><p class="ind-desc">Canal basé sur une EMA ± un multiple de l'ATR : repère les phases de compression et les sorties de range.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false">Donchian (20)</button><p class="ind-desc">Canal formé par le plus haut et le plus bas des 20 dernières bougies — la base du breakout trading classique.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.trend.linreg">Régression linéaire ±2σ</button><p class="ind-desc">Canal de régression linéaire sur 50 périodes avec bandes à ±2 écarts-types, pour visualiser les extrêmes statistiques du prix.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false">VWAP · HMA · DEMA</button><p class="ind-desc">VWAP : prix moyen pondéré par le volume, réinitialisé chaque jour. HMA / DEMA : moyennes mobiles à lag réduit pour un signal plus rapide.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.trend.pivots">Pivot Points (PP·R·S)</button><p class="ind-desc">Niveaux de support/résistance calculés depuis la session précédente (PP, R1-R3, S1-S3) — très utilisés en intraday.</p></li>
+      </ul>
+    </div>
+
+    <div class="ind-group" data-reveal="rise" style="--i:2">
+      <h3 class="ind-group-title" data-i18n="indicators.momentum.title">Momentum</h3>
+      <span class="ind-group-count" data-i18n="indicators.momentum.count">10 oscillateurs</span>
+      <ul class="ind-list">
+        <li><button type="button" class="ind-btn" aria-expanded="false">RSI (14) · Stochastique (14)</button><p class="ind-desc">RSI : vitesse et ampleur des variations de prix pour repérer surachat/survente. Stochastique : compare la clôture à sa fourchette récente.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false">MACD (12 / 26 / 9)</button><p class="ind-desc">Différence entre deux EMA (12 et 26) et sa ligne de signal (9) — l'indicateur de momentum le plus utilisé au monde.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false">CCI (20) · Williams %R (14)</button><p class="ind-desc">CCI : écart du prix par rapport à sa moyenne statistique. Williams %R : équivalent inversé du Stochastique, sensible aux extrêmes.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false">ADX + DI (14)</button><p class="ind-desc">Mesure la force d'une tendance (ADX) indépendamment de sa direction, complétée par les lignes directionnelles +DI / −DI.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false">TRIX (18) · Momentum (10)</button><p class="ind-desc">TRIX : taux de variation d'une triple EMA, filtre le bruit de marché. Momentum : simple différence de prix sur N périodes.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.momentum.elder">Elder Ray (13)</button><p class="ind-desc">Décompose la pression acheteuse (Bull Power) et vendeuse (Bear Power) autour d'une EMA de référence.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.momentum.squeeze">Squeeze Momentum</button><p class="ind-desc">Détecte les phases de compression de volatilité (Bollinger dans Keltner) qui précèdent souvent un mouvement explosif.</p></li>
+      </ul>
+    </div>
+
+    <div class="ind-group" data-reveal="rise" style="--i:3">
+      <h3 class="ind-group-title" data-i18n="indicators.volume.title">Volume &amp; flux</h3>
+      <span class="ind-group-count" data-i18n="indicators.volume.count">6 modules</span>
+      <ul class="ind-list">
+        <li><button type="button" class="ind-btn" aria-expanded="false">MFI (14) · OBV · CMF (20)</button><p class="ind-desc">MFI : RSI pondéré par le volume. OBV : cumul du volume selon la direction du prix. CMF : pression acheteuse/vendeuse sur 20 périodes.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.volume.vp">Volume Profile (POC · VAH · VAL)</button><p class="ind-desc">Répartit le volume échangé par niveau de prix ; POC = niveau le plus traité, VAH/VAL = bornes de la zone de valeur à 70%.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.volume.fp">Footprint Chart (Ask/Bid)</button><p class="ind-desc">Décompose chaque bougie en volumes Ask/Bid par niveau de prix, pour voir qui a été le plus agressif : acheteurs ou vendeurs.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.volume.of">Orderflow Delta / CVD</button><p class="ind-desc">Delta : différence achats/ventes marché par bougie. CVD : son cumul dans le temps, utile pour repérer les divergences avec le prix.</p></li>
+      </ul>
+    </div>
+
+    <div class="ind-group" data-reveal="rise" style="--i:4">
+      <h3 class="ind-group-title" data-i18n="indicators.futures.title">Futures &amp; liquidations</h3>
+      <span class="ind-group-count" data-i18n="indicators.futures.count">Binance FAPI</span>
+      <ul class="ind-list">
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.futures.oi">Open Interest (delta + ligne)</button><p class="ind-desc">Nombre total de contrats futures ouverts — sa variation confirme (ou contredit) la force d'un mouvement de prix.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.futures.funding">Funding Rate (8h)</button><p class="ind-desc">Taux payé toutes les 8h entre positions long et short sur les perpétuels ; un taux élevé signale un marché déséquilibré.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.futures.ls">Ratio Long / Short</button><p class="ind-desc">Proportion de comptes en position longue vs courte sur l'exchange — un indicateur de sentiment, souvent contrarian aux extrêmes.</p></li>
+        <li><button type="button" class="ind-btn" aria-expanded="false" data-i18n="indicators.futures.liq">Liquidation Heatmap (@forceOrder)</button><p class="ind-desc">Cartographie en direct des liquidations forcées : les zones de prix où l'effet de levier est le plus vulnérable.</p></li>
+      </ul>
     </div>
   </div>
 </section>
@@ -689,11 +842,11 @@
         La notification arrive directement sur votre système — même si l'onglet est en arrière-plan.
       </p>
       <ul class="alerts-features" aria-label="Caractéristiques des alertes">
-        <li><span class="af-icon">🎯</span> <span data-i18n="alerts.features.placement">Placement depuis le chart (clic-droit → Set Alert)</span></li>
-        <li><span class="af-icon">🔔</span> <span data-i18n="alerts.features.notif">Notification native OS (Web Notifications API)</span></li>
-        <li><span class="af-icon">🎵</span> <span data-i18n="alerts.features.audio">Signal audio double-ton via Web Audio API</span></li>
-        <li><span class="af-icon">💾</span> <span data-i18n="alerts.features.persist">Persistance localStorage — survit au rechargement</span></li>
-        <li><span class="af-icon">📋</span> <span data-i18n="alerts.features.manage">Gestion centralisée (vue liste, suppression)</span></li>
+        <li><span class="af-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span> <span data-i18n="alerts.features.placement">Placement depuis le chart (clic-droit → Set Alert)</span></li>
+        <li><span class="af-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span> <span data-i18n="alerts.features.notif">Notification native OS (Web Notifications API)</span></li>
+        <li><span class="af-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h2l2-7 3 14 3-10 2 5 2-3h4"/></svg></span> <span data-i18n="alerts.features.audio">Signal audio double-ton via Web Audio API</span></li>
+        <li><span class="af-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h8V3M7 21v-7h10v7"/></svg></span> <span data-i18n="alerts.features.persist">Persistance localStorage — survit au rechargement</span></li>
+        <li><span class="af-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="12" height="17" rx="1.5"/><path d="M9 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1M9 11h6M9 15h6"/></svg></span> <span data-i18n="alerts.features.manage">Gestion centralisée (vue liste, suppression)</span></li>
       </ul>
     </div>
 
@@ -703,39 +856,46 @@
           <span class="adc-sym">BTC / USDT</span>
           <span class="adc-dot-live" aria-hidden="true"></span>
           <span id="adc-price-display" class="adc-price">—</span>
-        </div>
-
-        <div class="adc-chart-wrap">
-          <canvas id="alert-chart-canvas"
-                  aria-label="Mini graphique pour la démo d'alertes"
-                  width="380" height="160"></canvas>
-          <div id="alert-price-line" class="alert-price-line" aria-hidden="true">
-            <span class="apl-label" id="apl-label">—</span>
-          </div>
-        </div>
-
-        <div class="adc-form" id="adc-form">
-          <div class="adc-form-row">
-            <span class="adc-form-label" data-i18n="alerts.demo.targetPrice">Prix cible</span>
-            <input id="adc-price-input" class="adc-price-input" type="number" step="any"
-                   placeholder="ex: 67 000"
-                   data-i18n-placeholder="alerts.demo.placeholder"
-                   aria-label="Prix cible de l'alerte" />
-          </div>
-          <div id="adc-hint" class="adc-hint"></div>
-          <button class="adc-btn" id="adc-confirm" aria-label="Créer l'alerte de prix">
-            🔔 <span data-i18n="alerts.demo.createBtn">Créer l'alerte</span>
+          <button type="button" class="adc-minimize" id="adc-minimize" aria-expanded="true" aria-controls="adc-body" aria-label="Réduire la démo">
+            <svg class="icon-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+            <svg class="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
           </button>
         </div>
 
-        <div class="adc-notif" id="adc-notif" role="alert" aria-live="assertive">
-          <span class="adc-notif-icon">🔔</span>
-          <span id="adc-notif-text" data-i18n="alerts.demo.created">Alerte créée !</span>
+        <div class="adc-body" id="adc-body">
+          <div class="adc-chart-wrap">
+            <canvas id="alert-chart-canvas"
+                    aria-label="Mini graphique pour la démo d'alertes"
+                    width="380" height="160"></canvas>
+            <div id="alert-price-line" class="alert-price-line" aria-hidden="true">
+              <span class="apl-label" id="apl-label">—</span>
+            </div>
+          </div>
+
+          <div class="adc-form" id="adc-form">
+            <div class="adc-form-row">
+              <span class="adc-form-label" data-i18n="alerts.demo.targetPrice">Prix cible</span>
+              <input id="adc-price-input" class="adc-price-input" type="number" step="any"
+                     placeholder="ex: 67 000"
+                     data-i18n-placeholder="alerts.demo.placeholder"
+                     aria-label="Prix cible de l'alerte" />
+            </div>
+            <div id="adc-hint" class="adc-hint"></div>
+            <button class="adc-btn" id="adc-confirm" aria-label="Créer l'alerte de prix">
+              <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-right:4px;vertical-align:-2px"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              <span data-i18n="alerts.demo.createBtn">Créer l'alerte</span>
+            </button>
+          </div>
+
+          <div class="adc-notif" id="adc-notif" role="alert" aria-live="assertive">
+            <span class="adc-notif-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>
+            <span id="adc-notif-text" data-i18n="alerts.demo.created">Alerte créée !</span>
+          </div>
         </div>
       </div>
 
       <p class="alerts-tip">
-        <span aria-hidden="true">💡</span>
+        <span class="tip-icon" aria-hidden="true"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.45 1.1 1.2 1.1 2.2h5c0-1 .5-1.75 1.1-2.2A6 6 0 0 0 12 3z"/></svg></span>
         <span class="tip-text" data-i18n="alerts.tip1">Dans l'app, utilisez le</span> <strong class="tip-text" data-i18n="alerts.tip2">clic droit</strong><span class="tip-text" data-i18n="alerts.tip3">sur le graphique pour placer une alerte directement au niveau du curseur.</span> 
       </p>
     </div>
@@ -783,11 +943,140 @@
         <div class="term-row"><span class="k" data-i18n="preview.terminal.low">Bas 24h</span>    <span class="v down"id="tm-low">—</span></div>
         <div class="term-row"><span class="k" data-i18n="preview.terminal.vol">Volume</span>     <span class="v"     id="tm-vol">—</span></div>
         <div class="term-row"><span class="k" data-i18n="preview.terminal.chg">Variation</span> <span class="v"    id="tm-chg">—</span></div>
-        <div class="term-row"><span class="k" data-i18n="preview.terminal.alerts">Alertes</span>   <span class="v" style="color:#ff9900" id="tm-alerts">🔔 0 active</span></div>
+        <div class="term-row"><span class="k" data-i18n="preview.terminal.alerts">Alertes</span>   <span class="v" style="color:#ff9900" id="tm-alerts"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>0 active</span></div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- ══════════════════════════════════════════════════════════
+     OUTILS — Paper Trading, Backtesting, Screener, Palette
+══════════════════════════════════════════════════════════ -->
+<section class="section-tools" id="trading-tools" aria-labelledby="tools-title" data-reveal-group>
+  <div class="tools-header" data-reveal="rise" style="--i:0">
+    <div class="section-label" aria-hidden="true" data-i18n="tools.label">Outils de trading</div>
+    <h2 class="section-title" id="tools-title">
+      <span data-i18n="tools.title.line1">Testez vos idées</span><br>
+      <span data-i18n="tools.title.line2">avant d'y mettre un centime.</span>
+    </h2>
+    <p class="tools-intro" data-i18n="tools.intro">
+      Paper trading, backtesting et screener tournent entièrement dans votre navigateur —
+      aucune donnée n'est envoyée à un serveur.
+    </p>
+  </div>
+
+  <div class="tools-grid">
+    <article class="tool-card" data-reveal="rise" style="--i:1">
+      <div class="tool-card-head">
+        <div class="tool-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h13a1 1 0 0 1 1 1v3"/><path d="M3 7v11a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1h-4a2 2 0 1 0 0 4h5"/></svg></div>
+        <div>
+          <h3 class="tool-card-title" data-i18n="tools.paper.title">Paper Trading</h3>
+          <p class="tool-card-sub" data-i18n="tools.paper.sub">Compte fictif, exécution réelle</p>
+        </div>
+      </div>
+      <p class="tool-card-text" data-i18n="tools.paper.text">
+        10 000 USDT virtuels, ordres long/short au marché, stop-loss et take-profit vérifiés
+        bougie par bougie sur le flux WebSocket. Courbe d'equity et 200 derniers trades archivés.
+      </p>
+      <div class="tool-stats">
+        <div><div class="tool-stat-val">10K</div><div class="tool-stat-label" data-i18n="tools.paper.stat1">USDT de départ</div></div>
+        <div><div class="tool-stat-val">200</div><div class="tool-stat-label" data-i18n="tools.paper.stat2">Trades archivés</div></div>
+      </div>
+    </article>
+
+    <article class="tool-card" data-reveal="rise" style="--i:2">
+      <div class="tool-card-head">
+        <div class="tool-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2v6L3.5 18a2 2 0 0 0 1.8 3h13.4a2 2 0 0 0 1.8-3L15 8V2"/><path d="M9 2h6M7 15h10"/></svg></div>
+        <div>
+          <h3 class="tool-card-title" data-i18n="tools.backtest.title">Backtesting</h3>
+          <p class="tool-card-sub" data-i18n="tools.backtest.sub">12 signaux, logique AND/OR</p>
+        </div>
+      </div>
+      <p class="tool-card-text" data-i18n="tools.backtest.text">
+        Combinez RSI, croisements de MA, MACD, VWAP, Bollinger et Momentum en conditions
+        d'entrée et de sortie. Sharpe ratio, profit factor et max drawdown calculés automatiquement.
+      </p>
+      <div class="tool-stats">
+        <div><div class="tool-stat-val">12</div><div class="tool-stat-label" data-i18n="tools.backtest.stat1">Signaux disponibles</div></div>
+        <div><div class="tool-stat-val">Sharpe</div><div class="tool-stat-label" data-i18n="tools.backtest.stat2">+ profit factor</div></div>
+      </div>
+    </article>
+
+    <article class="tool-card" data-reveal="rise" style="--i:3">
+      <div class="tool-card-head">
+        <div class="tool-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16l-6 8v6l-4 2v-8L4 4z"/></svg></div>
+        <div>
+          <h3 class="tool-card-title" data-i18n="tools.screener.title">Market Screener</h3>
+          <p class="tool-card-sub" data-i18n="tools.screener.sub">500+ paires, 7 filtres</p>
+        </div>
+      </div>
+      <p class="tool-card-text" data-i18n="tools.screener.text">
+        Gainers, losers, volume, breakout, extrêmes et volatilité — colonnes triables,
+        filtre volume min. 500k USDT, clic pour reconnecter le graphique instantanément.
+      </p>
+      <div class="tool-stats">
+        <div><div class="tool-stat-val">7</div><div class="tool-stat-label" data-i18n="tools.screener.stat1">Onglets de tri</div></div>
+        <div><div class="tool-stat-val">2 min</div><div class="tool-stat-label" data-i18n="tools.screener.stat2">Cache de données</div></div>
+      </div>
+    </article>
+
+    <article class="tool-card" data-reveal="rise" style="--i:4">
+      <div class="tool-card-head">
+        <div class="tool-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3a3 3 0 0 0-3 3v12a3 3 0 1 0 3-3H6M15 3a3 3 0 1 1 3 3v12a3 3 0 1 1-3-3h9-9M6 9h12M6 15h12"/></svg></div>
+        <div>
+          <h3 class="tool-card-title" data-i18n="tools.palette.title">Palette de commandes &amp; Workspaces</h3>
+          <p class="tool-card-sub" data-i18n="tools.palette.sub">Ctrl+K — tout au clavier</p>
+        </div>
+      </div>
+      <p class="tool-card-text" data-i18n="tools.palette.text">
+        Recherche floue unifiée sur les symboles, timeframes et indicateurs. 15 workspaces et
+        6 profils d'indicateurs prêts à l'emploi, plus 20 profils personnalisés.
+      </p>
+      <div class="tool-stats">
+        <div><div class="tool-stat-val">15</div><div class="tool-stat-label" data-i18n="tools.palette.stat1">Workspaces</div></div>
+        <div><div class="tool-stat-val">26</div><div class="tool-stat-label" data-i18n="tools.palette.stat2">Profils d'indicateurs</div></div>
+      </div>
+    </article>
+
+    <!-- 05 — Multi-Exchange & DEX (nouveau) -->
+    <article class="tool-card" data-reveal="rise" style="--i:5">
+      <div class="tool-card-head">
+        <div class="tool-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg></div>
+        <div>
+          <h3 class="tool-card-title">Multi-Exchange &amp; DEX</h3>
+          <p class="tool-card-sub">Bybit · OKX · GeckoTerminal — 8 réseaux</p>
+        </div>
+      </div>
+      <p class="tool-card-text">
+        Barre de premium en temps réel face à Binance (spread bid/ask inclus), plus les pools DEX
+        d'Ethereum, Solana, Arbitrum, Base et 4 autres réseaux via GeckoTerminal — sans clé API.
+      </p>
+      <div class="tool-stats">
+        <div><div class="tool-stat-val">3</div><div class="tool-stat-label">Exchanges CEX</div></div>
+        <div><div class="tool-stat-val">8</div><div class="tool-stat-label">Réseaux DEX</div></div>
+      </div>
+    </article>
+
+    <!-- 06 — Accessibilité & langues (nouveau) -->
+    <article class="tool-card" data-reveal="rise" style="--i:6">
+      <div class="tool-card-head">
+        <div class="tool-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 21l2-9M14 21l-2-9M6 8l6-2 6 2M12 6V3M12 12l-3 2M12 12l3 2"/></svg></div>
+        <div>
+          <h3 class="tool-card-title">Accessible &amp; multilingue</h3>
+          <p class="tool-card-sub">WCAG 2.1 — FR · EN · 中文 · العربية</p>
+        </div>
+      </div>
+      <p class="tool-card-text">
+        Piège de focus dans les modaux, navigation clavier complète, lecteurs d'écran annoncés en
+        direct. Interface disponible en 4 langues avec support RTL natif pour l'arabe.
+      </p>
+      <div class="tool-stats">
+        <div><div class="tool-stat-val">4</div><div class="tool-stat-label">Langues</div></div>
+        <div><div class="tool-stat-val">RTL</div><div class="tool-stat-label">Support arabe</div></div>
+      </div>
+    </article>
+  </div>
+</section>
 
 <!-- ══════════════════════════════════════════════════════════
      PWA — Installer l'application
@@ -809,34 +1098,34 @@
 
     <div class="pwa-cards">
       <div class="pwa-card">
-        <div class="pwa-card-icon" aria-hidden="true">📲</div>
+        <div class="pwa-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
         <h3 class="pwa-card-title" data-i18n="pwa.cards.install.title">Installation native</h3>
         <p class="pwa-card-text"  data-i18n="pwa.cards.install.text">Icône sur l'écran d'accueil, fenêtre autonome sans barres de navigateur. Chrome, Edge, Safari et Firefox supportés.</p>
       </div>
       <div class="pwa-card">
-        <div class="pwa-card-icon" aria-hidden="true">⚡</div>
+        <div class="pwa-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
         <h3 class="pwa-card-title" data-i18n="pwa.cards.cache.title">Assets pré-cachés</h3>
         <p class="pwa-card-text"  data-i18n="pwa.cards.cache.text">Les scripts, styles et polices sont mis en cache via Service Worker. Chargement quasi-instantané à chaque ouverture.</p>
       </div>
       <div class="pwa-card">
-        <div class="pwa-card-icon" aria-hidden="true">🔔</div>
+        <div class="pwa-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
         <h3 class="pwa-card-title" data-i18n="pwa.cards.bg.title">Alertes en arrière-plan</h3>
-        <p class="pwa-card-text"  data-i18n="pwa.cards.bg.text">Les WebSockets restent actifs même si l'onglet est minimisé. Les alertes de prix vous atteignent partout, en toutes circonstances.</p>
+        <p class="pwa-card-text"  data-i18n="pwa.cards.bg.text">Tant que l'onglet reste ouvert, même minimisé, la connexion temps réel continue et les alertes de prix peuvent vous notifier — dans les limites de votre navigateur et de votre appareil.</p>
       </div>
       <div class="pwa-card">
-        <div class="pwa-card-icon" aria-hidden="true">🌐</div>
+        <div class="pwa-card-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg></div>
         <h3 class="pwa-card-title" data-i18n="pwa.cards.shortcuts.title">Multi-shortcut</h3>
         <p class="pwa-card-text"  data-i18n="pwa.cards.shortcuts.text">3 raccourcis PWA préconfigurés : Vue simple, Multi-2 et Multi-4. Accès direct à chaque mode depuis l'icône sur l'écran d'accueil.</p>
       </div>
     </div>
 
     <div class="pwa-install-tip" aria-label="Comment installer CrypView">
-      <span class="pwa-tip-icon" aria-hidden="true">💡</span>
+      <span class="pwa-tip-icon" aria-hidden="true"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.6.45 1.1 1.2 1.1 2.2h5c0-1 .5-1.75 1.1-2.2A6 6 0 0 0 12 3z"/></svg></span>
       <span data-i18n="pwa.installTip">
-        Pour installer : cliquez sur l'icône <strong></strong> 
-        <span data-i18n="pwa.installTip1">dans la barre d'adresse de Chrome ou allez dans 
+        Pour installer : cliquez sur l'icône d'installation
+        <span data-i18n="pwa.installTip1">dans la barre d'adresse de Chrome, ou allez dans</span>
         <strong data-i18n="pwa.installTip2">Partager → Ajouter à l'écran d'accueil</strong>
-        <span data-i18n="pwa.installTip3"> sur Safari iOS.
+        <span data-i18n="pwa.installTip3">sur Safari iOS.</span>
       </span>
     </div>
 
@@ -854,7 +1143,7 @@
     </h2>
     <p class="cta-sub" data-i18n="cta.sub">
       Aucune inscription. Aucun compte. Aucune limite.<br>
-    <class="cta-sub" data-i18n="cta.sub1">Lancez l'interface et commencez à lire le marché maintenant.
+      <span data-i18n="cta.sub1">Lancez l'interface et commencez à lire le marché maintenant.</span>
     </p>
     <div class="cta-actions">
       <a class="cta-btn" href="page.html" aria-label="Lancer CrypView — Vue simple">
@@ -898,7 +1187,7 @@
   <div style="max-width:900px;margin:0 auto">
 
     <h2 id="about-title" 
-        style="font-family:'Syne',sans-serif;font-weight:800;
+        style="font-family:'Fraunces',Georgia,serif;font-weight:800;
                font-size:clamp(20px,3vw,28px);margin-bottom:24px;
                color:var(--text)">
       <span data-i18n="semantique.titre">CrypView — Plateforme d'analyse technique crypto open-source</span>
@@ -926,7 +1215,7 @@
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
                 gap:16px;margin-top:28px">
       <div>
-        <h3 style="font-family:'Syne',sans-serif;font-size:13px;
+        <h3 style="font-family:'Fraunces',Georgia,serif;font-size:13px;
                    color:var(--text);margin-bottom:8px"><span data-i18n="semantique.Stitre1">Analyse multi-graphiques</span></h3>
         <p style="font-size:11px;color:var(--muted);line-height:1.7">
           <span data-i18n="semantique.Stxt1">Comparez jusqu'à 9 actifs simultanément avec 8 layouts différents : 
@@ -934,7 +1223,7 @@
         </p>
       </div>
       <div>
-        <h3 style="font-family:'Syne',sans-serif;font-size:13px;
+        <h3 style="font-family:'Fraunces',Georgia,serif;font-size:13px;
                    color:var(--text);margin-bottom:8px"><span data-i18n="semantique.Stitre2">Alertes de prix natives</span></h3>
         <p style="font-size:11px;color:var(--muted);line-height:1.7">
           <span data-i18n="semantique.Stxt2">Posez une alerte en deux clics depuis le graphique. 
@@ -942,7 +1231,7 @@
         </p>
       </div>
       <div>
-        <h3 style="font-family:'Syne',sans-serif;font-size:13px;
+        <h3 style="font-family:'Fraunces',Georgia,serif;font-size:13px;
                    color:var(--text);margin-bottom:8px"><span data-i18n="semantique.Stitre3">Support DEX & CEX</span></h3>
         <p style="font-size:11px;color:var(--muted);line-height:1.7">
           <span data-i18n="semantique.Stxt3">Visualisez les pools DEX sur Ethereum, Solana, Arbitrum et Base 
@@ -980,13 +1269,14 @@
     </nav>
   </div>
 </section>
+</main>
 
 <!-- ══════════════════════════════════════════════════════════
      DISCLAIMER
 ══════════════════════════════════════════════════════════ -->
 <aside class="disclaimer" aria-label="Avertissement légal">
   <div class="disclaimer-inner">
-    <div class="disclaimer-icon" aria-hidden="true">⚠</div>
+    <div class="disclaimer-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20L12 3z"/><path d="M12 10v5M12 18h.01"/></svg></div>
     <div class="disclaimer-text">
 
       <strong data-i18n="disclaimer.title">AVERTISSEMENT — À lire avant utilisation.</strong>
@@ -1020,8 +1310,8 @@
         CRYP<span class="accent">VIEW</span>
       </a>
       <p class="footer-tagline">
-        <span data-i18n="footer.u1">Graphiques crypto professionnels.<br>
-          <span data-i18n="footer.u2">Sans inscription obligatoire, sans limite.
+        <span data-i18n="footer.u1">Graphiques crypto professionnels.</span><br>
+        <span data-i18n="footer.u2">Sans inscription obligatoire, sans limite.</span>
       </p>
 
       <!-- Status indicator -->
@@ -1202,7 +1492,7 @@
           </span>
           <div>
             <strong class="footer-ethics-item__title" data-i18n="footer.cont18">Hébergement</strong>
-            <span class="footer-ethics-item__desc" data-i18n="footer.cont19">Propulsé par <strong data-i18n="footer.cont20">GitHub Pages</strong><span data-i18n="footer.cont21">. Données de marché via l'API publique Binance.</span>
+            <span class="footer-ethics-item__desc" data-i18n="footer.cont19">Propulsé par <strong data-i18n="footer.cont20">GitHub Pages</strong><span data-i18n="footer.cont21">. Données de marché via l'API publique Binance.</span></span>
           </div>
         </li>
 
@@ -1847,6 +2137,8 @@ If you don't know, say so honestly.`;
   })();
 </script>
 
+<script src="src/pages/site-motion.js"></script>
+<script src="src/pages/page-preview.js" defer></script>
 <script type="module" src="src/pages/index.js"></script>
 
 </body>

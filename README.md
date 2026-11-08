@@ -8,7 +8,7 @@ Graphic Engine propulsé par **LightweightCharts v4.1.3**. Optimisé avec des **
 
 ## ⚡ Statut & Badges de Production
 
-![Version](https://img.shields.io/badge/Version-4.8--Stable-blue?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-3.7--Stable-blue?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![Language](https://img.shields.io/badge/Language-Vanilla__JS__ES2022%2B-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Build](https://img.shields.io/badge/Build__Tool-Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
@@ -23,11 +23,11 @@ Graphic Engine propulsé par **LightweightCharts v4.1.3**. Optimisé avec des **
 
 | 🌐 Configuration Multi-Grille (Jusqu'à 9 Graphiques Synchronisés) | 👣 Footprint Chart & Carnet d'Ordres (Canvas Haute Fidélité) |
 | :--- | :--- |
-| ![Aperçu Multi-Grille](https://raw.githubusercontent.com/ezilryb/CRYPVIEW./main/assets/readme-multi-grid-V5.0.0.png)| ![Aperçu Footprint](https://raw.githubusercontent.com/ezilryb/CRYPVIEW./main/assets/readme-footprint-V5.0.0.png)|
+| ![Aperçu Multi-Grille](https://raw.githubusercontent.com/ezilryb/CRYPVIEW/main/assets/readme-multi-grid.png)| ![Aperçu Footprint](https://raw.githubusercontent.com/ezilryb/CRYPVIEW/main/assets/readme-footprint.png)|
 
 | 📊 Flux Orderflow Delta & Cumulative Volume Delta (CVD) | 🔍 Algorithme de Liquidation Heatmap (Flux Futures FAPI) |
 | :--- | :--- |
-| ![Aperçu Orderflow](https://raw.githubusercontent.com/ezilryb/CRYPVIEW./main/assets/readme-orderflow-V5.0.0.png)| ![Aperçu Heatmap](https://raw.githubusercontent.com/ezilryb/CRYPVIEW./main/assets/readme-heatmap-V5.0.0.png)|
+| ![Aperçu Orderflow](https://raw.githubusercontent.com/ezilryb/CRYPVIEW/main/assets/readme-orderflow.png)| ![Aperçu Heatmap](https://raw.githubusercontent.com/ezilryb/CRYPVIEW/main/assets/readme-heatmap.png)|
 
 ---
 

@@ -1,0 +1,367 @@
+/* ============================================================
+   styles/redesign.css — CrypView · refonte UI / UX (couche additive)
+   ------------------------------------------------------------
+   Principes :
+   - Aucune couleur en dur : tout passe par les variables existantes
+     (--bg, --panel, --border, --accent, --up, --down…). Les thèmes
+     sombre et clair gardent donc exactement leur palette.
+   - Aucun ID, aucune classe, aucun script supprimé ou renommé.
+     On ne fait que modifier la mise en forme (espacements, rayons,
+     hiérarchie typographique, grille, états de survol).
+   - Chargée EN DERNIER (après page-theme.css et mobile-charts.css).
+   - Les règles de layout desktop sont dans @media (min-width:769px)
+     pour ne pas casser le responsive existant (mobile-charts.css).
+   ============================================================ */
+
+/* ── 0. Tokens de mise en forme (pas de couleurs ici) ──────── */
+:root {
+  --r-xs:   4px;
+  --r-sm:   6px;
+  --r-md:   8px;
+  --r-lg:   12px;
+  --r-pill: 999px;
+
+  --ui-h:   30px;   /* hauteur standard des contrôles */
+  --hdr-h:  56px;   /* hauteur du header desktop */
+  --side-w: 248px;  /* largeur de la sidebar desktop */
+
+  --gap-1: 4px;
+  --gap-2: 8px;
+  --gap-3: 12px;
+  --gap-4: 16px;
+
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --shadow-pop: 0 18px 40px -16px rgba(0, 0, 0, .6);
+}
+:root.light-theme {
+  --shadow-pop: 0 18px 36px -18px rgba(30, 25, 15, .26);
+}
+
+/* ── 1. Typographie de base ────────────────────────────────── */
+body {
+  font-weight: 400;              /* 300 était trop fin pour l'UI */
+  font-size: 12px;
+  -webkit-font-smoothing: antialiased;
+}
+/* Libellés secondaires : on remonte au gris "muted" (contraste AA) */
+.sidebar-title,
+.stat-label,
+.trades-header,
+.ind-panel-label,
+.modal-section-label,
+.modal-footer {
+  color: var(--muted);
+}
+
+/* ── 2. Boutons génériques ─────────────────────────────────── */
+button {
+  border-radius: var(--r-sm);
+  transition: background-color .15s var(--ease-out), border-color .15s var(--ease-out), color .15s var(--ease-out);
+}
+button:focus-visible,
+[role="menuitem"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ── 3. Header desktop ─────────────────────────────────────── */
+@media (min-width: 769px) {
+
+  header {
+    height: var(--hdr-h);
+    min-height: var(--hdr-h);
+    padding: 0 var(--gap-4);
+    gap: var(--gap-3);
+    flex-wrap: nowrap;
+    box-shadow: var(--shadow-1);
+    z-index: 60;
+  }
+
+  .logo {
+    font-size: 17px;
+    padding-right: var(--gap-1);
+    white-space: nowrap;
+  }
+
+  /* Recherche symbole : champ compact, extension au focus */
+  #sym-input {
+    height: var(--ui-h);
+    line-height: calc(var(--ui-h) - 2px);
+    width: 168px;
+    padding: 0 28px 0 var(--gap-3);
+    border-radius: var(--r-sm);
+  }
+  #sym-input:focus { width: 216px; }
+  .sym-search-icon { right: 10px; }
+  #sym-dropdown {
+    top: calc(100% + 6px);
+    min-width: 240px;
+    max-height: 340px;
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-pop);
+    padding: var(--gap-1) 0;
+  }
+  .sym-opt { padding: 8px 12px; }
+
+  /* Timeframes : barre segmentée façon TradingView */
+  .tf-scroll-wrapper {
+    height: var(--ui-h);
+    padding: 2px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+  }
+  .tf-scroll-wrapper::before { background: linear-gradient(to right, var(--bg2), transparent); }
+  .tf-scroll-wrapper::after  { background: linear-gradient(to left,  var(--bg2), transparent); }
+  .tf-scroll { height: 100%; align-items: center; gap: 2px; }
+  /* Assez de largeur pour voir tous les timeframes sur grand écran */
+  @media (min-width: 1280px) {
+    .tf-scroll { width: auto; max-width: 420px; }
+  }
+  .tf-btn {
+    height: calc(var(--ui-h) - 6px);
+    padding: 0 9px;
+    font-size: 11px;
+    line-height: 1;
+    background: transparent;
+    border-color: transparent;
+    color: var(--muted);
+    border-radius: var(--r-xs);
+  }
+  .tf-btn:hover {
+    background: var(--accent-soft);
+    border-color: transparent;
+    color: var(--accent);
+  }
+
+  /* Bloc prix : séparateur + variation en pastille */
+  .price-display {
+    gap: var(--gap-2);
+    align-items: center;
+    padding-left: var(--gap-3);
+    border-left: 1px solid var(--border);
+  }
+  #live-price { font-size: 19px; line-height: 1; }
+  #price-change {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 4px 7px;
+    border-radius: var(--r-xs);
+    white-space: nowrap;
+  }
+  /* Pastille de fond selon le sens (le JS pose une couleur inline) */
+  #price-change[style*="--green"] { background: var(--up-soft); }
+  #price-change[style*="--red"]   { background: var(--down-soft); }
+
+  /* Statut en pastille discrète */
+  .status {
+    height: 26px;
+    padding: 0 var(--gap-2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-pill);
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  /* Onglets de panneaux : soulignement plus lisible */
+  .panel-tabs { gap: 2px; padding-left: var(--gap-2); }
+  .panel-tab {
+    padding: 8px 10px;
+    font-size: 10.5px;
+    color: var(--muted);
+    opacity: 1;
+    border-radius: 0;
+  }
+  .panel-tab:hover { color: var(--text); opacity: 1; }
+  .panel-tab.active { font-weight: 500; }
+
+  /* Badge multi (pages multi-graphiques) */
+  .badge-multi {
+    padding: 4px 9px;
+    border-radius: var(--r-pill);
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  .btn-disable {
+    height: var(--ui-h);
+    padding: 0 var(--gap-3);
+    font-size: 10.5px;
+    white-space: nowrap;
+  }
+
+  /* Écrans étroits : on libère la place du header */
+  @media (max-width: 1180px) {
+    .status span { display: none; }
+    #sym-input { width: 132px; }
+    #sym-input:focus { width: 168px; }
+  }
+}
+
+/* ── 4. Barre d'indicateurs actifs ─────────────────────────── */
+#ind-bar {
+  padding: 6px var(--gap-4);
+  gap: 6px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+.ind-tag {
+  padding: 3px 6px 3px 8px;
+  border-radius: var(--r-pill);
+  font-size: 10px;
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+}
+.ind-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+.ind-remove:hover { background: var(--down-soft); color: var(--down); }
+
+/* ── 5. Zone graphique : cadre type "terminal" ─────────────── */
+@media (min-width: 769px) {
+  .charts-col {
+    background: var(--bg2);
+    padding: var(--gap-2);
+    gap: var(--gap-2);
+  }
+  #chart-container {
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .ind-panel {
+    margin-top: var(--gap-2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--bg);
+  }
+  #overlay-msg { font-size: 13px; font-weight: 500; }
+  #overlay-sub { color: var(--muted); }
+  #fp-legend {
+    border-radius: var(--r-sm);
+    padding: var(--gap-1) var(--gap-2);
+  }
+}
+
+/* ── 6. Sidebar : grille de stats + table des trades ───────── */
+@media (min-width: 769px) {
+  .sidebar {
+    margin: var(--gap-2) var(--gap-2) var(--gap-2) 0;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--panel);
+  }
+  @media (min-width: 1025px) {
+    .sidebar { width: var(--side-w); }
+  }
+  .sidebar-title {
+    padding: 10px 14px;
+    font-size: 9.5px;
+    letter-spacing: .12em;
+    background: var(--panel-2);
+    border-bottom: 1px solid var(--border);
+  }
+  /* Stats en grille 2 colonnes séparées par des filets */
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    padding: 0;
+    background: var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat {
+    background: var(--panel);
+    padding: 10px 14px;
+    gap: 3px;
+  }
+  /* Nombre impair de stats : la dernière occupe toute la ligne */
+  .stat:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .stat-label { font-size: 9px; letter-spacing: .08em; }
+  .stat-value { font-size: 13px; line-height: 1.2; }
+
+  .trades-header {
+    padding: 7px 14px;
+    font-size: 9px;
+    letter-spacing: .08em;
+    background: var(--panel-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .trade-row {
+    padding: 4px 14px;
+    font-size: 10.5px;
+    border-bottom: 1px solid transparent;
+  }
+  .trade-row:hover { background: var(--panel-2); }
+  .t-qty, .t-time { font-size: 9.5px; }
+}
+
+/* ── 7. Modales ────────────────────────────────────────────── */
+.modal-overlay { backdrop-filter: blur(8px); }
+.modal-box {
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-pop);
+}
+.modal-header { padding: 14px 20px; }
+.modal-title { font-size: 15px; }
+.modal-close {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-sm);
+}
+.modal-close:hover { background: var(--down-soft); color: var(--down); }
+.modal-search-wrap { padding: 12px 20px; }
+.modal-tabs { padding: 0 12px; }
+.modal-grid { padding: 16px 20px; gap: 10px; }
+.modal-section-label { padding: 16px 20px 8px; }
+.modal-settings-grid { padding: 0 16px 18px; gap: 10px; }
+.modal-footer { padding: 12px 20px; }
+.modal-btn-danger { border-radius: var(--r-sm); }
+
+/* ── 8. Menus contextuels & dropdowns ──────────────────────── */
+#ctx-menu,
+.ctx-sub {
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-pop);
+  padding: var(--gap-1);
+}
+.ctx-cat,
+.ctx-item {
+  border-radius: var(--r-xs);
+  padding: 8px 12px;
+}
+.ctx-sub-title {
+  padding: 8px 12px 6px;
+  color: var(--muted);
+}
+.ctx-sep { margin: var(--gap-1) var(--gap-1); }
+
+/* Outil de dessin actif : pilule flottante */
+#draw-toolbar {
+  border-radius: var(--r-pill);
+  padding: 6px 16px;
+  box-shadow: var(--shadow-pop);
+}
+
+/* ── 9. Focus & accessibilité ──────────────────────────────── */
+.panel-tab:focus-visible,
+.tf-btn:focus-visible,
+.ind-remove:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+@media (prefers-reduced-motion: reduce) {
+  button { transition: none; }
+}

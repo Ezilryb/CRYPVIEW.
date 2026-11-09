@@ -1,0 +1,567 @@
+/* ============================================================
+   styles/terminal-ui.css — CrypView · refonte UI / UX "terminal pro"
+   ------------------------------------------------------------
+   À charger EN DERNIER, après redesign.css, sur :
+     page.html, multi2/4/9, multiv2/v3, multi1p2/1p3.
+
+   Inspirations
+   - TradingView  : barre du haut fine, graphique bord à bord, légende
+                    d'indicateurs compacte, séparateurs 1 px, pas de cartes
+   - DexScreener  : colonnes de données denses, chiffres tabulaires,
+                    lignes de trades teintées par le sens
+   - CoinMarketCap: bloc prix lisible, variation en pastille
+   - Figma        : contrôles segmentés, panneaux flottants, menus et
+                    modales arrondis, flou d'arrière-plan, états de survol nets
+
+   Règles
+   - 100 % additif : aucun ID, aucune classe, aucun script touché.
+   - Aucune couleur nouvelle : uniquement les tokens existants
+     (--bg, --bg2, --panel, --panel-2, --border, --border-2, --text, --text-2,
+      --muted, --faint, --accent, --accent-2, --accent-soft, --accent-line,
+      --up, --down, --info …). Les thèmes sombre et clair restent identiques.
+   - Seuls espacements, rayons, hiérarchie typographique, états de survol
+     et contrastes de texte sont ajustés.
+   ============================================================ */
+
+/* ── 0. Tokens de mise en forme ────────────────────────────── */
+:root {
+  --t-hdr:   48px;
+  --t-side:  272px;
+  --t-r-sm:  6px;
+  --t-r-md:  8px;
+  --t-r-lg:  14px;
+  --t-pop:   0 20px 48px -18px rgba(0, 0, 0, .65), 0 0 0 1px var(--border-2);
+  --t-ease:  cubic-bezier(.2, .7, .2, 1);
+}
+:root.light-theme {
+  --t-pop: 0 20px 44px -20px rgba(30, 25, 15, .30), 0 0 0 1px var(--border-2);
+}
+
+/* ── 1. Base : chiffres tabulaires, scrollbars discrètes ───── */
+body { letter-spacing: .005em; }
+.stat-value, .trade-row, #live-price, #price-change, .panel-live, .panel-pct,
+.t-price, .t-qty, .t-time, .scr-table td { font-variant-numeric: tabular-nums; }
+
+* { scrollbar-width: thin; scrollbar-color: var(--border-2) transparent; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { border-radius: 8px; }
+
+/* ── 2. HEADER — barre fine façon TradingView ──────────────── */
+@media (min-width: 769px) {
+
+  header {
+    height: var(--t-hdr);
+    min-height: var(--t-hdr);
+    padding: 0 12px;
+    gap: 10px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    box-shadow: none;
+  }
+
+  /* Logo compact */
+  header .logo { font-size: 15px; padding-right: 6px; margin-right: 2px; }
+
+  /* Recherche : champ plein, sans bordure visible au repos (Figma) */
+  #sym-input {
+    height: 30px;
+    width: 150px;
+    padding: 0 28px 0 12px;
+    background: var(--bg2);
+    border: 1px solid transparent;
+    border-radius: var(--t-r-md);
+    font-weight: 500;
+    letter-spacing: .03em;
+  }
+  #sym-input:hover { border-color: var(--border-2); }
+  #sym-input:focus {
+    width: 200px;
+    background: var(--bg);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  /* Dropdown de symboles : liste dense façon DexScreener */
+  #sym-dropdown, .panel-dropdown {
+    border-radius: 10px;
+    border: 1px solid var(--border-2);
+    box-shadow: var(--t-pop);
+    padding: 4px;
+    min-width: 240px;
+  }
+  .sym-opt {
+    padding: 7px 10px;
+    border: 0;
+    border-radius: var(--t-r-sm);
+    gap: 8px;
+  }
+  .sym-opt .sym-base { font-weight: 500; }
+  .sym-opt:hover, .sym-opt.focused { background: var(--accent-soft); color: var(--accent); }
+
+  /* Timeframes : contrôle segmenté */
+  .tf-scroll-wrapper {
+    height: 30px;
+    padding: 2px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--t-r-md);
+  }
+  .tf-scroll-wrapper::before { background: linear-gradient(to right, var(--bg2), transparent); }
+  .tf-scroll-wrapper::after  { background: linear-gradient(to left,  var(--bg2), transparent); }
+  .tf-scroll { gap: 1px; }
+  header .tf-btn {
+    height: 24px;
+    padding: 0 9px;
+    font-size: 11px;
+    border-radius: var(--t-r-sm);
+    border-color: transparent;
+    background: transparent;
+    color: var(--muted);
+  }
+  header .tf-btn:hover { background: var(--panel-2); color: var(--text); }
+  header .tf-btn.active,
+  header .tf-btn.active:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-color: var(--accent-line);
+    font-weight: 500;
+  }
+
+  /* Onglets Sentiment / News / … : pilule segmentée (Figma) */
+  .panel-tabs {
+    margin-left: auto;
+    gap: 2px;
+    padding: 2px;
+    border: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    background: var(--bg2);
+    border-radius: var(--t-r-md);
+  }
+  .panel-tab {
+    top: 0;
+    height: 24px;
+    padding: 0 10px;
+    border: 0;
+    border-bottom: 0;
+    border-radius: var(--t-r-sm);
+    font-size: 10.5px;
+    color: var(--muted);
+    opacity: 1;
+  }
+  .panel-tab:hover { background: var(--panel-2); color: var(--text); }
+  .panel-tab.active {
+    background: var(--panel);
+    color: var(--accent);
+    font-weight: 500;
+    box-shadow: 0 0 0 1px var(--border-2), var(--shadow-1);
+  }
+
+  /* Bloc prix : style CoinMarketCap */
+  .price-display {
+    margin-left: 0;
+    padding-left: 12px;
+    border-left: 1px solid var(--border);
+    gap: 8px;
+  }
+  .panel-tabs ~ .price-display { margin-left: 0; }
+  #live-price { font-size: 20px; letter-spacing: -.015em; }
+  #price-change {
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  /* Statut + badges injectés par JS */
+  .status { height: 24px; padding: 0 9px; font-size: 10px; border-radius: 999px; background: var(--bg2); }
+  #reliability-health-badge { border-radius: 999px !important; }
+  #dex-search-trigger { height: 28px; border-radius: var(--t-r-md) !important; }
+}
+
+/* Barre multi-exchange : ruban fin sous le header */
+#exchange-premium-bar {
+  min-height: 24px !important;
+  padding: 0 12px !important;
+  background: var(--bg2) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+#exchange-premium-bar .epb-chip { padding: 0 12px !important; border-right-color: var(--border) !important; }
+#epb-toggle:hover { color: var(--text) !important; }
+
+/* ── 3. LÉGENDE D'INDICATEURS ──────────────────────────────── */
+#ind-bar {
+  padding: 5px 12px;
+  gap: 6px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.ind-tag, .ind-bar .ind-tag {
+  padding: 2px 4px 2px 8px;
+  gap: 6px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--t-r-sm);
+  color: var(--text-2);
+  font-size: 10px;
+  transition: border-color .15s var(--t-ease), background .15s var(--t-ease);
+}
+.ind-tag:hover { border-color: var(--border-2); background: var(--panel); }
+.ind-remove { opacity: .45; border-radius: 4px; transition: opacity .15s, background .15s; }
+.ind-tag:hover .ind-remove { opacity: 1; }
+.ind-remove:hover { background: var(--down-soft); color: var(--down); }
+
+/* Étiquette de timeframe dans les panneaux multi */
+.ind-bar-label { color: var(--faint); font-size: 9px; letter-spacing: .08em; }
+
+/* ── 4. ZONE GRAPHIQUE — bord à bord ───────────────────────── */
+@media (min-width: 769px) {
+  .charts-col { padding: 0; gap: 0; background: var(--bg); }
+  #chart-container { border: 0; border-radius: 0; background: var(--bg); }
+  .ind-panel {
+    margin-top: 0;
+    border: 0;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+  }
+}
+.ind-panel-label { letter-spacing: .1em; font-size: 9px; color: var(--faint); }
+.ind-panel-close { border-radius: 4px; transition: background .15s, color .15s; }
+.ind-panel-close:hover { background: var(--down-soft); }
+
+/* Overlay de chargement : plus léger */
+#overlay { backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); gap: 6px; }
+#overlay-msg { font-size: 13px; font-weight: 500; }
+
+/* Légende footprint + flux liquidations : carte flottante */
+#fp-legend, .fp-legend-panel, #liq-flux-panel {
+  border-radius: var(--t-r-md) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* ── 5. SIDEBAR — données denses ───────────────────────────── */
+@media (min-width: 769px) {
+  .sidebar {
+    margin: 0;
+    border: 0;
+    border-left: 1px solid var(--border);
+    border-radius: 0;
+    background: var(--panel);
+  }
+  @media (min-width: 1025px) { .sidebar { width: var(--t-side); } }
+
+  .sidebar-title {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 9px 14px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    font-size: 9.5px;
+    letter-spacing: .12em;
+    color: var(--faint);
+  }
+  .stats { gap: 0; background: transparent; border-bottom: 1px solid var(--border); }
+  .stat {
+    padding: 9px 14px;
+    background: transparent;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    transition: background .15s var(--t-ease);
+  }
+  .stat:nth-child(2n) { border-right: 0; }
+  .stat:last-child, .stat:nth-last-child(2):nth-child(odd) { border-bottom: 0; }
+  .stat:last-child:nth-child(odd) { grid-column: 1 / -1; border-right: 0; }
+  .stat:hover { background: var(--panel-2); }
+  .stat-label { font-size: 9px; letter-spacing: .1em; color: var(--faint); }
+  .stat-value { font-size: 13px; font-weight: 500; color: var(--text); }
+
+  .trades-header {
+    position: sticky;
+    top: 34px;
+    z-index: 1;
+    padding: 6px 14px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    font-size: 9px;
+    letter-spacing: .1em;
+    color: var(--faint);
+  }
+  .trade-row {
+    padding: 3px 14px;
+    border-bottom: 0;
+    font-size: 10.5px;
+    transition: background .12s;
+  }
+  .trade-row.buy  { background: linear-gradient(90deg, var(--up-soft),   transparent 55%); }
+  .trade-row.sell { background: linear-gradient(90deg, var(--down-soft), transparent 55%); }
+  .trade-row:hover { background: var(--panel-2); }
+  .t-price { font-weight: 500; }
+  .t-qty, .t-time { color: var(--muted); }
+}
+
+/* ── 6. MULTI-GRAPHIQUES ───────────────────────────────────── */
+.multi-grid { gap: 1px; background: var(--border); }
+.chart-panel { background: var(--bg); }
+.chart-panel-header {
+  height: 36px;
+  padding: 0 8px;
+  gap: 6px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+.tf-current-btn {
+  height: 24px;
+  padding: 0 8px;
+  font-size: 11px;
+  border-radius: var(--t-r-sm);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  color: var(--accent);
+}
+.tf-dropdown {
+  border-radius: 10px;
+  border: 1px solid var(--border-2);
+  box-shadow: var(--t-pop);
+  padding: 6px;
+}
+.tf-opt { border-radius: var(--t-r-sm); }
+.panel-sym-input {
+  height: 24px;
+  background: var(--bg2);
+  border: 1px solid transparent;
+  border-radius: var(--t-r-sm);
+  font-weight: 500;
+}
+.panel-sym-input:hover { border-color: var(--border-2); }
+.panel-sym-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.panel-live { font-size: 12px; letter-spacing: -.01em; }
+.panel-pct  { font-weight: 500; }
+
+#sync-toolbar {
+  padding: 3px 12px !important;
+  gap: 6px !important;
+  background: var(--bg2) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+#sync-toolbar button { border-radius: var(--t-r-sm) !important; }
+#compare-label { font-size: 12px; }
+.cmp-pair { flex-direction: row; align-items: baseline; gap: 5px; }
+.badge-multi { border-radius: 999px; }
+
+/* ── 7. MENUS CONTEXTUELS — panneaux flottants façon Figma ─── */
+#ctx-menu, .ctx-sub {
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  box-shadow: var(--t-pop);
+  padding: 4px;
+  animation: tuiPop .14s var(--t-ease);
+}
+.ctx-chart-label {
+  margin: 0 0 4px;
+  padding: 6px 10px;
+  border-radius: var(--t-r-sm);
+  border-bottom: 0;
+  letter-spacing: .1em;
+}
+.ctx-cat, .ctx-item {
+  padding: 7px 10px;
+  border-radius: var(--t-r-sm);
+  transition: background .1s var(--t-ease), color .1s var(--t-ease);
+}
+.ctx-sub-title { padding: 6px 10px 5px; color: var(--faint); border-bottom: 0; letter-spacing: .12em; }
+.ctx-sep { margin: 4px 6px; }
+.ctx-check { border-radius: 4px; }
+@keyframes tuiPop { from { opacity: 0; transform: translateY(-3px) scale(.985); } to { opacity: 1; transform: none; } }
+
+/* Outil de dessin actif : pilule flottante */
+#draw-toolbar {
+  bottom: 20px;
+  padding: 7px 8px 7px 16px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--panel) 90%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-color: var(--accent-line);
+  box-shadow: var(--t-pop);
+}
+#draw-toolbar-cancel {
+  width: 20px; height: 20px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  transition: background .15s, color .15s;
+}
+#draw-toolbar-cancel:hover { background: var(--down-soft); }
+
+/* ── 8. MODALES — Figma ────────────────────────────────────── */
+.modal-overlay {
+  background: color-mix(in srgb, var(--bg) 55%, rgba(0, 0, 0, .5));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.modal-box {
+  border: 1px solid var(--border-2);
+  border-radius: var(--t-r-lg);
+  background: var(--panel);
+  box-shadow: var(--t-pop);
+  animation: tuiModal .18s var(--t-ease);
+}
+@keyframes tuiModal {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 8px)); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+.modal-header { padding: 14px 20px; background: var(--panel); border-bottom: 1px solid var(--border); }
+.modal-title { font-size: 15px; letter-spacing: -.01em; }
+.modal-close { border-radius: var(--t-r-md); color: var(--muted); }
+.modal-close:hover { background: var(--down-soft); color: var(--down); }
+
+.modal-search-wrap { padding: 12px 20px; }
+#ind-search, #screener-search, .ab-field {
+  height: 34px;
+  background: var(--bg2);
+  border: 1px solid transparent;
+  border-radius: var(--t-r-md);
+}
+#ind-search:hover, #screener-search:hover, .ab-field:hover { border-color: var(--border-2); }
+#ind-search:focus, #screener-search:focus, .ab-field:focus {
+  background: var(--bg);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Onglets : soulignement net */
+.modal-tabs, .scr-tabs { padding: 0 12px; border-bottom: 1px solid var(--border); }
+.ind-tab, .scr-tab { padding: 10px 14px; border-radius: 0; font-size: 10.5px; }
+.ind-tab:hover, .scr-tab:hover { background: transparent; color: var(--text); }
+.ind-tab.active, .scr-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+
+.modal-grid { padding: 16px 20px; gap: 10px; }
+.modal-footer { padding: 12px 20px; background: var(--panel); border-top: 1px solid var(--border); }
+.modal-btn-danger { border-radius: var(--t-r-md); }
+
+/* Tableau du screener façon DexScreener */
+.scr-th { background: var(--panel); padding: 9px 12px; color: var(--faint); border-bottom: 1px solid var(--border); }
+.scr-th:hover { color: var(--text); }
+.scr-row { border-bottom: 1px solid var(--border); }
+.scr-row:hover { background: var(--accent-soft) !important; }
+.scr-td { padding: 8px 12px; }
+.scr-bar-wrap { height: 4px; background: var(--border); }
+
+/* Boutons principaux des modales (Appliquer, Calculer…) */
+.rc-btn-primary, #pt-submit-order, #bt-run-btn, #alert-builder-confirm {
+  border-radius: var(--t-r-md) !important;
+  transition: transform .12s var(--t-ease), filter .15s !important;
+}
+.rc-btn-primary:hover, #pt-submit-order:hover, #bt-run-btn:hover, #alert-builder-confirm:hover { filter: brightness(1.06); }
+.rc-btn-primary:active, #pt-submit-order:active, #bt-run-btn:active, #alert-builder-confirm:active { transform: translateY(1px); }
+.rc-result, .rc-desc, .rc-tip { border-radius: var(--t-r-md); }
+
+/* ── 9. MODALES JS À FOND CODÉ EN DUR ──────────────────────────
+   Sentiment / News / Fondamentaux / Order Book injectent leur propre
+   CSS avec des hex fixes (#0d0f1a, #1a1d2e…) : illisible en mode clair.
+   On les rebranche sur les tokens existants. !important requis car
+   leur <style> est ajouté au <head> APRÈS cette feuille.             */
+.crypview-modal-overlay {
+  background: color-mix(in srgb, var(--bg) 55%, rgba(0, 0, 0, .5)) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.crypview-modal-box {
+  background: var(--panel) !important;
+  border: 1px solid var(--border-2) !important;
+  border-radius: var(--t-r-lg) !important;
+  box-shadow: var(--t-pop);
+  color: var(--text);
+}
+.sw-wrap, .fm-wrap, .ob-wrap, .nf-wrap {
+  color: var(--text) !important;
+  font-family: 'DM Mono', ui-monospace, monospace !important;
+}
+.sw-header h2, .fm-header h2, .ob-header h2, .nf-header h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 560;
+  letter-spacing: -.01em;
+}
+
+/* cartes */
+.sw-card, .sw-stat, .sw-tip,
+.fm-kv, .fm-hero, .fm-badge, .fm-desc, .fm-link,
+.ob-stat, .ob-side, .ob-spread-section, .ob-depth-section,
+.nf-item, .nf-chip {
+  background: var(--panel-2) !important;
+  border-color: var(--border) !important;
+  color: var(--text-2) !important;
+}
+.sw-stat { background: var(--bg2) !important; }
+.sw-tip, .ob-col-header { background: var(--bg2) !important; }
+.sw-track { background: var(--border) !important; }
+
+/* libellés secondaires */
+.sw-title, .sw-sub, .fm-kv-label, .fm-section-title, .ob-stat span,
+.ob-col-header, .nf-desc, .nf-date, .nf-sources { color: var(--muted) !important; }
+
+/* valeurs fortes (les couleurs inline haussier/baissier restent intactes) */
+.fm-kv-value:not([style]), .nf-title, .sw-stat b, .ob-stat b:not([style]) { color: var(--text) !important; }
+.fm-badge b, .nf-source-name { color: var(--accent) !important; }
+.fm-link { color: var(--info) !important; }
+
+/* champs et boutons */
+.fm-input, .ob-input {
+  background: var(--bg2) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  border-radius: var(--t-r-md) !important;
+}
+.fm-input:focus, .ob-input:focus { border-color: var(--accent) !important; outline: 0; box-shadow: 0 0 0 3px var(--accent-soft); }
+.fm-search-wrap button, .ob-header button:not(.ob-btn-close), .sw-header > div > button:not(.sw-close-btn) {
+  background: var(--accent) !important;
+  color: var(--on-accent) !important;
+  border: 0 !important;
+  border-radius: var(--t-r-md) !important;
+  font-weight: 500;
+}
+.nf-btn-action, .sw-close-btn, .fm-btn-close, .ob-btn-close {
+  background: transparent !important;
+  color: var(--muted) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--t-r-md) !important;
+}
+.nf-btn-action:hover, .sw-close-btn:hover, .fm-btn-close:hover, .ob-btn-close:hover {
+  color: var(--text) !important; border-color: var(--border-2) !important; background: var(--panel-2) !important;
+}
+.nf-chip.active, .nf-chip:hover {
+  background: var(--accent-soft) !important; color: var(--accent) !important; border-color: var(--accent-line) !important;
+}
+.nf-item:hover { border-color: var(--accent-line) !important; background: var(--accent-soft) !important; }
+.sw-spin, .nf-loading .sw-spin { border-color: var(--border) !important; border-top-color: var(--accent) !important; }
+
+/* ── 10. TOASTS ────────────────────────────────────────────── */
+#toast-container > div {
+  border-radius: 10px !important;
+  box-shadow: var(--t-pop);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ── 11. FOCUS & MOUVEMENT ─────────────────────────────────── */
+:where(button, input, select, [role="menuitem"], .sym-opt, .scr-row):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  #ctx-menu, .ctx-sub, .modal-box { animation: none !important; }
+}
+
+/* ── 12. MOBILE : ajustements légers, structure inchangée ──── */
+@media (max-width: 768px) {
+  header { border-bottom: 1px solid var(--border); background: var(--panel); }
+  #sym-input { background: var(--bg2); border-color: transparent; border-radius: var(--t-r-md); }
+  .tf-scroll-wrapper { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--t-r-md); padding: 2px; }
+  header .tf-btn { border-color: transparent; background: transparent; border-radius: var(--t-r-sm); }
+  header .tf-btn.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-line); }
+  #price-change { padding: 2px 6px; border-radius: 999px; }
+  .modal-box { border-radius: 16px 16px 0 0 !important; animation: none; }
+  #draw-toolbar { border-radius: 999px; }
+}
